@@ -74,10 +74,19 @@ class pageController extends Controller
     	foreach ($defs->all() as $def) {
     		$definitions[$def->id] = $def->definition;
     	}
+    	$fields = [
+    		'text' => 'order', 
+    		'textarea' => 'content', 
+    		'text' => 'wrapper_id', 
+    		'text' => 'wrapper_class',
+    		'select' => 'def_id'
+    		];
+    	
         return view("Pages.edit", 
         	['page'=> $this->page->whereslug($slug)->first(), 
         	'data' => $this->content->ofUri($slug)->get(),
-        	'defs' => $definitions]);
+        	'defs' => $definitions,
+        	'fields'=> $fields]);
         	    		
     }
 
