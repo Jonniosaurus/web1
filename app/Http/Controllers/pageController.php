@@ -8,6 +8,7 @@ use web1\Content;
 use web1\Def;
 use web1\Http\Requests;
 use web1\Http\Controllers\Controller;
+use Form;
 
 class pageController extends Controller
 {
@@ -74,19 +75,38 @@ class pageController extends Controller
     	foreach ($defs->all() as $def) {
     		$definitions[$def->id] = $def->definition;
     	}
+    	
+    	
     	$fields = [
-    		'text' => 'order', 
-    		'textarea' => 'content', 
-    		'text' => 'wrapper_id', 
-    		'text' => 'wrapper_class',
-    		'select' => 'def_id'
+    		'order' => 'text', 
+    		'content' => 'textarea', 
+    		'wrapper_id' => 'text', 
+    		'wrapper_class' => 'text',
+    		'def_id' => 'select'
     		];
+    	
+    	$array = array();
+    	$i = 0;
+    	foreach($fields as $key => $value) {
+	    	switch($value){
+	    		case 'text':
+					 $array[$key] = Form::text($key,null, ['class'=> 'form-control', 'id' =>  'Form_' . $key . $i ]);
+					 break; 			
+	    		case 'textarea':
+	    			$array[$key] = Form::textarea($key,null, ['class'=> 'form-control', 'id' =>  'Form_' . $key . $i ]);
+	    			break;
+	    		case 'select':
+	    			$array[$key] = Form::select($key,$defs, $i,['class'=> 'selectpicker', 'id' =>  $key . '_' . $i ]);
+	    			break;
+	    	}
+	    	$i++;
+    	}
     	
         return view("Pages.edit", 
         	['page'=> $this->page->whereslug($slug)->first(), 
         	'data' => $this->content->ofUri($slug)->get(),
         	'defs' => $definitions,
-        	'fields'=> $fields]);
+        	'fields'=> $array]);
         	    		
     }
 
