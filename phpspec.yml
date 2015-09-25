@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: web1
+        psr4_prefix: web1
+        src_path: app
