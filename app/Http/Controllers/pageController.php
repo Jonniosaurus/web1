@@ -13,84 +13,82 @@ use Form;
 
 class pageController extends Controller
 {
-	public function __construct(Page $page, Content $content) {
-		$this->page = $page->ofType('default'); // only load standard pages.
-		$this->content = $content;
-		 
-		//web1\Page::with('contents')->wheretitle("About Me")->get();		
-	}
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {    	
-        return view('Pages.index')->with('pages', $this->page->get());
-    }
+  public function __construct(Page $page, Content $content) {
+  	$this->page = $page->ofType('default'); // only load standard pages.
+  	$this->content = $content;
+  	 
+  	//web1\Page::with('contents')->wheretitle("About Me")->get();		
+  }
+  /**
+   * Display a listing of the resource.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function index()
+  {    	
+    return view('Pages.index')->with('pages', $this->page->get());
+  }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+  /**
+   * Show the form for creating a new resource.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function create()
+  {
+    //
+  }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\Response
+   */
+  public function store(Request $request)
+  {
+    //
+  }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($slug)
-    {   	
-    	return view("Pages.show")
-    		->with('contents', $this->content->ofUri($slug)->get())
-    		->with('page', $this->page->whereslug($slug)->first());        
-    }
+  /**
+   * Display the specified resource.
+   *
+   * @param  int  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function show($slug)
+  {   	
+  	return view("Pages.show")
+  		->with('contents', $this->content->ofUri($slug)->get())
+  		->with('page', $this->page->whereslug($slug)->first());        
+  }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($slug, Def $defs)
-    {   	    	
-    	
-    	$definitions=array();
-    	foreach ($defs->all() as $def) {
-    		$definitions[$def->id] = $def->definition;
-    	}    	
-        return view("Pages.edit", 
-        	['page'=> $this->page->whereslug($slug)->first(), 
-        	'forms'=> new FormBuilder([
-        		'order' => 'text', 
-        		'content' => 'textarea', 
-        		'wrapper_id' => 'text', 
-        		'wrapper_class' => 'text',
-        		'def_id' => ['select' => $definitions]
-        		],
-        		$this->content->ofUri($slug)->get(),
-        		['page', $slug],
-        		'PATCH'
-        		)
-        	]);
-        	    		
+  /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function edit($slug, Def $defs)
+  {   	    	    	
+    $definitions=array();
+    foreach ($defs->all() as $def) {
+  	$definitions[$def->id] = $def->definition;
+	  }    	
+    return view("Pages.edit", [
+      'page'=> $this->page->whereslug($slug)->first(), 
+      'forms'=> new FormBuilder([
+        'order' => 'text', 
+        'content' => 'textarea', 
+        'wrapper_id' => 'text', 
+        'wrapper_class' => 'text',
+        'def_id' => ['select' => $definitions]
+        ],
+        $this->content->ofUri($slug)->get(),
+        ['page', $slug],
+        'PATCH'
+        )
+      ]);  		
     }
 
     /**
@@ -101,14 +99,14 @@ class pageController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $slug)
-    {
-    	$content = $this->content
-    		->ofUri($slug)
-    		->whereid($request->get('id'))->first();    
-        $content
-        	->fill($request->input())
-        	->save();    
-    	return redirect('/' . $slug);
+    {      
+      $content = $this->content
+        ->ofUri($slug)
+        ->whereid($request->get('id'))->first();    
+      $content
+        ->fill($request->input())
+        ->save();    
+      return redirect('/' . $slug);
     }
 
     /**

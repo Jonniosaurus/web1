@@ -2,8 +2,20 @@
 
 namespace web1\Classes;
 use Form;
-
+/**
+ * Show the form for editing the specified resource.
+ *
+ * @param  int  $
+ * @param  int  $id
+ * @param  int  $id
+ */
 class FormBuilder{  
+  
+  private $fields;
+  private $dataset;
+  private $goto;
+  private $action;
+  
   public $output = '';
   function __construct($fields, $dataset, $goto, $action) {
     foreach($dataset as $data) {
@@ -29,9 +41,9 @@ class FormBuilder{
                     case 'select':				    			
                       $this->output .= "<br />" . 
                         Form::select(
-                          $data[$fieldKey],
+                          $fieldKey,
                           $optionValue, 
-                      	  $i,
+                      	  $data[$fieldKey],
                       	  ['class'=> 'selectpicker', 'id' =>  $fieldKey . '_' . $i ]);
                       break;
                   }  
@@ -42,13 +54,15 @@ class FormBuilder{
       }    
       // 5.) add submission component to form and hidden id field.
 	  $this->output .= '<div class="submissionComponent">' .
-	    Form::hidden('id',null, ['class'=> 'form-control', 'id' =>  'Form_wrapper_class_' . $data->id ]) . 
+	    Form::hidden('id',$data->id, ['class'=> 'form-control', 'id' =>  'Form_wrapper_class_' . $data->id ]) . 
 	    Form::submit('Update ' . $data->wrapper_id, ['class'=> 'btn btn-primary']) . '</div>' .
         Form::close(); 
         
     }
   }	
   	
+  
+  
   function build() {
   	//return $this->debug;					
   	return $this->output;
