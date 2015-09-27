@@ -2,5 +2,5 @@
 
 @section('content')
 <h1>{{ $page->title }}</h1>
-<div class="form-group">{!! $forms->build($contents) !!}</div>
+<div class="form-group">{!! $forms->build() !!}</div>
 @stop

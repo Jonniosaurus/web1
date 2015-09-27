@@ -13,12 +13,15 @@ use Form;
 
 class pageController extends Controller
 {
-  public function __construct(Page $page, Content $content) {
+  
+  public function __construct(Page $page, Content $content, Def $defs) {
   	$this->page = $page->ofType('default'); // only load standard pages.
   	$this->content = $content;
-  	 
+  	$this->definition = array();
+    foreach ($defs->all() as $def) { $this->definition[$def->id] = $def->definition; }     
   	//web1\Page::with('contents')->wheretitle("About Me")->get();		
   }
+
   /**
    * Display a listing of the resource.
    *
@@ -34,9 +37,23 @@ class pageController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function create()
+  public function create($slug)
   {
-    //
+    return view("Pages.create", [
+      'page'=> $this->page->whereslug($slug)->first(),
+      'forms'=> new FormBuilder(
+        [
+          'order' => 'text', 
+          'content' => 'textarea', 
+          'wrapper_id' => 'text', 
+          'wrapper_class' => 'text',
+          'def_id' => ['select' => $this->definition],
+          'page_id' => ['hidden' => $this->page->whereslug($slug)->first()->id]
+        ],        
+        ['page', $slug],
+        'POST',
+        'Create')
+      ]);
   }
 
   /**
@@ -45,9 +62,10 @@ class pageController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(Request $request)
+  public function store(Request $request, $slug)
   {
-    //
+    $this->content->create($request->all());
+    return redirect()->route('page', $slug);
   }
 
   /**
@@ -70,26 +88,23 @@ class pageController extends Controller
    * @return \Illuminate\Http\Response
    */
   public function edit($slug, Def $defs)
-  {   	    	    	
-    $definitions=array();
-    foreach ($defs->all() as $def) {
-  	$definitions[$def->id] = $def->definition;
-	  }    	
+  {   	    	    	        	 
     return view("Pages.edit", [
-      'page'=> $this->page->whereslug($slug)->first(), 
-      'forms'=> new FormBuilder([
-        'order' => 'text', 
-        'content' => 'textarea', 
-        'wrapper_id' => 'text', 
-        'wrapper_class' => 'text',
-        'def_id' => ['select' => $definitions]
-        ],
-        $this->content->ofUri($slug)->get(),
+      'page'=> $this->page->whereslug($slug)->first(),
+      'contents' => $this->content->ofUri($slug)->get(),
+      'forms'=> new FormBuilder(
+        [
+          'order' => 'text', 
+          'content' => 'textarea', 
+          'wrapper_id' => 'text', 
+          'wrapper_class' => 'text',
+          'def_id' => ['select' => $this->definition]
+        ],        
         ['page', $slug],
-        'PATCH'
-        )
+        'PATCH',
+        'Update')
       ]);  		
-    }
+  }
 
     /**
      * Update the specified resource in storage.

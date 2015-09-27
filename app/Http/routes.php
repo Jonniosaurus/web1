@@ -14,7 +14,10 @@
 get('/', ['as' => 'home', 'uses' => 'pageController@index']);
 get('{page}', ['as' => 'page', 'uses' => 'pageController@show']);
 get('{page}/edit', ['as' => 'page.edit', 'uses' => 'pageController@edit']);
+get('{page}/create', ['as' => 'page.create', 'uses' => 'pageController@create']);
+
 patch('/{page}', 'pageController@update');
+post('/{page}', 'pageController@store');
 
 $router->resource(
 	'projects', // route URI 
@@ -25,7 +28,7 @@ $router->resource(
 		'index' => 'projects',
 		'show' => 'projects.show',
 		'edit' => 'projects.edit',
- 		'create' => 'projects.create',
+ 		'create' => 'projects.create',	    
 	],
 	// only provide for the named routes above
 	'only' => ['index','show','edit','create']
