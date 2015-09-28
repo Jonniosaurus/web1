@@ -2,5 +2,6 @@
 
 @section('content')
 <h1>{{ $page->title }}</h1>
-<div class="form-group">{!! $forms->build() !!}</div>
+
+<div class="form-group">{!! $forms->build($errors) !!}</div>
 @stop

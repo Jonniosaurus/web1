@@ -7,6 +7,8 @@ use web1\Page;
 use web1\Content;
 use web1\Def;
 use web1\Http\Requests;
+use web1\Http\Requests\CreateContentRequests as CreateContentRequests;
+use web1\Http\Requests\UpdateContentRequests as UpdateContentRequests;
 use web1\Http\Controllers\Controller;
 use web1\Classes\FormBuilder;
 use Form;
@@ -62,7 +64,7 @@ class pageController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(Request $request, $slug)
+  public function store(CreateContentRequests $request, $slug)
   {
     $this->content->create($request->all());
     return redirect()->route('page', $slug);
@@ -77,8 +79,8 @@ class pageController extends Controller
   public function show($slug)
   {   	
   	return view("Pages.show")
-  		->with('contents', $this->content->ofUri($slug)->get())
-  		->with('page', $this->page->whereslug($slug)->first());        
+      ->with('contents', $this->content->ofUri($slug)->get())
+      ->with('page', $this->page->whereslug($slug)->first());        
   }
 
   /**
@@ -88,24 +90,34 @@ class pageController extends Controller
    * @return \Illuminate\Http\Response
    */
   public function edit($slug, Def $defs)
-  {   	    	    	        	 
-    return view("Pages.edit", [
+  {   
+    return view("Pages.edit")
+      ->with('contents', $this->content->ofUri($slug)->lists('wrapper_id'))
+      ->with('page', $this->page->whereslug($slug)->first());       		
+  }
+
+  public function editContent($slug, $content) {
+    return view("Pages.Edit.content", [
       'page'=> $this->page->whereslug($slug)->first(),
-      'contents' => $this->content->ofUri($slug)->get(),
+      'content' => $this->content->ofUri($slug)->wherewrapperId($content)->first(),
       'forms'=> new FormBuilder(
         [
           'order' => 'text', 
           'content' => 'textarea', 
-          'wrapper_id' => 'text', 
+          'wrapper_id' => 'disabled', 
           'wrapper_class' => 'text',
-          'def_id' => ['select' => $this->definition]
-        ],        
+          'def_id' => ['select' => $this->definition],
+          'page_id' => ['hidden' => $this->page->whereslug($slug)->first()->id]
+        ], 
         ['page', $slug],
         'PATCH',
         'Update')
-      ]);  		
+      ]);  
+    
+    
+    echo $content;
+    
   }
-
     /**
      * Update the specified resource in storage.
      *
@@ -113,8 +125,8 @@ class pageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $slug)
-    {      
+    public function update(UpdateContentRequests $request, $slug)
+    {        
       $content = $this->content
         ->ofUri($slug)
         ->whereid($request->get('id'))->first();    

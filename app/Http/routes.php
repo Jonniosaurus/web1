@@ -12,12 +12,13 @@
 */
  
 get('/', ['as' => 'home', 'uses' => 'pageController@index']);
-get('{page}', ['as' => 'page', 'uses' => 'pageController@show']);
-get('{page}/edit', ['as' => 'page.edit', 'uses' => 'pageController@edit']);
-get('{page}/create', ['as' => 'page.create', 'uses' => 'pageController@create']);
+get('{slug}', ['as' => 'page', 'uses' => 'pageController@show']);
+get('{slug}/edit', ['as' => 'page.edit', 'uses' => 'pageController@edit']);
+get('{slug}/edit/{contentId}', ['as' => 'page.edit.content', 'uses' => 'pageController@editContent']);
+get('{slug}/create', ['as' => 'page.create', 'uses' => 'pageController@create']);
 
-patch('/{page}', 'pageController@update');
-post('/{page}', 'pageController@store');
+patch('/{slug}', 'pageController@update');
+post('/{slug}', 'pageController@store');
 
 $router->resource(
 	'projects', // route URI 
