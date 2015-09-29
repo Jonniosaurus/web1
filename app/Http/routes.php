@@ -34,5 +34,8 @@ $router->resource(
 	// only provide for the named routes above
 	'only' => ['index','show','edit','create']
 ]);
-//get('projects/{project}', 'ProjectController@show');
-//get('projects/{project}/edit', 'ProjectController@edit');
+
+$router->controllers([
+  'auth'=> 'Auth\AuthController',
+  'password'=> 'Auth\PasswordController'
+]);
