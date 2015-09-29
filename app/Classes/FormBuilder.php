@@ -89,6 +89,12 @@ class FormBuilder{
           case 'disabled':
             $localOutput .= Form::text($fieldKey,isset($data) ? $data[$fieldKey] : '', ['class'=> 'form-control', 'id' =>  'Form_' . $fieldKey . $i, 'disabled' => 'true' ]);
             break;
+          case 'email':
+            $localOutput .= Form::email($fieldKey,isset($data) ? $data[$fieldKey] : '', ['class'=> 'form-control', 'id' =>  'Form_' . $fieldKey . $i ]);
+            break;
+          case 'password':
+            $localOutput .= Form::password('password');
+            break;          
       	default: 
       	  // 4.) handle Nd fields (like optionsets).
       	  if(count($fieldValue) > 0) {
