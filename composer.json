@@ -21,12 +21,12 @@
         ],
         "psr-4": {
             "web1\\": "app/"
-        }
+        },
     },
     "autoload-dev": {
         "classmap": [
             "tests/TestCase.php"
-        ]
+        ]        
     },
     "scripts": {
         "post-install-cmd": [

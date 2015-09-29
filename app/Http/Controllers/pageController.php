@@ -97,10 +97,11 @@ class pageController extends Controller
   }
 
   public function editContent($slug, $content) {
+    $content = $this->content->ofUri($slug)->wherewrapperId($content)->first();
     return view("Pages.Edit.content", [
       'page'=> $this->page->whereslug($slug)->first(),
-      'content' => $this->content->ofUri($slug)->wherewrapperId($content)->first(),
-      'forms'=> new FormBuilder(
+      'content' => $content,
+      'form'=> new FormBuilder(
         [
           'order' => 'text', 
           'content' => 'textarea', 
@@ -111,8 +112,13 @@ class pageController extends Controller
         ], 
         ['page', $slug],
         'PATCH',
-        'Update')
-      ]);  
+        'Update'),      
+      'delete' => new FormBuilder(
+        [], 
+        ['page', $content->id],
+        'DELETE',
+        'Delete'
+      )]);
     
     
     echo $content;
@@ -144,6 +150,7 @@ class pageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->content->whereid($id)->delete();
+        return redirect('/');
     }
 }
