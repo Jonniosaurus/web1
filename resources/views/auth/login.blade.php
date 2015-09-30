@@ -3,20 +3,19 @@
 
 @section('content')
 <form method="POST" action="/auth/login">
-    {!! csrf_field() !!}
 
     <div>
         Email
-        <input type="email" name="email" value="{{ old('email') }}">
+        {!! Form::email('email', old('email')) !!}        
     </div>
 
     <div>
         Password
-        <input type="password" name="password" id="password">
+        {!! Form::password('password') !!}        
     </div>
 
     <div>
-        <input type="checkbox" name="remember"> Remember Me
+        {!! Form::checkbox('remember') !!} Remember Me
     </div>
 
     <div>

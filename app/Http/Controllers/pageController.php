@@ -11,6 +11,7 @@ use web1\Http\Requests\CreateContentRequests as CreateContentRequests;
 use web1\Http\Requests\UpdateContentRequests as UpdateContentRequests;
 use web1\Http\Controllers\Controller;
 use web1\Classes\FormBuilder;
+use web1\Classes as my;
 use Form;
 
 class pageController extends Controller
@@ -49,8 +50,9 @@ class pageController extends Controller
           'content' => 'textarea', 
           'wrapper_id' => 'text', 
           'wrapper_class' => 'text',
-          'def_id' => ['select' => $this->definition],
-          'page_id' => ['hidden' => $this->page->whereslug($slug)->first()->id]
+          'def_id' => new my\FormAttributeBag('select', [ new my\FieldOptionset($this->definition)]), 
+          'page_id' => new my\FormAttributeBag('hidden',[ new my\FieldValue($this->page->whereslug($slug)->first()->id)]),
+          'id' => 'hidden'
         ],        
         ['page', $slug],
         'POST',
@@ -107,8 +109,9 @@ class pageController extends Controller
           'content' => 'textarea', 
           'wrapper_id' => 'disabled', 
           'wrapper_class' => 'text',
-          'def_id' => ['select' => $this->definition],
-          'page_id' => ['hidden' => $this->page->whereslug($slug)->first()->id]
+          'def_id' => new my\FormAttributeBag('select', [ new my\FieldOptionset($this->definition)]), 
+          'page_id' => new my\FormAttributeBag('hidden', [ new my\FieldValue($this->page->whereslug($slug)->first()->id)]),
+          'id' => 'hidden'
         ], 
         ['page', $slug],
         'PATCH',
@@ -118,11 +121,7 @@ class pageController extends Controller
         ['page', $content->id],
         'DELETE',
         'Delete'
-      )]);
-    
-    
-    echo $content;
-    
+      )]);               
   }
     /**
      * Update the specified resource in storage.
