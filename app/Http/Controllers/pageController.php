@@ -10,9 +10,9 @@ use web1\Http\Requests;
 use web1\Http\Requests\CreateContentRequests as CreateContentRequests;
 use web1\Http\Requests\UpdateContentRequests as UpdateContentRequests;
 use web1\Http\Controllers\Controller;
+
 use web1\Classes\FormBuilder;
 use web1\Classes as my;
-use Form;
 
 class pageController extends Controller
 {
@@ -80,9 +80,13 @@ class pageController extends Controller
    */
   public function show($slug)
   {   	
+    
+    if ($this->page->whereslug($slug)->first()) {
   	return view("Pages.show")
       ->with('contents', $this->content->ofUri($slug)->get())
       ->with('page', $this->page->whereslug($slug)->first());        
+    } else return redirect()->route('home');
+    
   }
 
   /**

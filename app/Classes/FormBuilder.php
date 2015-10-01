@@ -6,7 +6,7 @@ use FormAttributeBag;
 /**
  * A form builder that accepts a list of fields to generate or - if blank - creates a blank form.  
  * @param  Iterative Array<string $name, string $type || FormAttributeBag $bag> $fields
- * @param  string $goto             - redirect
+ * @param  string $goto             - Named Route to redirect to.
  * @param  string $action           - GET/POST/PATCH/etc.
  * @param  string $buttonText       - 'Create'/'Update'/etc.
  */
@@ -64,7 +64,6 @@ class FormBuilder{
       $localOutput .= 
         Form::open(['route'=>$this->goto, 'method' => $this->action, 'role'=>'form']) .
         $this->errorHandler($errors); // handle error messages
-      
       $i = 0;     
       
       foreach ($this->fields as $fieldKey => $fieldValue) {
@@ -80,7 +79,7 @@ class FormBuilder{
       // 4.) add submission component to form and hidden id field.
 	  return
         $localOutput . 
-        '<div class="submissionComponent">' .	    
+        '<div class="submissionComponent">' .	         
 	    Form::submit($this->buttonText, ['class'=> 'btn btn-primary']) . 
         '</div>' .
         Form::close();       
@@ -99,13 +98,14 @@ class FormBuilder{
     return $errorHeader;
   }
   
-  private function setLabel($fieldKey, $fieldValue) {
+  private function setLabel($fieldKey, $fieldValue) {       
     $fieldLabel = // has a field label been manually defined
-      ($fieldLabel = $this->hasAttribute($fieldValue, 'FieldLabel'))
+      ($fieldLabel =  $this->hasAttribute($fieldValue, 'FieldLabel'))
       ? $fieldLabel
-      : ($this->parseFieldType($fieldValue) != 'hidden')         
-        ? $fieldKey
-        : '';
+      : (($this->parseFieldType($fieldValue) != 'hidden')         
+        ? ucfirst($fieldKey)
+        : '');
+    
     return $fieldLabel != ''
       ? Form::label($fieldKey, $fieldLabel . ': ', ['class'=> $fieldKey . '-label'])        
       : '';
@@ -151,7 +151,7 @@ class FormBuilder{
             $fieldClass);
           break;
         case 'password':
-          $localOutput .= Form::password('password');
+          $localOutput .= Form::password($fieldKey);
           break;          
         case 'select':
           $localOutput .= "<br />" . 
