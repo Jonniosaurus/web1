@@ -55,6 +55,6 @@
             {!! link_to_route('home', 'home page') !!}
             @endif            
         </div>
-        
+       
     </body>
 </html>

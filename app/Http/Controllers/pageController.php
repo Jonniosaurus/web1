@@ -22,7 +22,7 @@ class pageController extends Controller
   	$this->content = $content;
   	$this->definition = array();
     foreach ($defs->all() as $def) { $this->definition[$def->id] = $def->definition; }     
-  	//web1\Page::with('contents')->wheretitle("About Me")->get();		
+  	$this->middleware('admin', ['except' => ['index', 'show']]);
   }
 
   /**
@@ -42,6 +42,7 @@ class pageController extends Controller
    */
   public function create($slug)
   {
+    $this->middleware('admin');
     return view("Pages.create", [
       'page'=> $this->page->whereslug($slug)->first(),
       'forms'=> new FormBuilder(
@@ -67,7 +68,7 @@ class pageController extends Controller
    * @return \Illuminate\Http\Response
    */
   public function store(CreateContentRequests $request, $slug)
-  {
+  {    
     $this->content->create($request->all());
     return redirect()->route('page', $slug);
   }
@@ -79,8 +80,7 @@ class pageController extends Controller
    * @return \Illuminate\Http\Response
    */
   public function show($slug)
-  {   	
-    
+  {   	    
     if ($this->page->whereslug($slug)->first()) {
   	return view("Pages.show")
       ->with('contents', $this->content->ofUri($slug)->get())
@@ -135,7 +135,7 @@ class pageController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateContentRequests $request, $slug)
-    {        
+    {    
       $content = $this->content
         ->ofUri($slug)
         ->whereid($request->get('id'))->first();    
