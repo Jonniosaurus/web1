@@ -151,7 +151,7 @@ class FormBuilder{
             $fieldClass);
           break;
         case 'password':
-          $localOutput .= Form::password($fieldKey);
+          $localOutput .= Form::password($fieldKey, $fieldClass);
           break;          
         case 'select':
           $localOutput .= "<br />" . 
@@ -170,7 +170,7 @@ class FormBuilder{
         case 'checkbox':
           $localOutput .= Form::checkbox(
             $fieldKey,
-            $fieldValue);
+            $fieldValue );
           break;             	                    
       }         	    
       
