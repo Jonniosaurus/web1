@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" href="/css/dist/css/bootstrap-select.css">            
     <?php 
+    // Build title css sheets.
     $titleCSS = public_path() . '/css/title/';
     $relRoute = route('home') . '/css/title/';
     $media;
