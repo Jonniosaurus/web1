@@ -7,80 +7,126 @@ use web1\Page;
 use web1\Content;
 use web1\Def;
 use web1\Http\Requests;
+use web1\Http\Requests\CreateContentRequests as CreateContentRequests;
+use web1\Http\Requests\UpdateContentRequests as UpdateContentRequests;
 use web1\Http\Controllers\Controller;
+
+use web1\Classes\FormBuilder;
+use web1\Classes as my;
 
 class pageController extends Controller
 {
-	public function __construct(Page $page, Content $content) {
-		$this->page = $page->ofType('default'); // only load standard pages.
-		$this->content = $content;
-		 
-		//web1\Page::with('contents')->wheretitle("About Me")->get();		
-	}
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {    	
-        return view('Pages.index')->with('pages', $this->page->get());
-    }
+  
+  public function __construct(Page $page, Content $content, Def $defs) {
+  	$this->page = $page->ofType('default'); // only load standard pages.
+  	$this->content = $content;
+  	$this->definition = array();
+    foreach ($defs->all() as $def) { $this->definition[$def->id] = $def->definition; }     
+  	$this->middleware('admin', ['except' => ['index', 'show']]);
+  }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+  /**
+   * Display a listing of the resource.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function index()
+  {    	
+    return view('Pages.index')->with('pages', $this->page->get());
+  }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+  /**
+   * Show the form for creating a new resource.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function create($slug)
+  {
+    $this->middleware('admin');
+    return view("Pages.create", [
+      'page'=> $this->page->whereslug($slug)->first(),
+      'forms'=> new FormBuilder(
+        [
+          'order' => 'text', 
+          'content' => 'textarea', 
+          'wrapper_id' => 'text', 
+          'wrapper_class' => 'text',
+          'def_id' => new my\FormAttributeBag('select', [ new my\FieldOptionset($this->definition)]), 
+          'page_id' => new my\FormAttributeBag('hidden',[ new my\FieldValue($this->page->whereslug($slug)->first()->id)]),
+          'id' => 'hidden'
+        ],        
+        ['page', $slug],
+        'POST',
+        'Create')
+      ]);
+  }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($slug)
-    {   	
-    	return view("Pages.show")
-    		->with('contents', $this->content->ofUri($slug)->get())
-    		->with('page', $this->page->whereslug($slug)->first());        
-    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\Response
+   */
+  public function store(CreateContentRequests $request, $slug)
+  {    
+    $this->content->create($request->all());
+    return redirect()->route('page', $slug);
+  }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($slug, Def $defs)
-    {   	    	
-    	
-    	$definitions=array();
-    	foreach ($defs->all() as $def) {
-    		$definitions[$def->id] = $def->definition;
-    	}
-        return view("Pages.edit", 
-        	['page'=> $this->page->whereslug($slug)->first(), 
-        	'data' => $this->content->ofUri($slug)->get(),
-        	'defs' => $definitions]);
-        	    		
-    }
+  /**
+   * Display the specified resource.
+   *
+   * @param  int  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function show($slug)
+  {   	    
+    if ($this->page->whereslug($slug)->first()) {
+  	return view("Pages.show")
+      ->with('contents', $this->content->ofUri($slug)->get())
+      ->with('page', $this->page->whereslug($slug)->first());        
+    } else return redirect()->route('home');
+    
+  }
 
+  /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function edit($slug, Def $defs)
+  {   
+    return view("Pages.edit")
+      ->with('contents', $this->content->ofUri($slug)->lists('wrapper_id'))
+      ->with('page', $this->page->whereslug($slug)->first());       		
+  }
+
+  public function editContent($slug, $content) {
+    $content = $this->content->ofUri($slug)->wherewrapperId($content)->first();
+    return view("Pages.Edit.content", [
+      'page'=> $this->page->whereslug($slug)->first(),
+      'content' => $content,
+      'form'=> new FormBuilder(
+        [
+          'order' => 'text', 
+          'content' => 'textarea', 
+          'wrapper_id' => 'disabled', 
+          'wrapper_class' => 'text',
+          'def_id' => new my\FormAttributeBag('select', [ new my\FieldOptionset($this->definition)]), 
+          'page_id' => new my\FormAttributeBag('hidden', [ new my\FieldValue($this->page->whereslug($slug)->first()->id)]),
+          'id' => 'hidden'
+        ], 
+        ['page', $slug],
+        'PATCH',
+        'Update'),      
+      'delete' => new FormBuilder(
+        [], 
+        ['page', $content->id],
+        'DELETE',
+        'Delete'
+      )]);               
+  }
     /**
      * Update the specified resource in storage.
      *
@@ -88,15 +134,15 @@ class pageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $slug)
-    {
-    	$content = $this->content
-    		->ofUri($slug)
-    		->whereid($request->get('id'))->first();    
-        $content
-        	->fill($request->input())
-        	->save();    
-    	return redirect('/' . $slug);
+    public function update(UpdateContentRequests $request, $slug)
+    {    
+      $content = $this->content
+        ->ofUri($slug)
+        ->whereid($request->get('id'))->first();    
+      $content
+        ->fill($request->input())
+        ->save();    
+      return redirect('/' . $slug);
     }
 
     /**
@@ -107,6 +153,7 @@ class pageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->content->whereid($id)->delete();
+        return redirect('/');
     }
 }

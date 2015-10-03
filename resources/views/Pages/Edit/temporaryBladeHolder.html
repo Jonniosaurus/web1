@@ -1,0 +1,29 @@
+         <div id="contentWrapper">          
+          <div id="menuWrapper">
+            <div id="menu">   
+               
+                
+            <!--button class="menuItem" id="aboutMeLink" onclick="loadPage('aboutMe')">About me</button> 
+            <img class="menuDivider" src="images/divider.svg" />
+            <button class="menuItem" id="expertiseLink" href="javascript:void(0)" onclick="loadPage('expertise')">Expertise</button>
+            <img class="menuDivider" src="images/divider.svg" />
+            <button class="menuItem" id="employmentLink" href="javascript:void(0)" onclick="loadPage('employment')">Employment</button>
+            <img class="menuDivider" src="images/divider.svg" />
+            <button class="menuItem" id="educationLink" href="javascript:void(0)" onclick="loadPage('education')">Education</button-->
+            </div>
+        <div class="container">
+        	@yield('header')
+            <div class="content">
+            	@if (Session::has('success'))
+            	<div class="alert alert-success">
+            		{{ session::get('success') }}
+            	</div>
+            	@endif
+            	@yield('content')                            	    
+            </div>
+            @if(Route::getCurrentRoute()->getName() != 'home')
+            {!! link_to_route('home', 'home page') !!}
+            @endif            
+        </div>
+            </div>
+          </div> 

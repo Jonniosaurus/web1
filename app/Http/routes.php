@@ -12,9 +12,14 @@
 */
  
 get('/', ['as' => 'home', 'uses' => 'pageController@index']);
-get('{page}', ['as' => 'page', 'uses' => 'pageController@show']);
-get('{page}/edit', ['as' => 'page.edit', 'uses' => 'pageController@edit']);
-patch('/{page}', 'pageController@update');
+get('{slug}', ['as' => 'page', 'uses' => 'pageController@show']);
+get('{slug}/edit', ['as' => 'page.edit', 'uses' => 'pageController@edit']);
+get('{slug}/edit/{contentId}', ['as' => 'page.edit.content', 'uses' => 'pageController@editContent']);
+get('{slug}/create', ['as' => 'page.create', 'uses' => 'pageController@create']);
+delete('/{id}', 'pageController@destroy');
+patch('/{slug}', 'pageController@update');
+post('/{slug}', 'pageController@store');
+
 
 $router->resource(
 	'projects', // route URI 
@@ -25,10 +30,17 @@ $router->resource(
 		'index' => 'projects',
 		'show' => 'projects.show',
 		'edit' => 'projects.edit',
- 		'create' => 'projects.create',
+ 		'create' => 'projects.create',	    
 	],
 	// only provide for the named routes above
 	'only' => ['index','show','edit','create']
 ]);
-//get('projects/{project}', 'ProjectController@show');
-//get('projects/{project}/edit', 'ProjectController@edit');
+
+// Authentication routes...
+Route::get('auth/login', 'Auth\AuthController@getLogin');
+Route::post('auth/login', ['as' => 'auth.login', 'uses' => 'Auth\AuthController@postLogin']);
+Route::get('auth/logout', 'Auth\AuthController@getLogout');
+
+// Registration routes...
+Route::get('auth/register', 'Auth\AuthController@getRegister');
+Route::post('auth/register', ['as' => 'auth.register', 'uses' => 'Auth\AuthController@postRegister']);

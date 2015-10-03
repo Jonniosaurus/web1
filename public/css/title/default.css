@@ -1,0 +1,110 @@
+body {
+  font-family: freight-sans-pro, Calibri, Tahoma, Arial,  MS Serif, calibri, arial;
+  text-rendering: optimizelegibility;
+}
+a.disabled {
+    pointer-events: none;
+}
+#dynamicWrapper{
+  position: relative;
+  height:0px;
+}
+#headerBox {
+  position: absolute;
+  height: 10%;
+}
+#header{
+  position:relative;
+}
+.headBox{
+  position:absolute;
+  width:80%;
+  right:12%;
+}
+.homeLink {
+  text-decoration: none;
+  padding-left: 3.5%;
+}
+.homeLink:hover {
+  text-decoration: none;    
+}
+.CapsheadLetter, .headLetter{
+  position:relative;
+  margin-top:-28%;
+}
+#webBack {
+  position: relative;
+  float:left;
+  z-index:-50;
+  background-color: #a2ecc0;
+  left:-3.5%;
+  width: 100%;  
+}
+#webBack {
+  margin-top: -5%;
+  z-index: -10;
+}
+.CapsheadLetter {  padding-top: 6%; vertical-align: baseline;} 
+.headLetter {   vertical-align: baseline; }
+#J { width:13%; }
+#E { width:13.5%;}
+#W { width:13.5%; }
+#A { width: 12%; }
+#N1, #N2, #Y   { width:11%; }
+#O, #D1{ width:10.5%; }
+#R, #S{ width: 10% }
+#D2 { width: 9%; }
+
+#menuWrapper {
+  position:relative;
+  float:left;
+  margin-top:10px;
+  padding-top:0.3%;
+  padding-bottom:0.3%;
+}
+#menu {
+  font-size: 18pt;
+  position: relative;
+  z-index:1;
+  height: 38px;  
+}
+.menuDivider{
+	position:relative;
+	top:3px;
+}
+.menuItem{
+	position:relative;
+	top:5px;
+	color:  #0AA179;	
+	background: none;
+	border: 0px;
+  text-decoration: none;
+	font-size: 14pt;
+  font-weight: 300;
+}
+.menuItem:hover{
+	color:red;
+}
+#pagebody, #footer{
+  position:absolute;
+  margin-top:10px;
+  text-align:left;
+  left:0%;
+ 
+}
+#pageTitle {    
+  font-size: 18pt;
+  font-weight: bold;
+}
+#pageSideBarTitle {
+  font-size: 16pt;
+  font-weight: bold;
+  
+}
+#pageContent{
+  position:relative;
+}
+.left{
+  position:relative;
+  float:left;
+}

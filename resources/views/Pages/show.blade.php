@@ -1,7 +1,6 @@
 @extends('master')
 
 @section('content')
-
 <ul>
 <h1>{{ $page->title }}</h1>
 @foreach ($contents as $content)

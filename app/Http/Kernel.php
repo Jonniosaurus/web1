@@ -8,7 +8,7 @@ class Kernel extends HttpKernel
 {
     /**
      * The application's global HTTP middleware stack.
-     *
+     * Runs for EVERY SINGLE REQUEST!!
      * @var array
      */
     protected $middleware = [
@@ -18,6 +18,7 @@ class Kernel extends HttpKernel
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \web1\Http\Middleware\VerifyCsrfToken::class,
+        
     ];
 
     /**
@@ -29,5 +30,7 @@ class Kernel extends HttpKernel
         'auth' => \web1\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'guest' => \web1\Http\Middleware\RedirectIfAuthenticated::class,
+        'admin' => \web1\Http\Middleware\IsAdministrator::class,
+        
     ];
 }
