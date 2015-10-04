@@ -37,13 +37,13 @@
         : HTML::style($relRoute . $file);
     } ?>
   </head>
-  <body>
+  <body onload="Action.load()">
     <div id="header">
       <div id="dynamicWrapper">   
         <div id="mainWrapper">
           <div id="wrapper">
             <div id="webBackWrapper"></div>
-            <div id="Jonny">
+            <div id="Jonny" class="letterSet">
               <!-- encapsulate images in an anchor tag -->
               <a href="{!! route('home') !!}" class="homeLink">              
                 <!-- Render "JONNY" -->
@@ -59,7 +59,7 @@
               </a>     
             </div>        
           </div>            
-          <div id="Edwards">
+          <div id="Edwards" class="letterSet">
             <a href="{!! route('home') !!}" class="homeLink">
               <!-- Render "EDWARDS" -->
               @foreach(['E', 'D1', 'W', 'A', 'R', 'D2', 'S'] as $letter)            
@@ -86,7 +86,7 @@
                     route('page', [$page->slug]),
                     $page->title,
                     ['id'=>str_replace(" ", "_", $page->title), 'class'=>'menuItem']
-                  ) . ' . ' !!}                
+                  )  !!}                
                 @endforeach
               </div>              
             </div>     

@@ -41,13 +41,14 @@ a.disabled {
   width: 100%;  
 }
 #webBack {
-  margin-top: -5%;
   z-index: -10;
 }
+
+
 .CapsheadLetter {  padding-top: 6%; vertical-align: baseline;} 
 .headLetter {   vertical-align: baseline; }
 #J { width:13%; }
-#E { width:13.5%;}
+#E { width:13.5%; top: -10px;}
 #W { width:13.5%; }
 #A { width: 12%; }
 #N1, #N2, #Y   { width:11%; }

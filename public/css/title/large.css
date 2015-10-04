@@ -18,6 +18,7 @@
   top:9px;  
   display:inline;
   margin-right:-19%;  
+  z-index: 20;
 }
 #Edwards{
   position:relative;
@@ -26,6 +27,7 @@
   margin-top: -21%;
   left:0px;
   display:inline;  
+  z-index: 30;
 }
 #dotNet, #dotNetWrapper{
   position:absolute;
@@ -40,6 +42,7 @@
 #menuWrapper {
   margin-top:-30px;
   width: 100%;
+  z-index: 10;
 }
 #menuUnderstroke {
   position:relative;
@@ -48,7 +51,13 @@
   margin-right: 30%;
   width: 40%;
   height:1px;
-  border-bottom: 1px solid #0AA179;
+  border-bottom: 1px solid rgb(117,218,208);
+}
+.menuItem {
+  background-color: #75dad0;
+  color: white;  
+  padding: 5px;
+  padding-top: 15px;  
 }
 /*
 * MAIN CONTENT
