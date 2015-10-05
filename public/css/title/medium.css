@@ -1,9 +1,9 @@
-#webBackWrapper {
+#WebBackWrapper {
   position: absolute;
   margin-top: 90px;
   width:97%;
 }
-#webBack {
+#WebBack {
   margin-top:-33%;
   width:209%;
 }
@@ -16,11 +16,11 @@
   margin-right:-17%;
 }
 #Edwards{
-  position:relative;
+  position:absolute;
   float:left;
   width:50%;
-  margin-top: -22%;
-  left:0px;
+  margin-top: -22.5%;
+  height:150px;
   display:inline;
 }
 #dotNet, #dotNetWrapper{

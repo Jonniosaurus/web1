@@ -42,7 +42,6 @@ class pageController extends Controller
    */
   public function create($slug)
   {
-    $this->middleware('admin');
     return view("Pages.create", [
       'page'=> $this->page->whereslug($slug)->first(),
       'forms'=> new FormBuilder(
