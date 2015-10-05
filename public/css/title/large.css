@@ -1,33 +1,36 @@
-#dynamicWrapper {
+#PageWrapper {
   margin-left: 12%;
   margin-right: auto;
 }
-#webBackWrapper {
+#WebBackWrapper {
   position: absolute;
   margin-top: 60px;
   width:97%;
 }
-#webBack {
-  margin-top:-30%;
+#WebBack {
+  margin-top:-28%;
   width:180%;
 }
 #Jonny{
   position: relative;  
   float:left;
   width: 50%;
-  top:9px;  
+  top:-5px;    
   display:inline;
   margin-right:-19%;  
-  z-index: 20;
+ 
+}
+#JonnyLink{
+  position:relative;
+  height:600px;
 }
 #Edwards{
   position:relative;
   float:left;
   width:50%;
-  margin-top: -21%;
-  left:0px;
-  display:inline;  
-  z-index: 30;
+  margin-top: -22%;
+  height:150px;
+  display:inline;   
 }
 #dotNet, #dotNetWrapper{
   position:absolute;
@@ -39,35 +42,33 @@
 /*
 * MAIN MENU
 */
-#menuWrapper {
-  margin-top:-30px;
+#menu {
+    position:relative;
+    top: -20px;    
+}
+#menuWrapper {  
   width: 100%;
   z-index: 10;
 }
-#menuUnderstroke {
-  position:relative;
-  float:left;
-  margin-left: 30%;
-  margin-right: 30%;
-  width: 40%;
-  height:1px;
-  border-bottom: 1px solid rgb(117,218,208);
-}
 .menuItem {
-  background-color: #75dad0;
+  background-color: rgb(117,218,208);
   color: white;  
   padding: 5px;
-  padding-top: 15px;  
+  padding-top: 25px;  
+}
+.menuItem:hover{  
+  text-decoration: none !important;
 }
 /*
 * MAIN CONTENT
 */
 #contentWrapper{
+  
   position: relative;
   float:left;
   width:172%;
   text-align:center;
-  top: 30px;
+
 }
 .pageTitle{
   position:absolute;

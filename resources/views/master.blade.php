@@ -38,11 +38,11 @@
     } ?>
   </head>
   <body onload="Action.load()">
-    <div id="header">
-      <div id="dynamicWrapper">   
+    
+      <div id="PageWrapper">   
         <div id="mainWrapper">
           <div id="wrapper">
-            <div id="webBackWrapper"></div>
+            <div id="WebBackWrapper"></div>
             <div id="Jonny" class="letterSet">
               <!-- encapsulate images in an anchor tag -->
               <a href="{!! route('home') !!}" class="homeLink">              
@@ -55,7 +55,7 @@
                         ) 
                   !!}
                 @endforeach                                                    
-                <img src="{!! route('home') . '/images/webBack.svg' !!}" id="webBack"></img>        
+                <img src="{!! route('home') . '/images/webBack.svg' !!}" id="WebBack"></img>        
               </a>     
             </div>        
           </div>            
@@ -82,11 +82,13 @@
                     ->where('type', '=', 'default')
                     ->get()
                   as $page)
-                  {!! HTML::link(
-                    route('page', [$page->slug]),
-                    $page->title,
-                    ['id'=>str_replace(" ", "_", $page->title), 'class'=>'menuItem']
-                  )  !!}                
+                  <a href="{{ route('page', [$page->slug]) }}" class="menuLink">
+                      <div id="{{ str_replace(" ", "_", $page->title) }}"
+                           class="menuItem">
+                        {{ $page->title }}                              
+                      </div>                       
+                  </a>
+                  
                 @endforeach
               </div>              
             </div>     
@@ -98,6 +100,6 @@
           </div>             
         </div>         
       </div>  
-    </div>
+
   </body>
 </html>
