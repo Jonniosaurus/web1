@@ -107,9 +107,9 @@ var Behaviour = {
         (117 + Math.round(45 * (delta))) + ',' + 
         (218 + Math.round(18 * (delta))) + ',' + 
         (208 - Math.round(16 * (delta))) + ')';
-      if (Math.round(fontSize.replace('%', '')) > 90) {
+      if (Math.round(fontSize.replace('%', '')) > 85) {
         // set standard completion values
-        elem.style.fontSize = '100%';            
+        elem.style.fontSize = '90%';            
         elem.style.backgroundColor = 'rgb(162, 236, 192)';
         clearInterval(elem.id);
         Behaviour.hasMenuAction = false;
@@ -120,7 +120,7 @@ var Behaviour = {
       var fontSize = elem.style.fontSize;    
       // shrink text.
       elem.style.fontSize = 
-        100 - Math.round(howMuch * (delta)) + '%';
+        90 - Math.round(howMuch * (delta)) + '%';
       // cool colour.
       elem.style.backgroundColor = 
         'rgb(' + 
@@ -128,7 +128,7 @@ var Behaviour = {
         (236 - Math.round(18 * (delta))) + ',' + 
         (192 + Math.round(16 * (delta))) + ')';
 
-      if (Math.round(fontSize.replace('%', '')) < 70) {      
+      if (Math.round(fontSize.replace('%', '')) < 75) {      
         // default values on completion
         elem.style.fontSize = '70%';            
         elem.style.backgroundColor = 'rgb(117, 218, 208)';      
@@ -190,12 +190,12 @@ function Local(GlobalObject) {
     this.menuEvent = function (e) {       
       switch(e.type.replace('on', '')) {
         case 'mousemove':
-          if (parseInt(this.style.fontSize.replace('%', '')) != 70) return;
+          if (parseInt(this.style.fontSize.replace('%', '')) != 90) return;
         case 'mouseover':        
           Behaviour.hasMenuAction = true;
           Core.animate(
             this,
-            30,
+            20,
             0.0000001,
             100,
             Core.linear,
@@ -205,10 +205,10 @@ function Local(GlobalObject) {
           var elem = this;
           var set = setInterval(
           function() { 
-            if (parseInt(elem.style.fontSize.replace('%', '')) == 100 && Behaviour.hasMenuAction == false) {
+            if (parseInt(elem.style.fontSize.replace('%', '')) >= 85 && Behaviour.hasMenuAction == false) {
             Core.animate(
               elem,
-              30,
+              20,
               0.0000001,
               450,
               Core.powerOfN,

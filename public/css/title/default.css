@@ -63,9 +63,8 @@ ul{
   border: 0px;  
   font-size: 70%;
   font-weight: 300;
-  min-width:25%;
-  margin-right:0.1%;
-  margin-left:0.1%;
+  
+  min-width:15%;
   text-align: center;
 }
 

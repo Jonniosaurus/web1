@@ -7,7 +7,8 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     
     <script src="{!! route('home') . '/css/dist/js/bootstrap-select.js' !!}"></script>      
-
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="/css/dist/css/bootstrap-select.css">            
     <?php 
@@ -37,8 +38,7 @@
         : HTML::style($relRoute . $file);
     } ?>
   </head>
-  <body onload="Action.load()">
-    
+  <body onload="Action.load()">           
       <div id="PageWrapper">   
         <div id="mainWrapper">
           <div id="titleWrapper">
@@ -92,7 +92,9 @@
                   
                 @endforeach
               </div>              
-            </div>     
+            </div>                                            
+              
+              
             <div id="pageBody">   
                
               @yield('content')

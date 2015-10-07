@@ -1,3 +1,9 @@
+#PageWrapper {
+    position:absolute;
+    float:left;
+    width:100%;
+    
+}
 #WebBackWrapper {
   position:absolute;    
   border-left: 20px solid #a2ecc0;
@@ -36,19 +42,27 @@
 * MAIN MENU
 */
 #menuWrapper {
-  padding-top:2px;
-  padding-bottom:2px;
-  width: 100%;
+  clear: both;
+  position:relative;
+  height: 50px;
+  min-width:100% !important;
 }
-#menuUnderstroke {
-  display:none;
+.menuItem {
+    float:left;
+  background-color: rgb(117,218,208);
+  color: white;  
+  padding: 5px;  
+  width:100%;
+}
+.menuItem:hover{  
+  text-decoration: none !important;
 }
 /*
 * MAIN CONTENT
 */
 #contentWrapper{  
   position: relative;
-  width: 130%;
+  width: 100% !important;
   float:left;
 }
 .pageTitle{

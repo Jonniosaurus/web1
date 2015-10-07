@@ -5,7 +5,7 @@
 }
 #WebBack {
   margin-top:-33%;
-  width:209%;
+  width:203.5%;
 }
 #Jonny{
   position: relative;  
@@ -34,21 +34,28 @@
 * MAIN MENU
 */
 #menuWrapper {
-  padding-top:2px;
-  padding-bottom:2px;
   width: 100%;
+  background-color: rgb(117,218,208);
 }
 #menuUnderstroke {
   display:none;
+}
+.menuItem {
+  background-color: rgb(117,218,208);
+  color: white;  
+  padding: 5px;
+  padding-top: 25px;  
+}
+.menuItem:hover{  
+  text-decoration: none !important;
 }
 /*
 * MAIN CONTENT
 */
 #contentWrapper{
-  position: relative;
-  padding-left: 3%;
+  position: relative;  
   float:left;
-  width:200%;
+  width:100%;
   top: -18px;
 }
 .pageTitle{
