@@ -1,8 +1,15 @@
 body {
   font-family: freight-sans-pro, Calibri, Tahoma, Arial,  MS Serif, calibri, arial;
   text-rendering: optimizelegibility;
+  float:left;
+  background-image: url("clouds.svg");
+  background-attachment: fixed;   
 }
 
+ul{
+    padding-left: 0px;
+    
+}
 .homeLink {
   text-decoration: none;
   padding-left: 3.5%;
@@ -59,16 +66,16 @@ body {
   min-width:25%;
   margin-right:0.1%;
   margin-left:0.1%;
+  text-align: center;
 }
+
 .menuLink {
   text-decoration: none !important;    
 }
 #pagebody, #footer{
   position:absolute;
   margin-top:10px;
-  text-align:left;
-  left:0%;
- 
+  text-align:center;  
 }
 #pageTitle {    
   font-size: 18pt;

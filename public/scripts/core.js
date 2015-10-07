@@ -74,21 +74,92 @@ var Core = {
         return -Math.pow((11 - 6 * a - 11 * progress) / 4, 2) + Math.pow(b, 2)
   },
 }
+
+
+var Behaviour = {
+  
+    /* Step handlers.
+     * Control the actual pixel-by-pixel rendering
+     * @param {func} delta - what kind of progress behaviour (e.g. linear, curve, etc.)
+     * @param {bool} whichWay - e.g. are we currently going up or down?
+     * @param {int} howFar - howFar (in px) do you want object to traverse?
+     * @param {array} elements - the elements to apply the action to. 
+     */
+    oscillateTitle : function (delta, howFar, elem, whichWay) {
+      if (Core.get.id(elem))
+        Core.get.id(elem).style.top = whichWay
+                ? howFar * delta + '%'
+                : howFar - (howFar * delta) + '%';
+    },
+    
+    moveClouds : function (delta, howFar, elem, whichWay) {
+      elem.style.backgroundPosition = (howFar * delta) + 'px 0px';              
+    },
+
+    expandMenuItem : function (delta, howMuch, elem) {          
+      var fontSize = elem.style.fontSize     
+      // expand text.
+      elem.style.fontSize = 
+        70 + Math.round(howMuch * (delta)) + '%';  
+      // warm colour.
+      elem.style.backgroundColor = 
+        'rgb(' + 
+        (117 + Math.round(45 * (delta))) + ',' + 
+        (218 + Math.round(18 * (delta))) + ',' + 
+        (208 - Math.round(16 * (delta))) + ')';
+      if (Math.round(fontSize.replace('%', '')) > 90) {
+        // set standard completion values
+        elem.style.fontSize = '100%';            
+        elem.style.backgroundColor = 'rgb(162, 236, 192)';
+        clearInterval(elem.id);
+        Behaviour.hasMenuAction = false;
+      }
+    },
+
+    contractMenuItem : function (delta, howMuch, elem) {      
+      var fontSize = elem.style.fontSize;    
+      // shrink text.
+      elem.style.fontSize = 
+        100 - Math.round(howMuch * (delta)) + '%';
+      // cool colour.
+      elem.style.backgroundColor = 
+        'rgb(' + 
+        (162 - Math.round(45 * (delta))) + ',' + 
+        (236 - Math.round(18 * (delta))) + ',' + 
+        (192 + Math.round(16 * (delta))) + ')';
+
+      if (Math.round(fontSize.replace('%', '')) < 70) {      
+        // default values on completion
+        elem.style.fontSize = '70%';            
+        elem.style.backgroundColor = 'rgb(117, 218, 208)';      
+        clearInterval(elem.id);    
+        
+      }
+    },
+    hasMenuAction : false
+}
+
 // -------------------------------------------------
 // public class Local : GlobalObject
 function Local(GlobalObject) {
   function local() {
     this.load = function () {
-      // load title.
-      this.animateTitle();
-
-      // add event handlers to menuItems
+      // the load command inherits from Core so can call get, set, etc.
+      // --------------------------
+      // OnLoad Events
+      this.animateTitle();            
+      this.floatClouds();
+      
+      // --------------------------
+      // Other Event Listeners.
       var menuItems = this.get.class('menuItem');
       for (var i in menuItems) {
+        this.set.event(menuItems[i], 'mousemove', this.menuEvent);
         this.set.event(menuItems[i], 'mouseover', this.menuEvent);
         this.set.event(menuItems[i], 'mouseout', this.menuEvent);
       }
     },
+            
     // Bounce the title letters.
     this.animateTitle = function () {
       var i, ii;
@@ -104,103 +175,61 @@ function Local(GlobalObject) {
             Behaviour.oscillateTitle, // call oscillation animation handler in the 'options' scope
             true);
     }
-
     
-    this.menuEvent = function (e) { 
-      switch(e.type) {
-        case 'mouseover':
-        case 'onmouseover':
+    this.floatClouds = function () {
+      Core.animate(
+        document.body,
+        800,
+        0.0000001,
+        25000,
+        Core.linear,
+        Behaviour.moveClouds,
+        true);  
+    }
+    
+    this.menuEvent = function (e) {       
+      switch(e.type.replace('on', '')) {
+        case 'mousemove':
+          if (parseInt(this.style.fontSize.replace('%', '')) != 70) return;
+        case 'mouseover':        
+          Behaviour.hasMenuAction = true;
           Core.animate(
             this,
             30,
             0.0000001,
-            150,
+            100,
             Core.linear,
             Behaviour.expandMenuItem);          
           break;
-        case 'mouseout':
-        case 'onmouseout':
-          Core.animate(
-            this,
-            30,
-            0.0000001,
-            500,
-            Core.powerOfN,
-            Behaviour.contractMenuItem);
+        case 'mouseout': 
+          var elem = this;
+          var set = setInterval(
+          function() { 
+            if (parseInt(elem.style.fontSize.replace('%', '')) == 100 && Behaviour.hasMenuAction == false) {
+            Core.animate(
+              elem,
+              30,
+              0.0000001,
+              450,
+              Core.powerOfN,
+              Behaviour.contractMenuItem), clearInterval(set)
+            }
+          },
+          20);
           break;
-      }
-        
+      }        
     }
   }
 
 
-  // NB: DO NOT CHANGE -----
-  // Inherit global's attributes AFTER definition.
   local.prototype = GlobalObject;
+  
   return new local();
-
 }
 
-//
-var Behaviour = {
-  /* Step handlers.
-   * Control the actual pixel-by-pixel rendering
-   * @param {func} delta - what kind of progress behaviour (e.g. linear, curve, etc.)
-   * @param {bool} whichWay - e.g. are we currently going up or down?
-   * @param {int} howFar - howFar (in px) do you want object to traverse?
-   * @param {array} elements - the elements to apply the action to. 
-   */
-  oscillateTitle: function (delta, howFar, elem, whichWay) {
-    if (Core.get.id(elem))
-      Core.get.id(elem).style.top = whichWay
-              ? howFar * delta + '%'
-              : howFar - (howFar * delta) + '%';
-  },
-    
-  expandMenuItem: function (delta, howMuch, elem) {          
-    var fontSize = elem.style.fontSize     
-    // expand text.
-    elem.style.fontSize = 
-      70 + Math.round(howMuch * (delta)) + '%';  
-    // warm colour.
-    elem.style.backgroundColor = 
-      'rgb(' + 
-      (117 + Math.round(45 * (delta))) + ',' + 
-      (218 + Math.round(18 * (delta))) + ',' + 
-      (208 - Math.round(16 * (delta))) + ')';
-    if (Math.round(fontSize.replace('%', '')) > 95) {
-      // set standard completion values
-      elem.style.fontSize = '100%';            
-      elem.style.backgroundColor = 'rgb(162, 236, 192)';
-      clearInterval(elem.id);
-    }
-    
-  },
-  
-  contractMenuItem: function (delta, howMuch, elem) {      
-    var fontSize = elem.style.fontSize;    
-    // shrink text.
-    elem.style.fontSize = 
-      100 - Math.round(howMuch * (delta)) + '%';
-    // cool colour.
-    elem.style.backgroundColor = 
-      'rgb(' + 
-      (162 - Math.round(45 * (delta))) + ',' + 
-      (236 - Math.round(18 * (delta))) + ',' + 
-      (192 + Math.round(16 * (delta))) + ')';
-    
-    if (Math.round(fontSize.replace('%', '')) < 75) {      
-      // default values on completion
-      elem.style.fontSize = '70%';            
-      elem.style.backgroundColor = 'rgb(117, 218, 208)';      
-      clearInterval(elem.id);            
-    }
-  }
-  
-}
+
 
 
 // Objects need only call the Action handler, it will do the rest.
 var Action = Local(Core);
-
 
