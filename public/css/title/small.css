@@ -44,11 +44,13 @@
 #menuWrapper {
   clear: both;
   position:relative;
-  height: 50px;
+  height: 35px;
   min-width:100% !important;
+  background-color: rgb(117,218,208);
 }
 .menuItem {
-    float:left;
+  display:none;
+  float:left;
   background-color: rgb(117,218,208);
   color: white;  
   padding: 5px;  
@@ -57,6 +59,27 @@
 .menuItem:hover{  
   text-decoration: none !important;
 }
+#navMenu{
+    display:block;
+    position:absolute;
+    background-color: rgb(117,218,208);
+    height:30px;
+    padding:0px 5px 0px 5px;
+    right:0px;
+    margin-right:2px;
+    margin-top:2px;
+    z-index:50;
+    border: 1px solid #a2ecc0;
+}
+#navMenu:active{
+    background-color:green;
+}
+.icon-bar{
+    display:block;
+    background-color:white;
+    height:1px;
+}
+
 /*
 * MAIN CONTENT
 */

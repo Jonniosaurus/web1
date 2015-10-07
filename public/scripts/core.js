@@ -21,7 +21,7 @@ var Core = {
       }
       xmlhttp.open('GET', '?get=' + get, true);
       xmlhttp.send();
-    }
+    },    
   },
   set: {
     event: function (elem, eventType, handler) {
@@ -76,8 +76,7 @@ var Core = {
 }
 
 
-var Behaviour = {
-  
+var Behaviour = {  
     /* Step handlers.
      * Control the actual pixel-by-pixel rendering
      * @param {func} delta - what kind of progress behaviour (e.g. linear, curve, etc.)
@@ -153,11 +152,12 @@ function Local(GlobalObject) {
       // --------------------------
       // Other Event Listeners.
       var menuItems = this.get.class('menuItem');
-      for (var i in menuItems) {
-        this.set.event(menuItems[i], 'mousemove', this.menuEvent);
-        this.set.event(menuItems[i], 'mouseover', this.menuEvent);
-        this.set.event(menuItems[i], 'mouseout', this.menuEvent);
+      for (var i = 0; i < menuItems.length; i++) {
+        this.set.event(menuItems.item(i), 'mousemove', this.menuEvent);
+        this.set.event(menuItems.item(i), 'mouseover', this.menuEvent);
+        this.set.event(menuItems.item(i), 'mouseout', this.menuEvent);
       }
+      this.set.event(this.get.id('navMenu'), 'click', this.navMenuEvent)
     },
             
     // Bounce the title letters.
@@ -218,6 +218,20 @@ function Local(GlobalObject) {
           20);
           break;
       }        
+    }
+    
+    this.navMenuEvent = function (e) {
+      switch(e.type.replace('on', '')) {
+        case 'click':
+          var menuItems = Core.get.class('menuItem');
+          for (var i = 0; i < menuItems.length; i++)
+            menuItems.item(i).style.display = 
+              (menuItems.item(i).style.display)
+                ? ''
+                : 'inline';
+        break;
+      }
+      
     }
   }
 

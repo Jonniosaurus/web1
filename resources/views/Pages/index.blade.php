@@ -2,8 +2,6 @@
 
 @section('content')
 
-<ul>
-<h1>Welcome to the site!</h1>
 @foreach ($pages as $page)
   @if ($page->title != 'home')  
   	<div class="menuItemwrapper">
@@ -23,5 +21,5 @@
   	</div>
   @endif
 @endforeach
-</ul>
+
 @stop

@@ -1,13 +1,13 @@
 #titleWrapper {
-    position:relative;
-    margin-left: 12%;
-    margin-right: auto;
-    
+   position:relative;
+   
+   margin-left:12.5%;
+   
 }
 #WebBackWrapper {
   position: absolute;
   margin-top: 60px;
-  width:97%;
+  width:100%;
 }
 #WebBack {
   margin-top:-28%;
@@ -70,7 +70,7 @@
   position: relative;
   float:left;
   width:100%;  
-  text-align:center;
+  text-align:center;    
 }
 .pageTitle{
   position:absolute;
@@ -79,8 +79,12 @@
 }
 #pageBody{  
   position:absolute;
-  margin-top:10px;
-  width:100%;
+  top:10px;
+  margin-top:20px;
+  margin-left:5%;
+  width:90%;
+
+  height: 900px;
 }
 #pageTitle{
   position:relative;

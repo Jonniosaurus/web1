@@ -23,10 +23,10 @@
           $media = 'screen and (max-width: 350px)';
           break;
         case 'small':
-          $media = 'screen and (max-width: 450px)';
+          $media = 'screen and (max-width: 400px)';
           break;
         case 'medium':
-          $media = 'screen and (min-width: 450px) and (max-width: 750px)';
+          $media = 'screen and (min-width: 400px) and (max-width: 750px)';
           break;
         case 'large':
           $media = 'screen and (min-width: 750px)';
@@ -74,34 +74,38 @@
             </a>
           </div>
         </div>
-          <div id="contentWrapper">          
-            <div id="menuWrapper">
-              <div id="menu">      
-                @foreach(
-                  DB::table('pages')
-                    ->join('types', 'pages.type_id', '=', 'types.id')
-                    ->where('type', '=', 'default')
-                    ->get()
-                  as $page)
-                  <a href="{{ route('page', [$page->slug]) }}" class="menuLink">
-                      <div id="{{ str_replace(" ", "_", $page->title) }}"
-                           class="menuItem">
-                        {{ $page->title }}                              
-                      </div>                       
-                  </a>
-                  
-                @endforeach
-              </div>              
-            </div>                                            
-              
-              
-            <div id="pageBody">   
-               
-              @yield('content')
-            </div>   
-          </div>    
-            
-        </div>
+        <div id="contentWrapper">          
+          <div id="menuWrapper">
+            <div id="menu">      
+              @foreach(
+                DB::table('pages')
+                  ->join('types', 'pages.type_id', '=', 'types.id')
+                  ->where('type', '=', 'default')
+                  ->get()
+                as $page)
+                <a href="{{ route('page', [$page->slug]) }}" class="menuLink">
+                    <div id="{{ str_replace(" ", "_", $page->title) }}"
+                         class="menuItem">
+                      {{ $page->title }}                              
+                    </div>                       
+                </a>                
+              @endforeach
+            </div>  
+            <button type="button" class="navbar-toggle" id="navMenu">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>                        
+            </button>
+          </div>                                            
+
+
+          <div id="pageBody">   
+
+            @yield('content')
+          </div>   
+        </div>    
+
+      </div>
           
       </div>  
       <script type="text/javascript" src="{!! route('home') . '/scripts/core.js' !!}"></script>

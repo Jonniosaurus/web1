@@ -4,6 +4,7 @@ body {
   float:left;
   background-image: url("clouds.svg");
   background-attachment: fixed;   
+  width: 100%;  
 }
 
 ul{
@@ -29,7 +30,10 @@ ul{
   left:-3.5%;
   width: 100%;  
 }
-
+#navMenu{
+  display:none;
+    
+}
 .CapsheadLetter {  padding-top: 6%; vertical-align: baseline; z-index: 30; } 
 .headLetter {   vertical-align: baseline; z-index: 30; }
 #J { width:13%; }
