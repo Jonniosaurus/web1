@@ -17,7 +17,10 @@ class Content extends Model
 	}
 	public function scopeofUri($query, $uri) {
 		return $query
-			->where('page_id', Page::whereslug($uri)->first()->id)
-			->orderBy('order');
+          ->where('page_id', Page::whereslug($uri)->first()->id)
+          ->orderBy('order');
 	}
+    public function scopeofType($query, $defId) {
+      return Def::whereid($defId)->first()->definition;            
+    }
 }

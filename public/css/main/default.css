@@ -2,14 +2,9 @@ body {
   font-family: freight-sans-pro, Calibri, Tahoma, Arial,  MS Serif, calibri, arial;
   text-rendering: optimizelegibility;
   float:left;
-  background-image: url("clouds.svg");
+  background-color:white;
   background-attachment: fixed;   
   width: 100%;  
-}
-
-ul{
-    padding-left: 0px;
-    
 }
 .homeLink {
   text-decoration: none;
@@ -31,8 +26,10 @@ ul{
   width: 100%;  
 }
 #navMenu{
-  display:none;
-    
+  display:none;    
+}
+.dropdown{
+  height:40px;    
 }
 .CapsheadLetter {  padding-top: 6%; vertical-align: baseline; z-index: 30; } 
 .headLetter {   vertical-align: baseline; z-index: 30; }
@@ -67,7 +64,6 @@ ul{
   border: 0px;  
   font-size: 70%;
   font-weight: 300;
-  
   min-width:15%;
   text-align: center;
 }
@@ -75,10 +71,17 @@ ul{
 .menuLink {
   text-decoration: none !important;    
 }
+#contentWrapper{  
+  position: relative;
+  float:left;
+  width:100%;  
+  text-align:center;    
+}
 #pagebody, #footer{
   position:absolute;
   margin-top:10px;
   text-align:center;  
+  
 }
 #pageTitle {    
   font-size: 18pt;
@@ -95,4 +98,27 @@ ul{
 .left{
   position:relative;
   float:left;
+}
+/* Cartoons */
+.cartoon, .paragraph {
+  margin-top:20px;   
+}
+.park{
+  position:relative;   
+  margin-left: -2%;
+}
+pre {
+    position:relative;
+    text-align: left;
+    width:100%;
+}
+.codeOdd {
+    position:relative;
+    width:100%
+    
+}
+.codeEven {
+    position:relative;
+    background-color:lightgray;
+    width:100%;
 }

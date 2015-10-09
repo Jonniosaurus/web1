@@ -9,12 +9,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="744.09448819"
-   height="1052.3622047"
+   width="439.2467"
+   height="449.00778"
    id="svg4343"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="reading.svg">
+   sodipodi:docname="planning.svg">
   <defs
      id="defs4345">
     <inkscape:path-effect
@@ -58,16 +58,20 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.35"
-     inkscape:cx="375"
-     inkscape:cy="520"
+     inkscape:cx="194.6234"
+     inkscape:cy="170.21819"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="472"
+     inkscape:window-width="803"
      inkscape:window-height="415"
-     inkscape:window-x="1920"
-     inkscape:window-y="24"
-     inkscape:window-maximized="0" />
+     inkscape:window-x="465"
+     inkscape:window-y="163"
+     inkscape:window-maximized="0"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
   <metadata
      id="metadata4348">
     <rdf:RDF>
@@ -76,14 +80,15 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(-180.3766,-253.57258)">
     <g
        transform="translate(3015.826,208.28251)"
        id="g5469">

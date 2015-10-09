@@ -3,18 +3,14 @@
   <head>
     <title>JonnyEdwards.net</title>        		        
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     
-    <script src="{!! route('home') . '/css/dist/js/bootstrap-select.js' !!}"></script>      
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
+    
+    
     <link rel="stylesheet" href="/css/dist/css/bootstrap-select.css">            
     <?php 
     // Build title css sheets.
-    $titleCSS = public_path() . '/css/title/';
-    $relRoute = route('home') . '/css/title/';
+    $titleCSS = public_path() . '/css/main/';
+    $relRoute = route('home') . '/css/main/';
     $media;
     foreach(File::allFiles($titleCSS) as $file) {
       $media = false;
@@ -23,13 +19,13 @@
           $media = 'screen and (max-width: 350px)';
           break;
         case 'small':
-          $media = 'screen and (max-width: 400px)';
+          $media = 'screen and (max-width: 550px)';
           break;
         case 'medium':
-          $media = 'screen and (min-width: 400px) and (max-width: 750px)';
+          $media = 'screen and (min-width: 550px) and (max-width: 850px)';
           break;
         case 'large':
-          $media = 'screen and (min-width: 750px)';
+          $media = 'screen and (min-width: 850px)';
           break;
       }
 
@@ -97,17 +93,12 @@
               <span class="icon-bar"></span>                        
             </button>
           </div>                                            
-
-
-          <div id="pageBody">   
-
+          <div id="pageBody">               
             @yield('content')
           </div>   
         </div>    
-
-      </div>
-          
-      </div>  
-      <script type="text/javascript" src="{!! route('home') . '/scripts/core.js' !!}"></script>
+      </div>       
+    </div>  
+    <script type="text/javascript" src="{!! route('home') . '/scripts/core.js' !!}"></script>
   </body>
 </html>

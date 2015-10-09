@@ -111,7 +111,6 @@ var Behaviour = {
         elem.style.fontSize = '90%';            
         elem.style.backgroundColor = 'rgb(162, 236, 192)';
         clearInterval(elem.id);
-        Behaviour.hasMenuAction = false;
       }
     },
 
@@ -131,8 +130,7 @@ var Behaviour = {
         // default values on completion
         elem.style.fontSize = '70%';            
         elem.style.backgroundColor = 'rgb(117, 218, 208)';      
-        clearInterval(elem.id);    
-        
+        clearInterval(elem.id);            
       }
     },
     hasMenuAction : false
@@ -147,7 +145,7 @@ function Local(GlobalObject) {
       // --------------------------
       // OnLoad Events
       this.animateTitle();            
-      this.floatClouds();
+      ///this.floatClouds();
       
       // --------------------------
       // Other Event Listeners.
@@ -191,8 +189,7 @@ function Local(GlobalObject) {
       switch(e.type.replace('on', '')) {
         case 'mousemove':
           if (parseInt(this.style.fontSize.replace('%', '')) != 90) return;
-        case 'mouseover':        
-          Behaviour.hasMenuAction = true;
+        case 'mouseover':                    
           Core.animate(
             this,
             20,
@@ -201,21 +198,14 @@ function Local(GlobalObject) {
             Core.linear,
             Behaviour.expandMenuItem);          
           break;
-        case 'mouseout': 
-          var elem = this;
-          var set = setInterval(
-          function() { 
-            if (parseInt(elem.style.fontSize.replace('%', '')) >= 85 && Behaviour.hasMenuAction == false) {
-            Core.animate(
-              elem,
-              20,
-              0.0000001,
-              450,
-              Core.powerOfN,
-              Behaviour.contractMenuItem), clearInterval(set)
-            }
-          },
-          20);
+        case 'mouseout':           
+          Core.animate(
+            this,
+            20,
+            0.0000001,
+            450,
+            Core.powerOfN,
+            Behaviour.contractMenuItem)
           break;
       }        
     }

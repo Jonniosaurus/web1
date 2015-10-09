@@ -9,35 +9,14 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="744.09448819"
-   height="1052.3622047"
+   width="439.2468"
+   height="449.00781"
    id="svg4343"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="chopSticks.svg">
+   sodipodi:docname="howdy.svg">
   <defs
-     id="defs4345">
-    <inkscape:path-effect
-       effect="spiro"
-       id="path-effect4824-3"
-       is_visible="true" />
-    <inkscape:path-effect
-       effect="spiro"
-       id="path-effect4830-8"
-       is_visible="true" />
-    <inkscape:path-effect
-       is_visible="true"
-       id="path-effect4788-8"
-       effect="spiro" />
-    <inkscape:path-effect
-       effect="spiro"
-       id="path-effect4806-0"
-       is_visible="true" />
-    <inkscape:path-effect
-       effect="spiro"
-       id="path-effect4778-3"
-       is_visible="true" />
-  </defs>
+     id="defs4345" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -45,17 +24,34 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.35"
-     inkscape:cx="375"
-     inkscape:cy="520"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="143.00962"
+     inkscape:cy="199.48764"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
-     inkscape:window-width="472"
-     inkscape:window-height="415"
-     inkscape:window-x="1920"
-     inkscape:window-y="24"
-     inkscape:window-maximized="0" />
+     showgrid="true"
+     inkscape:window-width="1448"
+     inkscape:window-height="936"
+     inkscape:window-x="2017"
+     inkscape:window-y="407"
+     inkscape:window-maximized="0"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:object-nodes="true"
+     inkscape:object-paths="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3477"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true"
+       spacingx="1.1px"
+       originx="-49.72518px"
+       originy="-1.1684012px" />
+  </sodipodi:namedview>
   <metadata
      id="metadata4348">
     <rdf:RDF>
@@ -64,17 +60,21 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(-213.95318,-262.07562)">
     <g
        id="g5345"
-       transform="translate(2202.3714,1157.8441)">
+       transform="translate(2170.2337,1177.7757)"
+       inkscape:export-filename="/home/jonniosaurus/codeBase/web1/public/images/cartoons/howdy.png"
+       inkscape:export-xdpi="204.85168"
+       inkscape:export-ydpi="204.85168">
       <g
          transform="translate(-107.50952,-8.4236279)"
          id="g4863">

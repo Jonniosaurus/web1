@@ -16,5 +16,5 @@ class Page extends Model
 	}
 	public function scopeofType($query, $type) {
 		return $query->where('type_id', Type::wheretype($type)->first()->id);
-	}
+	}    
 }
