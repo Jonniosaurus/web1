@@ -6,6 +6,7 @@ body {
   background-attachment: fixed;   
   width: 100%;  
 }
+/* TITLE */
 .homeLink {
   text-decoration: none;
   padding-left: 3.5%;
@@ -25,12 +26,6 @@ body {
   left:-3.5%;
   width: 100%;  
 }
-#navMenu{
-  display:none;    
-}
-.dropdown{
-  height:40px;    
-}
 .CapsheadLetter {  padding-top: 6%; vertical-align: baseline; z-index: 30; } 
 .headLetter {   vertical-align: baseline; z-index: 30; }
 #J { width:13%; }
@@ -42,6 +37,8 @@ body {
 #R, #S{ width: 10% }
 #D2 { width: 9%; }
 #dotNet {z-index: 30; }
+
+/* MENUS */
 #menuWrapper {
   position:relative;
   float:left;
@@ -55,7 +52,6 @@ body {
   z-index:10;
   width:100%;
 }
-
 .menuItem{    
   position:relative;
   display:inline;
@@ -67,10 +63,17 @@ body {
   min-width:15%;
   text-align: center;
 }
-
 .menuLink {
   text-decoration: none !important;    
 }
+#navMenu{
+  display:none;    
+}
+.dropdown{
+  height:40px;    
+}
+
+/* MAIN CONTENT HANDLER */
 #contentWrapper{  
   position: relative;
   float:left;
@@ -99,6 +102,8 @@ body {
   position:relative;
   float:left;
 }
+
+/* CONTENT DEFINITIONS */
 /* Cartoons */
 .cartoon, .paragraph {
   margin-top:20px;   
@@ -107,6 +112,8 @@ body {
   position:relative;   
   margin-left: -2%;
 }
+
+/* Code Blocks */
 pre {
     position:relative;
     text-align: left;
@@ -121,4 +128,13 @@ pre {
     position:relative;
     background-color:lightgray;
     width:100%;
+}
+
+/* Collapsible */
+.Collapsible{
+    background-color:lightyellow;    
+}
+.collapsed{
+    position:relative;
+      
 }

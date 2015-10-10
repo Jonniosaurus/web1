@@ -95,10 +95,18 @@
           </div>                                            
           <div id="pageBody">               
             @yield('content')
+            
+            <div class="Collapsible">
+              <div class="collapser" id="test_collapser">expand</div>
+              <div class="collapsee collapsed" id="test_collapsee">
+                I am some text in a collapsible divider tag!!<br />
+                I am some more text</br />
+              </div>
+            </div>
           </div>   
         </div>    
       </div>       
     </div>  
-    <script type="text/javascript" src="{!! route('home') . '/scripts/core.js' !!}"></script>
+    <script type="text/javascript" src="{!! route('home') . '/scripts/core.js' !!}"></script>    
   </body>
 </html>

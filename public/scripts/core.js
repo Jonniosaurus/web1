@@ -91,10 +91,6 @@ var Behaviour = {
                 : howFar - (howFar * delta) + '%';
     },
     
-    moveClouds : function (delta, howFar, elem, whichWay) {
-      elem.style.backgroundPosition = (howFar * delta) + 'px 0px';              
-    },
-
     expandMenuItem : function (delta, howMuch, elem) {          
       var fontSize = elem.style.fontSize     
       // expand text.
@@ -106,7 +102,7 @@ var Behaviour = {
         (117 + Math.round(45 * (delta))) + ',' + 
         (218 + Math.round(18 * (delta))) + ',' + 
         (208 - Math.round(16 * (delta))) + ')';
-      if (Math.round(fontSize.replace('%', '')) > 85) {
+      if (Math.round(fontSize.replace('%', '')) > 84) {
         // set standard completion values
         elem.style.fontSize = '90%';            
         elem.style.backgroundColor = 'rgb(162, 236, 192)';
@@ -126,14 +122,19 @@ var Behaviour = {
         (236 - Math.round(18 * (delta))) + ',' + 
         (192 + Math.round(16 * (delta))) + ')';
 
-      if (Math.round(fontSize.replace('%', '')) < 75) {      
+      if (Math.round(fontSize.replace('%', '')) < 76) {      
         // default values on completion
         elem.style.fontSize = '70%';            
         elem.style.backgroundColor = 'rgb(117, 218, 208)';      
         clearInterval(elem.id);            
       }
     },
-    hasMenuAction : false
+    
+    expandCollapsee : function (delta, howMuch, elem) {                
+      // expand text.
+      elem.style.height = (0 + Math.round(howMuch * (delta))) + 'px';                  
+    },
+    
 }
 
 // -------------------------------------------------
@@ -149,13 +150,30 @@ function Local(GlobalObject) {
       
       // --------------------------
       // Other Event Listeners.
+      var i = 0, ii = 0;
+      // 1. standard menus
       var menuItems = this.get.class('menuItem');
-      for (var i = 0; i < menuItems.length; i++) {
-        this.set.event(menuItems.item(i), 'mousemove', this.menuEvent);
-        this.set.event(menuItems.item(i), 'mouseover', this.menuEvent);
-        this.set.event(menuItems.item(i), 'mouseout', this.menuEvent);
+      var events = ['move', 'over', 'out'];
+      for (i = 0; i < menuItems.length; i++) 
+        for (ii in events) 
+          this.set.event(menuItems.item(i), 'mouse' + events[ii], this.menuEvent);
+      
+      // 2. nav menu for mobile 
+      this.set.event(this.get.id('navMenu'), 'click', this.navMenuEvent);
+      
+      // 3. collapsible pains
+      var collapsers = this.get.class('collapser');
+      var collapsee;
+      for (i = 0; i < collapsers.length; i++) {
+        this.set.event(collapsers.item(i), 'click', this.collapsibleEvent);        
+        collapsee = this.get.id(collapsers.item(i).id.replace('_collapser', '_collapsee'));
+        // assign initial dynamic offset variable to new property
+        collapsers.item(i).initHeight = collapsers.item(i).offsetHeight;
+        collapsee.style.height = '0px';
+        collapsee.style.overflow = 'hidden';
       }
-      this.set.event(this.get.id('navMenu'), 'click', this.navMenuEvent)
+        
+      
     },
             
     // Bounce the title letters.
@@ -164,25 +182,14 @@ function Local(GlobalObject) {
       var letters = [['J', 'O', 'N1', 'N2', 'Y'], ['E', 'D1', 'W', 'A', 'R', 'D2', 'S']];
       for (i in letters)
         for (ii in letters[i])
-          Core.animate(// see parameters required in Global
+          this.animate(// see parameters required in Global
             letters[i][ii],
             4,
             0.0000001,
             Math.floor((Math.random() * (700)) + (650)), // 1000 = 1 second, add extra 500 for surname as DOM renders it faster.
-            Core.linear,
+            this.linear,
             Behaviour.oscillateTitle, // call oscillation animation handler in the 'options' scope
             true);
-    }
-    
-    this.floatClouds = function () {
-      Core.animate(
-        document.body,
-        800,
-        0.0000001,
-        25000,
-        Core.linear,
-        Behaviour.moveClouds,
-        true);  
     }
     
     this.menuEvent = function (e) {       
@@ -220,8 +227,20 @@ function Local(GlobalObject) {
                 ? ''
                 : 'inline';
         break;
+      }      
+    }
+    
+    this.collapsibleEvent = function () {
+      var collapsee = Core.get.id(this.id.replace('_collapser', '_collapsee'));
+      if (collapsee.className.search('collapsed') > -1) {
+         Core.animate(
+            collapsee,
+            40, // TODO, write some JSON to manage this.
+            0.0000001,
+            40 * 5, // TODO speed = height * 5 for normativity's sake.
+            Core.linear,
+            Behaviour.expandCollapsee);         
       }
-      
     }
   }
 
