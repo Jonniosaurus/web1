@@ -159,7 +159,7 @@ class FormBuilder{
             $fieldKey,
             $fieldValue,
             isset($data) ? $data[$fieldKey] : '',
-            ['class'=> 'selectpicker', 'id' =>  'form_' . $fieldKey ]);
+            ['class'=> 'dropdown', 'id' =>  'form_' . $fieldKey ]);
           
           break;
         case 'hidden':

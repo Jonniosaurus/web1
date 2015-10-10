@@ -21,7 +21,7 @@ var Core = {
       }
       xmlhttp.open('GET', '?get=' + get, true);
       xmlhttp.send();
-    }
+    },    
   },
   set: {
     event: function (elem, eventType, handler) {
@@ -74,133 +74,185 @@ var Core = {
         return -Math.pow((11 - 6 * a - 11 * progress) / 4, 2) + Math.pow(b, 2)
   },
 }
+
+
+var Behaviour = {  
+    /* Step handlers.
+     * Control the actual pixel-by-pixel rendering
+     * @param {func} delta - what kind of progress behaviour (e.g. linear, curve, etc.)
+     * @param {bool} whichWay - e.g. are we currently going up or down?
+     * @param {int} howFar - howFar (in px) do you want object to traverse?
+     * @param {array} elements - the elements to apply the action to. 
+     */
+    oscillateTitle : function (delta, howFar, elem, whichWay) {
+      if (Core.get.id(elem))
+        Core.get.id(elem).style.top = whichWay
+                ? howFar * delta + '%'
+                : howFar - (howFar * delta) + '%';
+    },
+    
+    expandMenuItem : function (delta, howMuch, elem) {          
+      var fontSize = elem.style.fontSize     
+      // expand text.
+      elem.style.fontSize = 
+        70 + Math.round(howMuch * (delta)) + '%';  
+      // warm colour.
+      elem.style.backgroundColor = 
+        'rgb(' + 
+        (117 + Math.round(45 * (delta))) + ',' + 
+        (218 + Math.round(18 * (delta))) + ',' + 
+        (208 - Math.round(16 * (delta))) + ')';
+      if (Math.round(fontSize.replace('%', '')) > 84) {
+        // set standard completion values
+        elem.style.fontSize = '90%';            
+        elem.style.backgroundColor = 'rgb(162, 236, 192)';
+        clearInterval(elem.id);
+      }
+    },
+
+    contractMenuItem : function (delta, howMuch, elem) {      
+      var fontSize = elem.style.fontSize;    
+      // shrink text.
+      elem.style.fontSize = 
+        90 - Math.round(howMuch * (delta)) + '%';
+      // cool colour.
+      elem.style.backgroundColor = 
+        'rgb(' + 
+        (162 - Math.round(45 * (delta))) + ',' + 
+        (236 - Math.round(18 * (delta))) + ',' + 
+        (192 + Math.round(16 * (delta))) + ')';
+
+      if (Math.round(fontSize.replace('%', '')) < 76) {      
+        // default values on completion
+        elem.style.fontSize = '70%';            
+        elem.style.backgroundColor = 'rgb(117, 218, 208)';      
+        clearInterval(elem.id);            
+      }
+    },
+    
+    expandCollapsee : function (delta, howMuch, elem) {                
+      // expand text.
+      elem.style.height = (0 + Math.round(howMuch * (delta))) + 'px';                  
+    },
+    
+}
+
 // -------------------------------------------------
 // public class Local : GlobalObject
 function Local(GlobalObject) {
   function local() {
     this.load = function () {
-      // load title.
-      this.animateTitle();
-
-      // add event handlers to menuItems
+      // the load command inherits from Core so can call get, set, etc.
+      // --------------------------
+      // OnLoad Events
+      this.animateTitle();            
+      ///this.floatClouds();
+      
+      // --------------------------
+      // Other Event Listeners.
+      var i = 0, ii = 0;
+      // 1. standard menus
       var menuItems = this.get.class('menuItem');
-      for (var i in menuItems) {
-        this.set.event(menuItems[i], 'mouseover', this.menuEvent);
-        this.set.event(menuItems[i], 'mouseout', this.menuEvent);
+      var events = ['move', 'over', 'out'];
+      for (i = 0; i < menuItems.length; i++) 
+        for (ii in events) 
+          this.set.event(menuItems.item(i), 'mouse' + events[ii], this.menuEvent);
+      
+      // 2. nav menu for mobile 
+      this.set.event(this.get.id('navMenu'), 'click', this.navMenuEvent);
+      
+      // 3. collapsible pains
+      var collapsers = this.get.class('collapser');
+      var collapsee;
+      for (i = 0; i < collapsers.length; i++) {
+        this.set.event(collapsers.item(i), 'click', this.collapsibleEvent);        
+        collapsee = this.get.id(collapsers.item(i).id.replace('_collapser', '_collapsee'));
+        // assign initial dynamic offset variable to new property
+        collapsers.item(i).initHeight = collapsers.item(i).offsetHeight;
+        collapsee.style.height = '0px';
+        collapsee.style.overflow = 'hidden';
       }
+        
+      
     },
+            
     // Bounce the title letters.
     this.animateTitle = function () {
       var i, ii;
       var letters = [['J', 'O', 'N1', 'N2', 'Y'], ['E', 'D1', 'W', 'A', 'R', 'D2', 'S']];
       for (i in letters)
         for (ii in letters[i])
-          Core.animate(// see parameters required in Global
+          this.animate(// see parameters required in Global
             letters[i][ii],
             4,
             0.0000001,
             Math.floor((Math.random() * (700)) + (650)), // 1000 = 1 second, add extra 500 for surname as DOM renders it faster.
-            Core.linear,
+            this.linear,
             Behaviour.oscillateTitle, // call oscillation animation handler in the 'options' scope
             true);
     }
-
     
-    this.menuEvent = function (e) { 
-      switch(e.type) {
-        case 'mouseover':
-        case 'onmouseover':
+    this.menuEvent = function (e) {       
+      switch(e.type.replace('on', '')) {
+        case 'mousemove':
+          if (parseInt(this.style.fontSize.replace('%', '')) != 90) return;
+        case 'mouseover':                    
           Core.animate(
             this,
-            30,
+            20,
             0.0000001,
-            150,
+            100,
             Core.linear,
             Behaviour.expandMenuItem);          
           break;
-        case 'mouseout':
-        case 'onmouseout':
+        case 'mouseout':           
           Core.animate(
             this,
-            30,
+            20,
             0.0000001,
-            500,
+            450,
             Core.powerOfN,
-            Behaviour.contractMenuItem);
+            Behaviour.contractMenuItem)
           break;
+      }        
+    }
+    
+    this.navMenuEvent = function (e) {
+      switch(e.type.replace('on', '')) {
+        case 'click':
+          var menuItems = Core.get.class('menuItem');
+          for (var i = 0; i < menuItems.length; i++)
+            menuItems.item(i).style.display = 
+              (menuItems.item(i).style.display)
+                ? ''
+                : 'inline';
+        break;
+      }      
+    }
+    
+    this.collapsibleEvent = function () {
+      var collapsee = Core.get.id(this.id.replace('_collapser', '_collapsee'));
+      if (collapsee.className.search('collapsed') > -1) {
+         Core.animate(
+            collapsee,
+            40, // TODO, write some JSON to manage this.
+            0.0000001,
+            40 * 5, // TODO speed = height * 5 for normativity's sake.
+            Core.linear,
+            Behaviour.expandCollapsee);         
       }
-        
     }
   }
 
 
-  // NB: DO NOT CHANGE -----
-  // Inherit global's attributes AFTER definition.
   local.prototype = GlobalObject;
+  
   return new local();
-
 }
 
-//
-var Behaviour = {
-  /* Step handlers.
-   * Control the actual pixel-by-pixel rendering
-   * @param {func} delta - what kind of progress behaviour (e.g. linear, curve, etc.)
-   * @param {bool} whichWay - e.g. are we currently going up or down?
-   * @param {int} howFar - howFar (in px) do you want object to traverse?
-   * @param {array} elements - the elements to apply the action to. 
-   */
-  oscillateTitle: function (delta, howFar, elem, whichWay) {
-    if (Core.get.id(elem))
-      Core.get.id(elem).style.top = whichWay
-              ? howFar * delta + '%'
-              : howFar - (howFar * delta) + '%';
-  },
-    
-  expandMenuItem: function (delta, howMuch, elem) {          
-    var fontSize = elem.style.fontSize     
-    // expand text.
-    elem.style.fontSize = 
-      70 + Math.round(howMuch * (delta)) + '%';  
-    // warm colour.
-    elem.style.backgroundColor = 
-      'rgb(' + 
-      (117 + Math.round(45 * (delta))) + ',' + 
-      (218 + Math.round(18 * (delta))) + ',' + 
-      (208 - Math.round(16 * (delta))) + ')';
-    if (Math.round(fontSize.replace('%', '')) > 95) {
-      // set standard completion values
-      elem.style.fontSize = '100%';            
-      elem.style.backgroundColor = 'rgb(162, 236, 192)';
-      clearInterval(elem.id);
-    }
-    
-  },
-  
-  contractMenuItem: function (delta, howMuch, elem) {      
-    var fontSize = elem.style.fontSize;    
-    // shrink text.
-    elem.style.fontSize = 
-      100 - Math.round(howMuch * (delta)) + '%';
-    // cool colour.
-    elem.style.backgroundColor = 
-      'rgb(' + 
-      (162 - Math.round(45 * (delta))) + ',' + 
-      (236 - Math.round(18 * (delta))) + ',' + 
-      (192 + Math.round(16 * (delta))) + ')';
-    
-    if (Math.round(fontSize.replace('%', '')) < 75) {      
-      // default values on completion
-      elem.style.fontSize = '70%';            
-      elem.style.backgroundColor = 'rgb(117, 218, 208)';      
-      clearInterval(elem.id);            
-    }
-  }
-  
-}
+
 
 
 // Objects need only call the Action handler, it will do the rest.
 var Action = Local(Core);
-
 

@@ -1,11 +1,13 @@
-#PageWrapper {
-  margin-left: 12%;
-  margin-right: auto;
+#titleWrapper {
+   position:relative;
+   
+   margin-left:12.5%;
+   
 }
 #WebBackWrapper {
   position: absolute;
   margin-top: 60px;
-  width:97%;
+  width:100%;
 }
 #WebBack {
   margin-top:-28%;
@@ -17,8 +19,7 @@
   width: 50%;
   top:-5px;    
   display:inline;
-  margin-right:-19%;  
- 
+  margin-right:-19%;   
 }
 #JonnyLink{
   position:relative;
@@ -43,18 +44,21 @@
 * MAIN MENU
 */
 #menu {
-    position:relative;
-    top: -20px;    
+  position:relative;
+  top: -20px;    
 }
 #menuWrapper {  
   width: 100%;
   z-index: 10;
 }
 .menuItem {
+  position:relative;
   background-color: rgb(117,218,208);
   color: white;  
   padding: 5px;
   padding-top: 25px;  
+  margin-right:0.5%;
+  margin-left:0.5%;
 }
 .menuItem:hover{  
   text-decoration: none !important;
@@ -62,25 +66,24 @@
 /*
 * MAIN CONTENT
 */
-#contentWrapper{
-  
+#contentWrapper{  
   position: relative;
   float:left;
-  width:172%;
-  text-align:center;
-
+  width:100%;  
+  text-align:center;    
 }
 .pageTitle{
   position:absolute;
   left: -400px;
   margin-top: -5px;
 }
-#pageBody{
-  text-align:left;
+#pageBody{  
   position:absolute;
-  margin-top:10px;
-  width:130%;
-
+  top:10px;
+  margin-top:20px;
+  margin-left:15%;
+  width:70%;
+  background-color:white;
 }
 #pageTitle{
   position:relative;
@@ -91,25 +94,6 @@
 #pageContent{
   position:relative;
   float:left;
-  width:79%;
-  left:-1%;
-  padding-right: 0.5%;
-  padding-left: 2%;
-}
-#pageSideBar{
-  position:relative;
-  float:left;
-  width:18%;
-  text-align: left; 
-}
-#pageSideBarWrapper{
-  position:absolute;
   width:100%;
-  padding-right:25%;
-  background-color:#55bb8f;
-  padding-left:5%;
-  margin-left:-5%;
 }
-#menu{
-  left: -25%;    
-}
+

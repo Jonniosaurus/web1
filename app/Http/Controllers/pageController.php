@@ -3,13 +3,15 @@
 namespace web1\Http\Controllers;
 
 use Illuminate\Http\Request;
-use web1\Page;
-use web1\Content;
-use web1\Def;
+
 use web1\Http\Requests;
 use web1\Http\Requests\CreateContentRequests as CreateContentRequests;
 use web1\Http\Requests\UpdateContentRequests as UpdateContentRequests;
 use web1\Http\Controllers\Controller;
+
+use web1\Page;
+use web1\Content;
+use web1\Def;
 
 use web1\Classes\FormBuilder;
 use web1\Classes as my;
@@ -32,7 +34,9 @@ class pageController extends Controller
    */
   public function index()
   {    	
-    return view('Pages.index')->with('pages', $this->page->get());
+    return view('Pages.show')
+      ->with('pages', $this->page->get())
+      ->with('contents', $this->content->ofUri('home')->get());
   }
 
   /**
@@ -40,24 +44,30 @@ class pageController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function create($slug)
+  public function create($slug, Page $home)
   {
-    return view("Pages.create", [
-      'page'=> $this->page->whereslug($slug)->first(),
-      'forms'=> new FormBuilder(
-        [
-          'order' => 'text', 
-          'content' => 'textarea', 
-          'wrapper_id' => 'text', 
-          'wrapper_class' => 'text',
-          'def_id' => new my\FormAttributeBag('select', [ new my\FieldOptionset($this->definition)]), 
-          'page_id' => new my\FormAttributeBag('hidden',[ new my\FieldValue($this->page->whereslug($slug)->first()->id)]),
-          'id' => 'hidden'
-        ],        
-        ['page', $slug],
-        'POST',
-        'Create')
-      ]);
+   $page = ($slug == 'home') 
+     ? $home::whereslug($slug)->first()
+     : $this->page->whereslug($slug)->first();
+    if ($page != null) {
+      return view("Pages.create", [
+        'page'=> $page,
+        'forms'=> new FormBuilder(
+          [
+            'order' => 'text', 
+            'content' => 'textarea', 
+            'wrapper_id' => 'text', 
+            'wrapper_class' => 'text',
+            'def_id' => new my\FormAttributeBag('select', [ new my\FieldOptionset($this->definition)]), 
+            'page_id' => new my\FormAttributeBag('hidden',[ new my\FieldValue($page->id)]),
+            'id' => 'hidden'
+          ],        
+          ['page', $slug],
+          'POST',
+          'Create')
+        ]);
+     }
+     return redirect()->route('page', $slug);
   }
 
   /**
@@ -69,7 +79,7 @@ class pageController extends Controller
   public function store(CreateContentRequests $request, $slug)
   {    
     $this->content->create($request->all());
-    return redirect()->route('page', $slug);
+    return redirect()->route('page.edit', $slug);
   }
 
   /**
@@ -78,14 +88,15 @@ class pageController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function show($slug)
+  public function show($slug, Def $definitions)
   {   	    
     if ($this->page->whereslug($slug)->first()) {
-  	return view("Pages.show")
-      ->with('contents', $this->content->ofUri($slug)->get())
-      ->with('page', $this->page->whereslug($slug)->first());        
-    } else return redirect()->route('home');
-    
+      return view("Pages.show")
+        ->with('contents', $this->content->ofUri($slug)->get())
+        ->with('definitions', $definitions::all())
+        ->with('page', $this->page->whereslug($slug)->first());        
+    }
+    return redirect()->route('home');    
   }
 
   /**
@@ -94,37 +105,53 @@ class pageController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function edit($slug, Def $defs)
-  {   
-    return view("Pages.edit")
-      ->with('contents', $this->content->ofUri($slug)->lists('wrapper_id'))
-      ->with('page', $this->page->whereslug($slug)->first());       		
+  public function edit($slug, Page $home, Def $def)
+  { 
+    if ($home::whereslug($slug)->first() != null) {
+      $content = $this->content->ofUri($slug);            
+      $page = ($slug == 'home') 
+       ? $home::whereslug($slug)->first()
+       : $this->page->whereslug($slug)->first();
+      if ($page != null && $content->count() > 0) {
+        return view("Pages.edit")
+          ->with('contents', $content->get())
+          ->with('page', $page)
+          ->with('def', $def);
+      } 
+      return redirect()->route('home');
+    }
   }
 
-  public function editContent($slug, $content) {
-    $content = $this->content->ofUri($slug)->wherewrapperId($content)->first();
-    return view("Pages.Edit.content", [
-      'page'=> $this->page->whereslug($slug)->first(),
-      'content' => $content,
-      'form'=> new FormBuilder(
-        [
-          'order' => 'text', 
-          'content' => 'textarea', 
-          'wrapper_id' => 'disabled', 
-          'wrapper_class' => 'text',
-          'def_id' => new my\FormAttributeBag('select', [ new my\FieldOptionset($this->definition)]), 
-          'page_id' => new my\FormAttributeBag('hidden', [ new my\FieldValue($this->page->whereslug($slug)->first()->id)]),
-          'id' => 'hidden'
-        ], 
-        ['page', $slug],
-        'PATCH',
-        'Update'),      
-      'delete' => new FormBuilder(
-        [], 
-        ['page', $content->id],
-        'DELETE',
-        'Delete'
-      )]);               
+  public function editContent($slug, $content, Page $home) {
+    $content = $this->content->ofUri($slug)->wherewrapperId($content)->first();        
+    $page = ($slug == 'home') 
+     ? $home::whereslug($slug)->first()
+     : $this->page->whereslug($slug)->first();
+    if ($page != null && $content != null) {
+      return view("Pages.Edit.content", [
+        'page'=> $page,
+        'content' => $content,
+        'form'=> new FormBuilder(
+          [
+            'order' => 'text', 
+            'content' => 'textarea', 
+            'wrapper_id' => 'disabled', 
+            'wrapper_class' => 'text',
+            'def_id' => new my\FormAttributeBag('select', [ new my\FieldOptionset($this->definition)]), 
+            'page_id' => new my\FormAttributeBag('hidden', [ new my\FieldValue($page->id)]),
+            'id' => 'hidden'
+          ], 
+          ['page', $slug],
+          'PATCH',
+          'Update'),      
+        'delete' => new FormBuilder(
+          [], 
+          ['page', $content->id],
+          'DELETE',
+          'Delete'
+        )]);
+    } 
+    return redirect()->route('home');
   }
     /**
      * Update the specified resource in storage.
@@ -141,7 +168,7 @@ class pageController extends Controller
       $content
         ->fill($request->input())
         ->save();    
-      return redirect('/' . $slug);
+      return redirect(route('page.edit', $slug));
     }
 
     /**

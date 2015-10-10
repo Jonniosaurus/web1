@@ -3,17 +3,14 @@
   <head>
     <title>JonnyEdwards.net</title>        		        
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="{!! route('home') . '/scripts/core.js' !!}"></script>
-    <script src="{!! route('home') . '/css/dist/js/bootstrap-select.js' !!}"></script>      
-
-
+    
+    
+    
     <link rel="stylesheet" href="/css/dist/css/bootstrap-select.css">            
     <?php 
     // Build title css sheets.
-    $titleCSS = public_path() . '/css/title/';
-    $relRoute = route('home') . '/css/title/';
+    $titleCSS = public_path() . '/css/main/';
+    $relRoute = route('home') . '/css/main/';
     $media;
     foreach(File::allFiles($titleCSS) as $file) {
       $media = false;
@@ -22,13 +19,13 @@
           $media = 'screen and (max-width: 350px)';
           break;
         case 'small':
-          $media = 'screen and (max-width: 450px)';
+          $media = 'screen and (max-width: 550px)';
           break;
         case 'medium':
-          $media = 'screen and (min-width: 450px) and (max-width: 750px)';
+          $media = 'screen and (min-width: 550px) and (max-width: 850px)';
           break;
         case 'large':
-          $media = 'screen and (min-width: 750px)';
+          $media = 'screen and (min-width: 850px)';
           break;
       }
 
@@ -37,10 +34,10 @@
         : HTML::style($relRoute . $file);
     } ?>
   </head>
-  <body onload="Action.load()">
-    
+  <body onload="Action.load()">           
       <div id="PageWrapper">   
         <div id="mainWrapper">
+          <div id="titleWrapper">
           <div id="wrapper">
             <div id="WebBackWrapper"></div>
             <div id="Jonny" class="letterSet">
@@ -72,34 +69,44 @@
               <img src="{!! route('home') . '/images/dotNet.svg' !!}" id="dotNet"></img>
             </a>
           </div>
-          
-          <div id="contentWrapper">          
-            <div id="menuWrapper">
-              <div id="menu">      
-                @foreach(
-                  DB::table('pages')
-                    ->join('types', 'pages.type_id', '=', 'types.id')
-                    ->where('type', '=', 'default')
-                    ->get()
-                  as $page)
-                  <a href="{{ route('page', [$page->slug]) }}" class="menuLink">
-                      <div id="{{ str_replace(" ", "_", $page->title) }}"
-                           class="menuItem">
-                        {{ $page->title }}                              
-                      </div>                       
-                  </a>
-                  
-                @endforeach
-              </div>              
-            </div>     
-            <div id="pageBody">   
-              <div id="pageContent">     
-              @yield('content')
+        </div>
+        <div id="contentWrapper">          
+          <div id="menuWrapper">
+            <div id="menu">      
+              @foreach(
+                DB::table('pages')
+                  ->join('types', 'pages.type_id', '=', 'types.id')
+                  ->where('type', '=', 'default')
+                  ->get()
+                as $page)
+                <a href="{{ route('page', [$page->slug]) }}" class="menuLink">
+                    <div id="{{ str_replace(" ", "_", $page->title) }}"
+                         class="menuItem">
+                      {{ $page->title }}                              
+                    </div>                       
+                </a>                
+              @endforeach
+            </div>  
+            <button type="button" class="navbar-toggle" id="navMenu">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>                        
+            </button>
+          </div>                                            
+          <div id="pageBody">               
+            @yield('content')
+            
+            <div class="Collapsible">
+              <div class="collapser" id="test_collapser">expand</div>
+              <div class="collapsee collapsed" id="test_collapsee">
+                I am some text in a collapsible divider tag!!<br />
+                I am some more text</br />
               </div>
-            </div>      
-          </div>             
-        </div>         
-      </div>  
-
+            </div>
+          </div>   
+        </div>    
+      </div>       
+    </div>  
+    <script type="text/javascript" src="{!! route('home') . '/scripts/core.js' !!}"></script>    
   </body>
 </html>

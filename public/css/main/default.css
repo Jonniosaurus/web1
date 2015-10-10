@@ -1,8 +1,12 @@
 body {
   font-family: freight-sans-pro, Calibri, Tahoma, Arial,  MS Serif, calibri, arial;
   text-rendering: optimizelegibility;
+  float:left;
+  background-color:white;
+  background-attachment: fixed;   
+  width: 100%;  
 }
-
+/* TITLE */
 .homeLink {
   text-decoration: none;
   padding-left: 3.5%;
@@ -22,7 +26,6 @@ body {
   left:-3.5%;
   width: 100%;  
 }
-
 .CapsheadLetter {  padding-top: 6%; vertical-align: baseline; z-index: 30; } 
 .headLetter {   vertical-align: baseline; z-index: 30; }
 #J { width:13%; }
@@ -34,6 +37,8 @@ body {
 #R, #S{ width: 10% }
 #D2 { width: 9%; }
 #dotNet {z-index: 30; }
+
+/* MENUS */
 #menuWrapper {
   position:relative;
   float:left;
@@ -47,7 +52,6 @@ body {
   z-index:10;
   width:100%;
 }
-
 .menuItem{    
   position:relative;
   display:inline;
@@ -56,19 +60,31 @@ body {
   border: 0px;  
   font-size: 70%;
   font-weight: 300;
-  min-width:25%;
-  margin-right:0.1%;
-  margin-left:0.1%;
+  min-width:15%;
+  text-align: center;
 }
 .menuLink {
   text-decoration: none !important;    
 }
+#navMenu{
+  display:none;    
+}
+.dropdown{
+  height:40px;    
+}
+
+/* MAIN CONTENT HANDLER */
+#contentWrapper{  
+  position: relative;
+  float:left;
+  width:100%;  
+  text-align:center;    
+}
 #pagebody, #footer{
   position:absolute;
   margin-top:10px;
-  text-align:left;
-  left:0%;
- 
+  text-align:center;  
+  
 }
 #pageTitle {    
   font-size: 18pt;
@@ -85,4 +101,40 @@ body {
 .left{
   position:relative;
   float:left;
+}
+
+/* CONTENT DEFINITIONS */
+/* Cartoons */
+.cartoon, .paragraph {
+  margin-top:20px;   
+}
+.park{
+  position:relative;   
+  margin-left: -2%;
+}
+
+/* Code Blocks */
+pre {
+    position:relative;
+    text-align: left;
+    width:100%;
+}
+.codeOdd {
+    position:relative;
+    width:100%
+    
+}
+.codeEven {
+    position:relative;
+    background-color:lightgray;
+    width:100%;
+}
+
+/* Collapsible */
+.Collapsible{
+    background-color:lightyellow;    
+}
+.collapsed{
+    position:relative;
+      
 }

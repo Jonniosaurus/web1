@@ -9,12 +9,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="744.09448819"
-   height="1052.3622047"
+   width="442.66"
+   height="449.00781"
    id="svg4343"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="New document 4">
+   sodipodi:docname="park.svg">
   <defs
      id="defs4345" />
   <sodipodi:namedview
@@ -24,17 +24,34 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.35"
-     inkscape:cx="375"
-     inkscape:cy="520"
+     inkscape:zoom="0.7"
+     inkscape:cx="437.02601"
+     inkscape:cy="341.92677"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
-     inkscape:window-width="472"
-     inkscape:window-height="415"
+     showgrid="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1176"
      inkscape:window-x="1920"
      inkscape:window-y="24"
-     inkscape:window-maximized="0" />
+     inkscape:window-maximized="1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:object-nodes="true"
+     inkscape:object-paths="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3477"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true"
+       spacingx="1.1px"
+       originx="2.7px"
+       originy="-1.1px" />
+  </sodipodi:namedview>
   <metadata
      id="metadata4348">
     <rdf:RDF>
@@ -43,16 +60,17 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(-161.528,-262.14402)">
     <g
-       transform="translate(3476.2328,1183.2223)"
+       transform="translate(3476.2746,1183.3301)"
        id="g5954">
       <g
          id="g5105">
