@@ -97,8 +97,38 @@
             @yield('content')
             
             <div class="Collapsible">
-              <div class="collapser" id="test_collapser">expand</div>
-              <div class="collapsee collapsed" id="test_collapsee">
+                <div class="collapser" id="test_collapser" ><strong>Click to Expand</strong></div>
+              <div class="collapsee" id="test_collapsee">
+                I am some text in a collapsible divider tag!I am some text in a collapsible divider tag!I am some text in a collapsible divider tag!I am some text in a collapsible divider tag!I am some text in a collapsible divider tag!!<br />
+                I am some more text</br />
+                I am some text in a collapsible divider tag!!<br />
+                I am some more text</br />
+                I am some text in a collapsible divider tag!!<br />
+                I am some more text</br />
+                I am some text in a collapsible divider tag!!<br />
+                I am some more text</br />
+                I am some text in a collapsible divider tag!!<br />
+                I am some more text</br />
+                I am some text in a collapsible divider tag!!<br />
+                I am some more text</br />
+                I am some text in a collapsible divider tag!!<br />
+                I am some more text</br />
+                I am some text in a collapsible divider tag!!<br />
+                I am some more text</br />
+                I am some text in a collapsible divider tag!!<br />
+                I am some more text</br />
+                I am some text in a collapsible divider tag!!<br />
+                I am some more text</br />
+                I am some text in a collapsible divider tag!!<br />
+                I am some more text</br />
+                I am some text in a collapsible divider tag!!<br />
+                I am some more text</br />
+                I am some text in a collapsible divider tag!!<br />
+                I am some more text</br />
+                I am some text in a collapsible divider tag!!<br />
+                I am some more text</br />
+                I am some text in a collapsible divider tag!!<br />
+                I am some more text</br />
                 I am some text in a collapsible divider tag!!<br />
                 I am some more text</br />
               </div>

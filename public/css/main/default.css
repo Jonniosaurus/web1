@@ -131,10 +131,23 @@ pre {
 }
 
 /* Collapsible */
-.Collapsible{
-    background-color:lightyellow;    
+.collapser{
+    margin-top: 20px;
+    background-color: rgb(117,218,208);
+    padding-top: 5px;
+    padding-bottom: 5px;
+    cursor: pointer;
+    color:white;
+    font-size:110%;
+    background-repeat: no-repeat;
+    background-position: 5px center;
+    background-image : url("/images/pointerRight.svg");
 }
-.collapsed{
+.collapsee{
     position:relative;
-      
+    text-align: left;
+    border-top: 4px solid #333;
+    border-bottom: 4px solid #333;
+    background-color:lightyellow;        
+    color:#333;
 }

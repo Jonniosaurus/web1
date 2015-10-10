@@ -71,7 +71,7 @@ var Core = {
     var a, b;
     for (a = 0, b = 1, result; 1; a += b, b /= 2)
       if (progress >= (7 - 4 * a) / 11)
-        return -Math.pow((11 - 6 * a - 11 * progress) / 4, 2) + Math.pow(b, 2)
+        return -Math.pow((11 - 6 * a - 11 * progress) / 4, 2) + Math.pow(b, 2);
   },
 }
 
@@ -92,7 +92,7 @@ var Behaviour = {
     },
     
     expandMenuItem : function (delta, howMuch, elem) {          
-      var fontSize = elem.style.fontSize     
+      var fontSize = elem.style.fontSize;  
       // expand text.
       elem.style.fontSize = 
         70 + Math.round(howMuch * (delta)) + '%';  
@@ -118,7 +118,7 @@ var Behaviour = {
       // cool colour.
       elem.style.backgroundColor = 
         'rgb(' + 
-        (162 - Math.round(45 * (delta))) + ',' + 
+         (162 - Math.round(45 * (delta))) + ',' + 
         (236 - Math.round(18 * (delta))) + ',' + 
         (192 + Math.round(16 * (delta))) + ')';
 
@@ -130,11 +130,29 @@ var Behaviour = {
       }
     },
     
-    expandCollapsee : function (delta, howMuch, elem) {                
-      // expand text.
+    // handles expanding and collapsing div holders.
+    collapseeHeight : '', // a string literal holding Json data at runtime for managing collapsibles    
+    expandCollapsee : function (delta, howMuch, elem) {                      
       elem.style.height = (0 + Math.round(howMuch * (delta))) + 'px';                  
     },
-    
+    collapseCollapsee : function (delta, howMuch, elem) {                      
+      var height = JSON.parse(Behaviour.collapseeHeight)[elem.id];
+      elem.style.height = (height - Math.round(howMuch * (delta))) + 'px';                  
+    },
+    elementGlow : function(delta, howMuch, elem) {
+      elem.style.backgroundColor = 
+        'rgb(' + 
+        (117 + Math.round(45 * (delta))) + ',' + 
+        (218 + Math.round(18 * (delta))) + ',' + 
+        (208 - Math.round(16 * (delta))) + ')';
+    },
+    elementDim : function(delta, howMuch, elem) {
+      elem.style.backgroundColor = 
+        'rgb(' + 
+        (162 - Math.round(45 * (delta))) + ',' + 
+        (236 - Math.round(18 * (delta))) + ',' + 
+        (192 + Math.round(16 * (delta))) + ')';
+    }
 }
 
 // -------------------------------------------------
@@ -148,35 +166,41 @@ function Local(GlobalObject) {
       this.animateTitle();            
       ///this.floatClouds();
       
-      // --------------------------
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
       // Other Event Listeners.
-      var i = 0, ii = 0;
+      var i = 0, ii = 0; // optimisation suggests the declaration should come before the loops.
       // 1. standard menus
       var menuItems = this.get.class('menuItem');
       var events = ['move', 'over', 'out'];
       for (i = 0; i < menuItems.length; i++) 
         for (ii in events) 
           this.set.event(menuItems.item(i), 'mouse' + events[ii], this.menuEvent);
-      
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
       // 2. nav menu for mobile 
       this.set.event(this.get.id('navMenu'), 'click', this.navMenuEvent);
-      
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
       // 3. collapsible pains
-      var collapsers = this.get.class('collapser');
+      var collapsers = this.get.class('collapser'); // as above, declared before the loop.
       var collapsee;
       for (i = 0; i < collapsers.length; i++) {
         this.set.event(collapsers.item(i), 'click', this.collapsibleEvent);        
         collapsee = this.get.id(collapsers.item(i).id.replace('_collapser', '_collapsee'));
-        // assign initial dynamic offset variable to new property
-        collapsers.item(i).initHeight = collapsers.item(i).offsetHeight;
+        // assign initial dynamic offset variable to Json string
+        Behaviour.collapseeHeight += 
+          (i == 0 ? '{"' : ',"') +  // apply brace at start and comma thereafter prior to variable
+          collapsee.id + '":"' +    // KEY
+          (collapsee.offsetHeight ? 500 : collapsee.offsetHeight ) + '"'; // VALUE (max 500;
+        // now we have the collapsee's default height, we can hide the text.
         collapsee.style.height = '0px';
-        collapsee.style.overflow = 'hidden';
+        collapsee.style.overflowY = 'scroll';
+        collapsee.style.overflowX = 'initial';
       }
-        
-      
+      // close off the Json tag (where applicable);
+      Behaviour.collapseeHeight += Behaviour.collapseeHeight ? '}' : '';  
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     },
             
-    // Bounce the title letters.
+    // Bounce the title letters.  still inherits from Core so can use this.
     this.animateTitle = function () {
       var i, ii;
       var letters = [['J', 'O', 'N1', 'N2', 'Y'], ['E', 'D1', 'W', 'A', 'R', 'D2', 'S']];
@@ -192,6 +216,7 @@ function Local(GlobalObject) {
             true);
     }
     
+    // all other events are copied to caller obj so do not have access to Core.
     this.menuEvent = function (e) {       
       switch(e.type.replace('on', '')) {
         case 'mousemove':
@@ -232,19 +257,52 @@ function Local(GlobalObject) {
     
     this.collapsibleEvent = function () {
       var collapsee = Core.get.id(this.id.replace('_collapser', '_collapsee'));
-      if (collapsee.className.search('collapsed') > -1) {
-         Core.animate(
+      var height = JSON.parse(Behaviour.collapseeHeight)[collapsee.id];      
+      switch (collapsee.style.height) {
+        case '0px':
+          Core.animate(
             collapsee,
-            40, // TODO, write some JSON to manage this.
+            height, 
             0.0000001,
-            40 * 5, // TODO speed = height * 5 for normativity's sake.
+            height, 
             Core.linear,
-            Behaviour.expandCollapsee);         
+            Behaviour.expandCollapsee);                
+            
+          Core.animate(
+            this,
+            20,
+            0.0000001,
+            height,
+            Core.linear,
+            Behaviour.elementGlow);  
+            this.innerHTML = this.innerHTML.replace('Expand', 'Collapse');
+            this.style.backgroundImage = 'url("/images/pointerDown.svg")';
+          break;
+          
+        case height + 'px':
+          Core.animate(
+            collapsee,
+            height,
+            0.0000001,
+            height, 
+            Core.linear,
+            Behaviour.collapseCollapsee);           
+          
+          Core.animate(
+            this,
+            20,
+            0.0000001,
+            height,
+            Core.linear,
+            Behaviour.elementDim); 
+            this.innerHTML = this.innerHTML.replace('Collapse', 'Expand');
+            this.style.backgroundImage = 'url("/images/pointerRight.svg")';
+          break;
       }
     }
   }
 
-
+  // allow the Action variable below to inherit from GlobalObject.  This allows for the load event to use "this" rather than "Core".
   local.prototype = GlobalObject;
   
   return new local();
