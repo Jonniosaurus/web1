@@ -75,7 +75,7 @@ var Core = {
   },
 }
 
-
+// public static class Behaviour
 var Behaviour = {  
     /* Step handlers.
      * Control the actual pixel-by-pixel rendering
@@ -189,7 +189,7 @@ function Local(GlobalObject) {
         Behaviour.collapseeHeight += 
           (i == 0 ? '{"' : ',"') +  // apply brace at start and comma thereafter prior to variable
           collapsee.id + '":"' +    // KEY
-          (collapsee.offsetHeight ? 500 : collapsee.offsetHeight ) + '"'; // VALUE (max 500;
+          (collapsee.offsetHeight > 500 ? 500 : collapsee.offsetHeight ) + '"'; // VALUE (max 500;
         // now we have the collapsee's default height, we can hide the text.
         collapsee.style.height = '0px';
         collapsee.style.overflowY = 'scroll';
@@ -260,14 +260,7 @@ function Local(GlobalObject) {
       var height = JSON.parse(Behaviour.collapseeHeight)[collapsee.id];      
       switch (collapsee.style.height) {
         case '0px':
-          Core.animate(
-            collapsee,
-            height, 
-            0.0000001,
-            height, 
-            Core.linear,
-            Behaviour.expandCollapsee);                
-            
+          // 1. perform transition on header component.
           Core.animate(
             this,
             20,
@@ -277,6 +270,14 @@ function Local(GlobalObject) {
             Behaviour.elementGlow);  
             this.innerHTML = this.innerHTML.replace('Expand', 'Collapse');
             this.style.backgroundImage = 'url("/images/pointerDown.svg")';
+          // 2. expand div
+          Core.animate(
+            collapsee,
+            height, 
+            0.0000001,
+            height, 
+            Core.linear,
+            Behaviour.expandCollapsee);                                      
           break;
           
         case height + 'px':

@@ -2,10 +2,16 @@
 <html>
   <head>
     <title>JonnyEdwards.net</title>        		        
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>
     
-    
-    
+    <script>tinymce.init({
+      selector:'textarea',
+      @if (Auth::user()->is_admin)
+      // only allow admin ability to add links etc.
+      plugins: ["link anchor table contextmenu paste code"]
+      @endif
+      });</script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">   
     <link rel="stylesheet" href="/css/dist/css/bootstrap-select.css">            
     <?php 
     // Build title css sheets.
@@ -94,46 +100,7 @@
             </button>
           </div>                                            
           <div id="pageBody">               
-            @yield('content')
-            
-            <div class="Collapsible">
-                <div class="collapser" id="test_collapser" ><strong>Click to Expand</strong></div>
-              <div class="collapsee" id="test_collapsee">
-                I am some text in a collapsible divider tag!I am some text in a collapsible divider tag!I am some text in a collapsible divider tag!I am some text in a collapsible divider tag!I am some text in a collapsible divider tag!!<br />
-                I am some more text</br />
-                I am some text in a collapsible divider tag!!<br />
-                I am some more text</br />
-                I am some text in a collapsible divider tag!!<br />
-                I am some more text</br />
-                I am some text in a collapsible divider tag!!<br />
-                I am some more text</br />
-                I am some text in a collapsible divider tag!!<br />
-                I am some more text</br />
-                I am some text in a collapsible divider tag!!<br />
-                I am some more text</br />
-                I am some text in a collapsible divider tag!!<br />
-                I am some more text</br />
-                I am some text in a collapsible divider tag!!<br />
-                I am some more text</br />
-                I am some text in a collapsible divider tag!!<br />
-                I am some more text</br />
-                I am some text in a collapsible divider tag!!<br />
-                I am some more text</br />
-                I am some text in a collapsible divider tag!!<br />
-                I am some more text</br />
-                I am some text in a collapsible divider tag!!<br />
-                I am some more text</br />
-                I am some text in a collapsible divider tag!!<br />
-                I am some more text</br />
-                I am some text in a collapsible divider tag!!<br />
-                I am some more text</br />
-                I am some text in a collapsible divider tag!!<br />
-                I am some more text</br />
-                I am some text in a collapsible divider tag!!<br />
-                I am some more text</br />
-              </div>
-            </div>
-          </div>   
+            @yield('content')      
         </div>    
       </div>       
     </div>  
