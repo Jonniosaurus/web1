@@ -35,7 +35,7 @@
             '<div class="collapser" id="' . $content->wrapper_id . '_collapser"><strong>Click to Expand</strong></div>' .
             '<div class="collapsee" id="' . $content->wrapper_id . '_collapsee">' .
               $content->content .
-            '</div></div></div>';
+            '</div></div>';
         break;
       case 'image':
         echo '<div>' . 

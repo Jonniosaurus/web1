@@ -171,7 +171,7 @@ function Local(GlobalObject) {
       var i = 0, ii = 0; // optimisation suggests the declaration should come before the loops.
       // 1. standard menus
       var menuItems = this.get.class('menuItem');
-      var events = ['move', 'over', 'out'];
+      var events = ['move', 'enter', 'leave'];
       for (i = 0; i < menuItems.length; i++) 
         for (ii in events) 
           this.set.event(menuItems.item(i), 'mouse' + events[ii], this.menuEvent);
@@ -209,7 +209,7 @@ function Local(GlobalObject) {
           this.animate(// see parameters required in Global
             letters[i][ii],
             4,
-            0.0000001,
+            0.1,
             Math.floor((Math.random() * (700)) + (650)), // 1000 = 1 second, add extra 500 for surname as DOM renders it faster.
             this.linear,
             Behaviour.oscillateTitle, // call oscillation animation handler in the 'options' scope
@@ -219,24 +219,23 @@ function Local(GlobalObject) {
     // all other events are copied to caller obj so do not have access to Core.
     this.menuEvent = function (e) {       
       switch(e.type.replace('on', '')) {
-        case 'mousemove':
-          if (parseInt(this.style.fontSize.replace('%', '')) != 90) return;
-        case 'mouseover':                    
+
+        case 'mouseenter':          
           Core.animate(
             this,
             20,
-            0.0000001,
-            100,
+            0.1,
+            150,
             Core.linear,
-            Behaviour.expandMenuItem);          
+            Behaviour.expandMenuItem);                    
           break;
-        case 'mouseout':           
+        case 'mouseleave':                     
           Core.animate(
             this,
             20,
-            0.0000001,
-            450,
-            Core.powerOfN,
+            0.1,
+            250,
+            Core.linear,
             Behaviour.contractMenuItem)
           break;
       }        

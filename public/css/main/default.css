@@ -52,7 +52,7 @@ body {
   z-index:10;
   width:100%;
 }
-.menuItem{    
+.menuItem {    
   position:relative;
   display:inline;
   color:rgb(10, 161, 121);	
@@ -60,8 +60,9 @@ body {
   border: 0px;  
   font-size: 70%;
   font-weight: 300;
-  min-width:15%;
-  text-align: center;
+  width:15%;
+  text-align: center !important;
+  
 }
 .menuLink {
   text-decoration: none !important;    
@@ -121,12 +122,13 @@ pre {
 }
 .codeOdd {
     position:relative;
+    background-color:lightblue;
     width:100%
     
 }
 .codeEven {
     position:relative;
-    background-color:lightgray;
+    background-color:lightcyan;
     width:100%;
 }
 

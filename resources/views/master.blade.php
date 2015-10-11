@@ -6,9 +6,8 @@
     
     <script>tinymce.init({
       selector:'textarea',
-      @if (Auth::user()->is_admin)
-      // only allow admin ability to add links etc.
-      plugins: ["link anchor table contextmenu paste code"]
+      @if (Auth::user() && Auth::user()->is_admin)      
+        plugins: ["image link anchor table contextmenu paste code"]
       @endif
       });</script>
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">   
@@ -99,9 +98,10 @@
               <span class="icon-bar"></span>                        
             </button>
           </div>                                            
-          <div id="pageBody">               
-            @yield('content')      
-        </div>    
+          <div id="pageBody">                           
+            @yield('content')                                               
+          </div> 
+        </div>
       </div>       
     </div>  
     <script type="text/javascript" src="{!! route('home') . '/scripts/core.js' !!}"></script>    
