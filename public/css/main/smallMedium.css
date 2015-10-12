@@ -1,14 +1,13 @@
 #WebBackWrapper {
-  position: absolute;
-  
+  position: absolute;  
   width:97%;
 }
 #Jonny{
   position: relative;  
   margin-left:15px;
   float:left;
-  width: 300px;
-  margin-top:20px;    
+  width: 220px;
+  margin-top:2px;    
   display:inline;
   height:150px;  
 }
@@ -19,10 +18,10 @@
 #Edwards{
   position:absolute;
   float:left;
-  width:300px;
-  left: 220px;
+  width:220px;
+  left: 165px;
   height:150px;
-  margin-top:-107px;
+  margin-top:-90px;
   display:inline;   
   
 }
@@ -35,8 +34,9 @@
 }
 #WebBack {
   position:absolute;
-  height:135px;
+  height:100px;
   width:100%;
+  margin-top:-13px;
   margin-left: 3.5%;  
 }
 /*
@@ -46,7 +46,7 @@
   position:relative;
   float:left;
   width: 100%;
-  margin-top:-25px;
+  margin-top:-40px;
   background-color: rgb(117,218,208);
 }
 #menuUnderstroke {
@@ -67,7 +67,7 @@
   position: relative;  
   float:left;
   width:100%;
-  top: -18px;
+  top: -32px;
 }
 .pageTitle{
   position:absolute;

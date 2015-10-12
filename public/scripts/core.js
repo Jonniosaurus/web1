@@ -209,7 +209,7 @@ function Local(GlobalObject) {
           this.animate(// see parameters required in Global
             letters[i][ii],
             4,
-            0.1,
+            0.00000000000001,
             Math.floor((Math.random() * (700)) + (650)), // 1000 = 1 second, add extra 500 for surname as DOM renders it faster.
             this.linear,
             Behaviour.oscillateTitle, // call oscillation animation handler in the 'options' scope

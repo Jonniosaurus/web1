@@ -5,9 +5,9 @@
   <?php
     switch($content->ofType($content->def_id)) {
       case 'cartoon':
-        echo HTML::image(route('home') . '/images/cartoons/' . $content->content . '.svg', 
+        echo '<div>' . HTML::image(route('home') . '/images/cartoons/' . $content->content . '.svg', 
                     $content->wrapper_id,
-                    ['id'=>$content->wrapper_id, 'class'=>'cartoon ' . $content->wrapper_class]);
+                    ['id'=>$content->wrapper_id, 'class'=>'cartoon ' . $content->wrapper_class]) . '</div>';
         break;
       
       case 'paragraph':  

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>JonnyEdwards.net</title>        		        
+    <title>JonnyEdwards.net</title>    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <script src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>
     
     <script>tinymce.init({
@@ -14,20 +15,23 @@
     <link rel="stylesheet" href="/css/dist/css/bootstrap-select.css">            
     <?php 
     // Build title css sheets.
-    $titleCSS = public_path() . '/css/main/';
+    $myCSS = public_path() . '/css/main/';
     $relRoute = route('home') . '/css/main/';
     $media;
-    foreach(File::allFiles($titleCSS) as $file) {
+    foreach(File::allFiles($myCSS) as $file) {
       $media = false;
       switch(str_replace('.css', '', ($file = $file->getFilename()))) {
         case 'noDotNet':
           $media = 'screen and (max-width: 350px)';
           break;
         case 'small':
-          $media = 'screen and (max-width: 550px)';
-          break;
+          $media = 'screen and (max-width: 450px)';
+          break;        
         case 'medium':
           $media = 'screen and (min-width: 550px) and (max-width: 850px)';
+          break;
+        case 'smallMedium':
+          $media = 'screen and (min-width: 450px) and (max-width: 550px)';
           break;
         case 'large':
           $media = 'screen and (min-width: 850px)';
@@ -56,8 +60,7 @@
                         ['id'=>$letter, 'class'=>($letter == 'J' ? 'CapsheadLetter' : 'headLetter jonny')]
                         ) 
                   !!}
-                @endforeach                                                    
-                <img src="{!! route('home') . '/images/webBack.svg' !!}" id="WebBack"></img>        
+                @endforeach                                                                    
               </a>     
             </div>        
           </div>            
@@ -71,9 +74,10 @@
                       ['id'=>$letter, 'class'=>($letter == 'E' ? 'CapsheadLetter' : 'headLetter jonny')]
                       ) !!}
               @endforeach              
-              <img src="{!! route('home') . '/images/dotNet.svg' !!}" id="dotNet"></img>
+              <img src="{!! route('home') . '/images/dotNet.svg' !!}" id="dotNet"/>
             </a>
           </div>
+          <img src="{!! route('home') . '/images/webBack.svg' !!}" id="WebBack" />
         </div>
         <div id="contentWrapper">          
           <div id="menuWrapper">

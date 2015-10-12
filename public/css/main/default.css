@@ -7,16 +7,14 @@ body {
   width: 100%;  
 }
 /* TITLE */
-.homeLink {
-  text-decoration: none;
-  padding-left: 3.5%;
-}
+.homeLink,
 .homeLink:hover {
   text-decoration: none;    
 }
 .CapsheadLetter, .headLetter{
   position:relative;
   margin-top:-28%;
+  
 }
 #WebBack {
   position: relative;

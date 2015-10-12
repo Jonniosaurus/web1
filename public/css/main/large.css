@@ -4,20 +4,21 @@
 }
 #WebBackWrapper {
   position: absolute;
-  margin-top: 60px;
-  width:100%;
+  margin-top: 60px;  
 }
 #WebBack {
-  margin-top:-28%;
-  width:180%;
+  margin-top:-140px;
+  
+  width:92.5%;
+  
 }
 #Jonny{
   position: relative;  
   float:left;
-  width: 50%;
-  top:-5px;    
+  width: 50%;   
   display:inline;
-  margin-right:-19%;   
+  height:150px;
+  margin-right: -18%;
 }
 #JonnyLink{
   position:relative;
@@ -26,10 +27,11 @@
 #Edwards{
   position:relative;
   float:left;
-  width:50%;
-  margin-top: -22%;
+  width:50%;  
+  margin-top: -21.5%;
   height:150px;
   display:inline;   
+  
 }
 #dotNet, #dotNetWrapper{
   position:absolute;
@@ -43,10 +45,14 @@
 */
 #menu {
   position:relative;
-  top: -20px;    
+  
+  float:left;
 }
 #menuWrapper {  
+  position:relative;
+  float:left;
   width: 100%;
+  top: -15px;    
   z-index: 10;
 }
 .menuItem {
