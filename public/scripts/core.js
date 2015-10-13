@@ -235,7 +235,7 @@ function Local(GlobalObject) {
             20,
             0.1,
             250,
-            Core.linear,
+            Core.powerOfN,
             Behaviour.contractMenuItem)
           break;
       }        

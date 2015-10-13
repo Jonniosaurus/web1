@@ -5,12 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <script src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>
     
+        
     <script>tinymce.init({
       selector:'textarea',
       @if (Auth::user() && Auth::user()->is_admin)      
         plugins: ["image link anchor table contextmenu paste code"]
       @endif
       });</script>
+    
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">   
     <link rel="stylesheet" href="/css/dist/css/bootstrap-select.css">            
     <?php 
@@ -28,13 +30,13 @@
           $media = 'screen and (max-width: 450px)';
           break;        
         case 'medium':
-          $media = 'screen and (min-width: 550px) and (max-width: 850px)';
+          $media = 'screen and (min-width: 550px) and (max-width: 900px)';
           break;
         case 'smallMedium':
           $media = 'screen and (min-width: 450px) and (max-width: 550px)';
           break;
         case 'large':
-          $media = 'screen and (min-width: 850px)';
+          $media = 'screen and (min-width: 900px)';
           break;
       }
 
