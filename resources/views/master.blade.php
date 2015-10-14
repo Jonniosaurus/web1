@@ -3,16 +3,13 @@
   <head>
     <title>JonnyEdwards.net</title>    
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <script src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>
-    
-        
+    @if (Auth::user() && Auth::user()->is_admin)  
+    <script src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>           
     <script>tinymce.init({
-      selector:'textarea',
-      @if (Auth::user() && Auth::user()->is_admin)      
-        plugins: ["image link anchor table contextmenu paste code"]
-      @endif
+        selector:'.mce-enabled',          
+        plugins: ["image link anchor table contextmenu paste code"]      
       });</script>
-    
+    @endif    
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">   
     <link rel="stylesheet" href="/css/dist/css/bootstrap-select.css">            
     <?php 
@@ -92,7 +89,8 @@
                 as $page)
                 <a href="{{ route('page', [$page->slug]) }}" class="menuLink">
                     <div id="{{ str_replace(" ", "_", $page->title) }}"
-                         class="menuItem">
+                         class="menuItem"
+                         style="z-index: 10;">
                       {{ $page->title }}                              
                     </div>                       
                 </a>                
@@ -105,11 +103,20 @@
             </button>
           </div>                                            
           <div id="pageBody">                           
-            @yield('content')                                               
+            @yield('content')
+            <div class="footer">
+              <span class="left">Images &#169; 2015 JMEdwards</span>
+              <span class="right"><a href="{{ route('page', [$page->slug]) }}">Contact</a></span>
+            </div>
           </div> 
+          
         </div>
       </div>       
-    </div>  
+    </div>
+
     <script type="text/javascript" src="{!! route('home') . '/scripts/core.js' !!}"></script>    
+    @if (Auth::user() && Auth::user()->is_admin)
+    <script type="text/javascript" src="{!! route('home') . '/scripts/DropDown.js' !!}"></script>    
+    @endif
   </body>
 </html>

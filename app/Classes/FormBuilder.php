@@ -32,7 +32,7 @@ class FormBuilder{
         : null;    
   }
   
-  private function parseFieldValue($fieldKey, $fieldValue, $data) {    
+  private function parseFieldValue($fieldKey, $fieldValue, $data) {     
     return // confirm a value to populate (where applicable)
       isset($data) && !$this->hasAttribute($fieldValue, 'FieldOptionset') // has a specific dataset been passed in?
         ? $data[$fieldKey] 
@@ -64,9 +64,8 @@ class FormBuilder{
       $localOutput .= 
         Form::open(['route'=>$this->goto, 'method' => $this->action, 'role'=>'form']) .
         $this->errorHandler($errors); // handle error messages
-      $i = 0;     
-      
-      foreach ($this->fields as $fieldKey => $fieldValue) {
+      $i = 0;                 
+      foreach ($this->fields as $fieldKey => $fieldValue) {        
         $localOutput .= 
           '<div class="form-group ' . ($errors->has($fieldKey) ? 'has-error' : '') . '">' .        
           // 2.) add a field label         
@@ -115,9 +114,16 @@ class FormBuilder{
     $localOutput = '';    
     // confirm what type of field we are rendering.
     $fieldType = $this->parseFieldType($fieldValue);
+    
+    // does form have a custom class?
+    $customClass = $this->hasAttribute($fieldValue, 'FieldClass');
+    
+    $fieldClass = [
+      'class'=> 'form-control' . ($customClass ? ' ' . $customClass : ''), 
+      'id' =>  'Form_' . $fieldKey];
+    
     // confirm a value to populate (where applicable)
-    $fieldValue = $this->parseFieldValue($fieldKey, $fieldValue, $data);            
-    $fieldClass = ['class'=> 'form-control', 'id' =>  'Form_' . $fieldKey];
+    $fieldValue = $this->parseFieldValue($fieldKey, $fieldValue, $data);               
       switch($fieldType){
         case 'text':            
           $localOutput .= Form::text(
@@ -125,7 +131,7 @@ class FormBuilder{
             $fieldValue, 
             $fieldClass);
           break; 			
-        case 'textarea':
+        case 'textarea':          
           $localOutput .= Form::textarea(
             $fieldKey,
             $fieldValue, 

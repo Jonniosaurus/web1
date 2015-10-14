@@ -6,6 +6,7 @@ body {
   background-attachment: fixed;   
   width: 100%;  
 }
+
 /* TITLE */
 .homeLink,
 .homeLink:hover {
@@ -43,12 +44,12 @@ body {
   margin-top:10px;
   padding-top:0.3%;
   padding-bottom:0.3%;
+  
 }
 #menu {  
   font-size: 18pt;
-  position: relative;
-  z-index:10;
-  width:100%;
+  position: relative;   
+  width:100%;  
 }
 .menuItem {    
   position:relative;
@@ -59,9 +60,9 @@ body {
   font-size: 70%;
   font-weight: 300;
   width:15%;
-  text-align: center !important;
-  
+  text-align: center !important;  
 }
+
 .menuLink {
   text-decoration: none !important;    
 }
@@ -95,17 +96,39 @@ body {
   
 }
 #pageContent{
-  position:relative;
+  position:relative;  
+}
+
+/* FOOTER */
+.footer {
+  position:fixed;
+  width:100%;
+  left:0px;
+  bottom:0px;
+  background-color: #CEF3C0; 
 }
 .left{
   position:relative;
   float:left;
+  text-align: left;
+  display:inline;
+  width: 75%;
+  margin-left:2px;
 }
-
+.right{
+  position:relative;
+  text-align:right;  
+  float:right;
+  margin-right:2px;
+}
 /* CONTENT DEFINITIONS */
 /* Cartoons */
 .cartoon, .paragraph {
-  margin-top:20px;   
+  margin-top:20px;  
+  margin-bottom:20px;
+}
+.bottomCartoon {
+  margin-bottom:50px;   
 }
 .park{
   position:relative;   

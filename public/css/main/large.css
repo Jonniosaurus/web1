@@ -7,10 +7,8 @@
   margin-top: 60px;  
 }
 #WebBack {
-  margin-top:-140px;
-  
-  width:92.5%;
-  
+  margin-top:-140px;  
+  width:92.5%;  
 }
 #Jonny{
   position: relative;  
@@ -19,6 +17,7 @@
   display:inline;
   height:150px;
   margin-right: -18%;
+  z-index:35;
 }
 #JonnyLink{
   position:relative;
@@ -31,7 +30,7 @@
   margin-top: -21.5%;
   height:150px;
   display:inline;   
-  
+  z-index: 35;
 }
 #dotNet, #dotNetWrapper{
   position:absolute;
@@ -53,16 +52,15 @@
   float:left;
   width: 100%;
   top: -15px;    
-  z-index: 10;
+  
 }
 .menuItem {
   position:relative;
   background-color: rgb(117,218,208);
-  color: white;  
-  padding: 5px;
-  padding-top: 25px;  
-  margin-right:0.5%;
-  margin-left:0.5%;
+  color: white;    
+  padding: 50px 25px 10px 25px;  
+  margin-right:0.7%;
+  margin-left:0.7%;  
 }
 .menuItem:hover{  
   text-decoration: none !important;
