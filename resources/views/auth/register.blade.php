@@ -2,5 +2,6 @@
 @extends('master')
 
 @section('content')
+<h1>Register</h1>
 {!! $forms->build($errors) !!}
 @stop

@@ -11,7 +11,7 @@
           'page.edit', 
           [$page->slug]),
           'back to ' . $page->slug . '/edit',
-          ['class'=>'menuItem', 'title'=>$content]
+          ['title'=>$content]
     ) 
   !!}
 </div>

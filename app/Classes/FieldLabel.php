@@ -1,4 +1,6 @@
-<?php namespace web1\Classes;
+<?php 
+
+namespace web1\Classes;
 
 /**
  * If a Different label from the Db column name is required.

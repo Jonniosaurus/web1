@@ -6,17 +6,16 @@ body {
   background-attachment: fixed;   
   width: 100%;  
 }
+
 /* TITLE */
-.homeLink {
-  text-decoration: none;
-  padding-left: 3.5%;
-}
+.homeLink,
 .homeLink:hover {
   text-decoration: none;    
 }
 .CapsheadLetter, .headLetter{
   position:relative;
   margin-top:-28%;
+  
 }
 #WebBack {
   position: relative;
@@ -45,14 +44,14 @@ body {
   margin-top:10px;
   padding-top:0.3%;
   padding-bottom:0.3%;
+  
 }
 #menu {  
   font-size: 18pt;
-  position: relative;
-  z-index:10;
-  width:100%;
+  position: relative;   
+  width:100%;  
 }
-.menuItem{    
+.menuItem {    
   position:relative;
   display:inline;
   color:rgb(10, 161, 121);	
@@ -60,9 +59,10 @@ body {
   border: 0px;  
   font-size: 70%;
   font-weight: 300;
-  min-width:15%;
-  text-align: center;
+  width:15%;
+  text-align: center !important;  
 }
+
 .menuLink {
   text-decoration: none !important;    
 }
@@ -96,17 +96,39 @@ body {
   
 }
 #pageContent{
-  position:relative;
+  position:relative;  
+}
+
+/* FOOTER */
+.footer {
+  position:fixed;
+  width:100%;
+  left:0px;
+  bottom:0px;
+  background-color: #CEF3C0; 
 }
 .left{
   position:relative;
   float:left;
+  text-align: left;
+  display:inline;
+  width: 75%;
+  margin-left:2px;
 }
-
+.right{
+  position:relative;
+  text-align:right;  
+  float:right;
+  margin-right:2px;
+}
 /* CONTENT DEFINITIONS */
 /* Cartoons */
 .cartoon, .paragraph {
-  margin-top:20px;   
+  margin-top:20px;  
+  margin-bottom:20px;
+}
+.bottomCartoon {
+  margin-bottom:50px;   
 }
 .park{
   position:relative;   
@@ -121,20 +143,38 @@ pre {
 }
 .codeOdd {
     position:relative;
+    background-color:lightblue;
     width:100%
     
 }
 .codeEven {
     position:relative;
-    background-color:lightgray;
+    background-color:lightcyan;
     width:100%;
 }
 
 /* Collapsible */
-.Collapsible{
-    background-color:lightyellow;    
+.collapser{
+    margin-top: 20px;
+    background-color: rgb(117,218,208);
+    padding-top: 5px;
+    padding-bottom: 5px;
+    cursor: pointer;
+    color:white;
+    font-size:110%;
+    background-repeat: no-repeat;
+    background-position: 5px center;
+    background-image : url("/images/pointerRight.svg");
 }
-.collapsed{
+.collapsee{
     position:relative;
-      
+    text-align: left;
+    border-top: 4px solid #333;
+    border-bottom: 4px solid #333;
+    background-color:lightyellow;        
+    color:#333;
+}
+.image{
+    position: relative;
+    width: 100%;
 }

@@ -47,18 +47,18 @@ class pageController extends Controller
   public function create($slug, Page $home)
   {
    $page = ($slug == 'home') 
-     ? $home::whereslug($slug)->first()
-     : $this->page->whereslug($slug)->first();
+      ? $home::whereslug($slug)->first()
+      : $this->page->whereslug($slug)->first();    
     if ($page != null) {
       return view("Pages.create", [
         'page'=> $page,
         'forms'=> new FormBuilder(
           [
             'order' => 'text', 
-            'content' => 'textarea', 
+            'def_id' => new my\FormAttributeBag('select', [ new my\FieldOptionset($this->definition), new my\FieldLabel('Type') ]), 
+            'content' => new my\FormAttributeBag('textarea', [ new my\FieldClass('mce-enabled')]), // assume we want tinyMCE by default.
             'wrapper_id' => 'text', 
-            'wrapper_class' => 'text',
-            'def_id' => new my\FormAttributeBag('select', [ new my\FieldOptionset($this->definition)]), 
+            'wrapper_class' => 'text',            
             'page_id' => new my\FormAttributeBag('hidden',[ new my\FieldValue($page->id)]),
             'id' => 'hidden'
           ],        
@@ -127,6 +127,15 @@ class pageController extends Controller
     $page = ($slug == 'home') 
      ? $home::whereslug($slug)->first()
      : $this->page->whereslug($slug)->first();
+    // assign tinyMCE to relevant content and plain text to everything else.
+    $textarea = 'textarea';
+    switch ($content->ofType($content->def_id)) {
+      case 'collapsible':
+      case 'paragraph':
+        $textarea = new my\FormAttributeBag('textarea', [ new my\FieldClass('mce-enabled')]);      
+        break;
+    }
+    
     if ($page != null && $content != null) {
       return view("Pages.Edit.content", [
         'page'=> $page,
@@ -134,10 +143,10 @@ class pageController extends Controller
         'form'=> new FormBuilder(
           [
             'order' => 'text', 
-            'content' => 'textarea', 
-            'wrapper_id' => 'disabled', 
-            'wrapper_class' => 'text',
             'def_id' => new my\FormAttributeBag('select', [ new my\FieldOptionset($this->definition)]), 
+            'content' => $textarea, 
+            'wrapper_id' => 'disabled', 
+            'wrapper_class' => 'text',            
             'page_id' => new my\FormAttributeBag('hidden', [ new my\FieldValue($page->id)]),
             'id' => 'hidden'
           ], 
