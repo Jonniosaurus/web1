@@ -143,13 +143,13 @@ pre {
 }
 .codeOdd {
     position:relative;
-    background-color:lightblue;
+    background-color: #e3f4d7;
     width:100%
     
 }
 .codeEven {
     position:relative;
-    background-color:lightcyan;
+    background-color: #e3f4ec;
     width:100%;
 }
 

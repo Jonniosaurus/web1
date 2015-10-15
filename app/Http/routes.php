@@ -11,6 +11,23 @@
 |
 */
 
+resource(
+	'/examples/samples', // route URI 
+	'sampleController', // controller to call.
+	[
+	// Named Routing (means the URI above can be changed.)
+	'names' => [
+		'index' => 'samples',		
+		'edit' => 'samples.edit',
+        'show' => 'samples.show',
+ 		'create' => 'samples.create',
+        'store' => 'samples.store',
+        'update' => 'samples.update',
+        'destroy' => 'samples.destroy'
+	],
+	// only provide for the named routes above	
+]);
+
 get('/', ['as' => 'home', 'uses' => 'pageController@index']);
 get('{slug}', ['as' => 'page', 'uses' => 'pageController@show']);
 get('{slug}/edit', ['as' => 'page.edit', 'uses' => 'pageController@edit']);
@@ -20,21 +37,7 @@ delete('/{id}', 'pageController@destroy');
 patch('/{slug}', 'pageController@update');
 post('/{slug}', 'pageController@store');
 
-
-$router->resource(
-	'projects', // route URI 
-	'projectController', // controller to call.
-	[
-	// Named Routing (means the URI above can be changed.)
-	'names' => [
-		'index' => 'projects',
-		'show' => 'projects.show',
-		'edit' => 'projects.edit',
- 		'create' => 'projects.create',	    
-	],
-	// only provide for the named routes above
-	'only' => ['index','show','edit','create']
-]);
+//get('/examples/{slug}', ['as' => 'show', 'uses' => 'sampleController.show']);
 
 // Authentication routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');
