@@ -15,7 +15,7 @@ class FormBuilder{
   private $goto;
   private $action;  
   private $buttonText;
-  public $output = '';
+  private $output = '';
   
   function __construct($fields, $goto, $action, $buttonText) {
     $this->fields = $fields;    
