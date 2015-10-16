@@ -114,7 +114,7 @@
       </div>       
     </div>
 
-    <script type="text/javascript" src="{!! route('home') . '/scripts/core.js' !!}"></script>    
+    <script type="text/javascript" src="{!! route('home') . '/scripts/Core.js' !!}"></script>    
     @if (Auth::user() && Auth::user()->is_admin)
     <script type="text/javascript" src="{!! route('home') . '/scripts/DropDown.js' !!}"></script>    
     @endif

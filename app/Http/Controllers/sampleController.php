@@ -73,12 +73,36 @@ class sampleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string $slug
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        echo 'show';
+        switch($slug) {
+          case 'form-sample':
+            return view('Samples.test_form', [
+              'test' => new FormBuilder(
+                [
+                  'fooGeneric' =>  new my\FormAttributeBag('text', [
+                      new my\FieldValue('I am a generic field that has had content injected into it.')
+                    ]),                    
+                  'fooType' => new my\FormAttributeBag(
+                    'select', [ 
+                      new my\FieldOptionset(['foo'=>'Foo and Bar', 'foo1'=>'Bar and Foo']),
+                      new my\FieldLabel('I am a dynamically built and labelled select box')
+                    ]),
+                  'fooTextArea' 
+                    => new my\FormAttributeBag('textarea', 
+                      [ new my\FieldClass('mce-enabled'), 
+                        new my\FieldLabel('I Have a Custom Title and my custom class is "mce-enabled"')
+                      ]
+                    )
+                ],
+              ['samples.show', $slug], // Laravel dynamic URL route
+              'GET', // Form submission type
+              'Submit')]); // Form button label               
+            break;
+        }
     }
 
     /**
