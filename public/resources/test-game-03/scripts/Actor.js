@@ -1,10 +1,17 @@
+/*
+* ~~~~~~ ABOUT THIS SAMPLE ~~~~~~
+* You'll notice the absence of object literals in my behaviour definitions. This is because arrays are faster.
+* You'll also note some variables which are not declared (e.g. the "X" in location[X] below), these refer to
+* global variables managed elsewhere.
+*/
+
 /*------------------------------------------------------------------
 * -- ACTOR --
 * ------------------------------------------------------------------ */
 function Actor(name, location, speed, color) {
   var i, ii, actor, loc, frm, des, nm, interrupt, map, prev;
   var curr = 0, next = 1, path = [];
-  var mv = $.client.getFromPcnt(speed || 10);
+  var mv = $.client.getFromPcnt(speed || 10); // the $ is my own global on this occassion. No JQuery
   var idle = true;
   var col = color;
   this.type = ACTOR;
@@ -21,7 +28,7 @@ function Actor(name, location, speed, color) {
     interrupt = false;
   })()
   
-  // shorthand for managing paths.
+  // shorthand for managing paths. l == location, d == destination
   function drawPath(l, d) {
     var p = new Map($.oRegister);
     p.setPath(l, d);
@@ -73,7 +80,7 @@ function Actor(name, location, speed, color) {
       // is there another node in the path?
       idle = false;
       if (next < path.length) {
-        p = $.client.getFromNode(path[next]);
+        p = $.client.getFromNode(path[next]); // get path
         if (frm[X] == p[X]
           && frm[Y] == p[Y]) {  
               //prev = [path[curr][X], path[curr][Y]];
@@ -229,7 +236,7 @@ function Player(actor) {
 }
 
 /*------------------------------------------------------------------
-* -- NPC --
+* -- NON-PLAYER-CHARACTER ABSTRACT --
 * ------------------------------------------------------------------ */
 function NPC(actor) {
   function npc() {
@@ -248,13 +255,15 @@ function NPC(actor) {
         shot.trigger([des[X], des[Y]]);        
         readyShot = Math.floor((Math.random() * 50) + 100);
       }
-    }
-    
+    }    
   }
   npc.prototype = actor;
   return new npc();
 }
 
+/*------------------------------------------------------------------
+* -- PATROLLER ENEMY --
+* ------------------------------------------------------------------ */
 function NPC_Patroller(actor, paths) {
   var i, p;
   function patroller(p) {
@@ -283,6 +292,9 @@ function NPC_Patroller(actor, paths) {
   return new patroller(paths);
 }
 
+/*------------------------------------------------------------------
+* -- CHASER ENEMY --
+* ------------------------------------------------------------------ */
 function NPC_Chaser(actor, distToChase) {
   var i, ii, dir, loc, p, nd, des, dist, maxDist, player, chaser;
   var wait = 0;    
@@ -372,7 +384,10 @@ function NPC_Chaser(actor, distToChase) {
   chaser.prototype = NPC(actor);
   return new chaser(distToChase)
 }
- 
+
+/*------------------------------------------------------------------
+* -- GUARDIAN CHASER ENEMY --
+* ------------------------------------------------------------------ */
 function NPC_GuardianChaser(actor, distToChase) {
   function guardianChaser() {
     this.type = GUARDIAN_CHASER;

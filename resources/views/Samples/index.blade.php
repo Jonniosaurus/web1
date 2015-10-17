@@ -3,23 +3,18 @@
 @section('content')
 <h1>Samples</h1>
 
-@foreach($samples as $sample)
-
-<div>
-  <ul>
-    <li>
-    {!! 
-        HTML::link(
-          route(
-            'samples.edit', 
-            [$sample->slug]),
-            $sample->title,
-            ['class'=>'editLink', 'title'=>'edit' . $sample->title]
-        )
-     !!}
-    </li>
-  </ul>
-</div>
+@foreach($samples as $sample) 
+  <p>
+  {!! 
+      HTML::link(
+        route(
+          'samples.edit', 
+          [$sample->slug]),
+          $sample->title,
+          ['class'=>'editLink', 'title'=>'edit' . $sample->title]
+      )
+   !!}
+  </p>
 @endforeach
 {!! 
     HTML::link(

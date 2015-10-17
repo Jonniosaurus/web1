@@ -5,17 +5,17 @@
 
 @foreach($contents as $content)
 
-<div>
+<p>
  {!! 
     HTML::link(
       route(
         'page.edit.content', 
         [$page->slug, $content->wrapper_id]),
-        '<' . $content->ofType($content->def_id) . ' href="' . $page->slug . '/edit/' . $content->wrapper_id . '" />',
+        '<'. $content->order . ' ' . $content->ofType($content->def_id) . ' href="' . $page->slug . '/edit/' . $content->wrapper_id . '" />',
         ['class'=>'editLink', 'title'=>$content->wrapper_id]
     )
   !!}
-</div>
+</p>
 @endforeach
 {!! 
     HTML::link(

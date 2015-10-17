@@ -24,13 +24,13 @@
           $media = 'screen and (max-width: 350px)';
           break;
         case 'small':
-          $media = 'screen and (max-width: 450px)';
-          break;        
-        case 'medium':
-          $media = 'screen and (min-width: 550px) and (max-width: 900px)';
+          $media = 'screen and (max-width: 500px)';
           break;
         case 'smallMedium':
-          $media = 'screen and (min-width: 450px) and (max-width: 550px)';
+          $media = 'screen and (min-width: 500px) and (max-width: 650px)';
+          break;
+        case 'medium':
+          $media = 'screen and (min-width: 650px) and (max-width: 900px)';
           break;
         case 'large':
           $media = 'screen and (min-width: 900px)';

@@ -238,7 +238,7 @@ function Local(GlobalObject) {
             0.1,
             250,
             Core.powerOfN,
-            Behaviour.contractMenuItem)
+            Behaviour.contractMenuItem)            
           break;
       }        
     }
@@ -270,7 +270,7 @@ function Local(GlobalObject) {
             Core.linear,
             Behaviour.elementGlow);  
             this.innerHTML = this.innerHTML.replace('Expand', 'Collapse');
-            this.style.backgroundImage = 'url("/images/pointerDown.svg")';
+            this.style.backgroundImage = 'url("/images/pointerDown.svg")';            
           // 2. expand div
           Core.animate(
             collapsee,
@@ -279,17 +279,10 @@ function Local(GlobalObject) {
             height, 
             Core.linear,
             Behaviour.expandCollapsee);                                      
+            collapsee.style.overflowX = 'initial';
           break;
           
-        case height + 'px':
-          Core.animate(
-            collapsee,
-            height,
-            0.0000001,
-            height, 
-            Core.linear,
-            Behaviour.collapseCollapsee);           
-          
+        case height + 'px':          
           Core.animate(
             this,
             20,
@@ -299,6 +292,14 @@ function Local(GlobalObject) {
             Behaviour.elementDim); 
             this.innerHTML = this.innerHTML.replace('Collapse', 'Expand');
             this.style.backgroundImage = 'url("/images/pointerRight.svg")';
+          Core.animate(
+            collapsee,
+            height,
+            0.0000001,
+            height, 
+            Core.linear,
+            Behaviour.collapseCollapsee);           
+            collapsee.style.overflowX = 'hidden'; // prevents unwanted overflow.
           break;
       }
     }
