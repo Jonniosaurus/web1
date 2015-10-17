@@ -79,6 +79,7 @@ class sampleController extends Controller
     public function show($slug)
     {
         switch($slug) {
+          // FORM SAMPLE
           case 'form-sample':
             return view('Samples.test_form', [
               'test' => new FormBuilder(
@@ -98,10 +99,13 @@ class sampleController extends Controller
                       ]
                     )
                 ],
-              ['samples.show', $slug], // Laravel dynamic URL route
+              null, // Laravel dynamic URL route
               'GET', // Form submission type
               'Submit')]); // Form button label               
             break;
+          // HTML5 SAMPLE
+          case 'html5-sample':
+            return view('Samples.test_game');
         }
     }
 

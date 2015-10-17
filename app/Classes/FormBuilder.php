@@ -61,9 +61,11 @@ class FormBuilder{
    
       $localOutput = '';      
       // 1.) Create new form braces and assign action   and where it will redirect to.
-      $localOutput .= 
-        Form::open(['route'=>$this->goto, 'method' => $this->action, 'role'=>'form']) .
-        $this->errorHandler($errors); // handle error messages
+      $localOutput .= $this->goto 
+        ? Form::open(['route'=>$this->goto, 'method' => $this->action, 'role'=>'form'])
+        : Form::open(['url' => '', 'method' => $this->action, 'role'=>'form'])
+        .
+        $this->errorHandler($errors); // handle error messages 
       $i = 0;                 
       foreach ($this->fields as $fieldKey => $fieldValue) {        
         $localOutput .= 
@@ -76,11 +78,12 @@ class FormBuilder{
         $i++;	
       }    
       // 4.) add submission component to form and hidden id field.
-	  return
-        $localOutput . 
+	  return $localOutput . 
         '<div class="submissionComponent">' .	         
-	    Form::submit($this->buttonText, ['class'=> 'btn btn-primary']) . 
-        '</div>' .
+        ($this->goto 
+          ? Form::submit($this->buttonText, ['class'=> 'btn btn-primary'])
+          : Form::submit($this->buttonText, ['disabled'=>'true', 'style'=>'display:hidden', 'class'=> 'btn btn-primary'])) . 
+        '</div>' .         
         Form::close();       
   }
   

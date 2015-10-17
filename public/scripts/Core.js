@@ -94,12 +94,13 @@ var Behaviour = {
         (117 + Math.round(45 * (delta))) + ',' + 
         (218 + Math.round(18 * (delta))) + ',' + 
         (208 - Math.round(16 * (delta))) + ')';
+      elem.style.zIndex = '10';
       if (Math.round(elem.style.fontSize.replace('%', '')) > 84) {
         // set standard completion values
         elem.style.fontSize = '90%';            
         elem.style.backgroundColor = 'rgb(162, 236, 192)';
         // push the element to the front of the page. helps the page behave a little better.
-        elem.style.zIndex = '25'; 
+        elem.style.zIndex = '25';
         clearInterval(elem.id);
       }
     },
@@ -192,9 +193,11 @@ function Local(GlobalObject) {
       Behaviour.collapseeHeight += Behaviour.collapseeHeight ? '}' : '';
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
       // 4. DropDown 
-      var dropDowns = this.get.class('dropdown');
-      for (i = 0; i < dropDowns.length; i++)
-        this.set.event(dropDowns.item(i), 'click', DropDown.handler); 
+      try {
+        var dropDowns = this.get.class('dropdown');
+        for (i = 0; i < dropDowns.length; i++)
+          this.set.event(dropDowns.item(i), 'click', DropDown.handler); 
+      } catch (e) {}
     },
             
     // Bounce the title letters.  still inherits from Core so can use this.
@@ -216,6 +219,8 @@ function Local(GlobalObject) {
     // all other events are copied to caller obj so do not have access to Core.
     this.menuEvent = function (e) {       
       switch(e.type.replace('on', '')) {
+        case 'mousemove':
+          if (Math.round(this.style.fontSize.replace('%', '')) > 72) return;
         case 'mouseenter':          
           Core.animate(
             this,
