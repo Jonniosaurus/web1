@@ -306,7 +306,7 @@ function Local(GlobalObject) {
             height, 
             Core.linear,
             Behaviour.expandCollapsee);                                      
-            collapsee.style.overflowX = 'initial';
+            collapsee.style.overflowX = 'auto';
           break;
           
         case height + 'px':          
@@ -330,7 +330,7 @@ function Local(GlobalObject) {
     }
     
     this.scrollTo = function() {            
-      var offset = window.scrollY;
+      var offset = window.scrollY || document.documentElement.scrollTop;
       var goto = Core.get.scrollHeight(this.id.replace('call','point')) - offset;
       Core.animate(
         offset -5,
@@ -341,7 +341,8 @@ function Local(GlobalObject) {
     }
     
     this.scrollFrom = function() {            
-      var start = window.scrollY;
+      var start = window.scrollY || document.documentElement.scrollTop;
+      
       var goto = Core.get.scrollHeight('scroll_home') - start;
       Core.animate(
         start,

@@ -177,6 +177,7 @@ pre {
     border-bottom: 4px solid #333;
     background-color:lightyellow;        
     color:#333;
+    overflow-x: hidden;
 }
 .image{
     position: relative;
