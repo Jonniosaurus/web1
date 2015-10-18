@@ -29,7 +29,7 @@ var Core = {
           do {
               curtop += elem.offsetTop;
           } while (elem = elem.offsetParent);
-      return [curtop];
+      return curtop;
       }
     }
   },
@@ -47,7 +47,7 @@ var Core = {
    * @param {object/bool} action - true/false = looper OR function = callback (e.g. another animation)
    * @returns {undefined}
    */
-  animate: function (elements, howFar, delay, duration, delta, step, action) {
+  animate: function (elements, howFar, duration, delta, step, action) {
     var start = new Date
     var direction = true;
     var id = setInterval(function () {
@@ -67,7 +67,7 @@ var Core = {
           if (typeof (action) == 'function')
             action();
         }
-    }, delay || 10);
+    }, 0.000000001);
   },
   // Delta pattern handlers. i.e. Movement behaviour.     
   linear: function (progress) {
@@ -118,13 +118,13 @@ var Behaviour = {
     contractMenuItem : function (delta, howMuch, elem) {         
       // shrink text.
       elem.style.fontSize = 
-        90 - Math.round(howMuch * (delta)) + '%';
+        90 - Math.round(howMuch * delta) + '%';
       // cool colour.
       elem.style.backgroundColor = 
         'rgb(' + 
-         (162 - Math.round(45 * (delta))) + ',' + 
-        (236 - Math.round(18 * (delta))) + ',' + 
-        (192 + Math.round(16 * (delta))) + ')';
+         (162 - Math.round(45 * delta)) + ',' + 
+        (236 - Math.round(18 * delta)) + ',' + 
+        (192 + Math.round(16 * delta)) + ')';
       elem.style.zIndex = '10';
       if (Math.round(elem.style.fontSize.replace('%', '')) < 76) {      
         // default values on completion
@@ -139,10 +139,12 @@ var Behaviour = {
     expandCollapsee : function (delta, howMuch, elem) {                      
       elem.style.height = (0 + Math.round(howMuch * delta)) + 'px';                  
     },
+    
     collapseCollapsee : function (delta, howMuch, elem) {                      
       var height = JSON.parse(Behaviour.collapseeHeight)[elem.id];
       elem.style.height = (height - Math.round(howMuch * delta)) + 'px';                  
     },
+    
     elementGlow : function(delta, howMuch, elem) {
       elem.style.backgroundColor = 
         'rgb(' + 
@@ -150,6 +152,7 @@ var Behaviour = {
         (218 + Math.round(18 * delta)) + ',' + 
         (208 - Math.round(16 * delta)) + ')';
     },
+    
     elementDim : function(delta, howMuch, elem) {
       elem.style.backgroundColor = 
         'rgb(' + 
@@ -157,11 +160,10 @@ var Behaviour = {
         (236 - Math.round(18 * delta)) + ',' + 
         (192 + Math.round(16 * delta)) + ')';
     },
-    scrollTo : function(delta, howMuch, offset) {           
-      
-        window.scrollTo(0, offset + Math.round(howMuch * delta));
-      
-    }
+    
+    scrollTo : function(delta, howMuch, offset) {                 
+      window.scrollTo(0, offset + Math.round(howMuch * delta));      
+    },          
 }
 
 // -------------------------------------------------
@@ -212,19 +214,23 @@ function Local(GlobalObject) {
       Behaviour.collapseeHeight += Behaviour.collapseeHeight ? '}' : '';
       
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-      // 4. ScrollHeight
+      // 4. ScrollTo/From
       var scrollMenu = this.get.class('local_menu');
       if (scrollMenu) 
         for (i = 0; i < scrollMenu.length; i++)
           this.set.event(scrollMenu.item(i), 'click', this.scrollTo);
+      var scrollReturn = this.get.class('scroll_return');
+      if (scrollReturn)
+        for (i = 0; i < scrollReturn.length; i++)
+          this.set.event(scrollReturn.item(i), 'click', this.scrollFrom);
       
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
       // 5. DropDown 
-      try {
+      if (this.get.class('dropdown')) {
         var dropDowns = this.get.class('dropdown');
         for (i = 0; i < dropDowns.length; i++)
           this.set.event(dropDowns.item(i), 'click', DropDown.handler); 
-      } catch (e) {}
+      } 
     },
             
     // Bounce the title letters.  still inherits from Core so can use this.
@@ -236,7 +242,6 @@ function Local(GlobalObject) {
           this.animate(// see parameters required in Global
             letters[i][ii],
             4,
-            0.00000000000001,
             Math.floor((Math.random() * (700)) + (650)), // 1000 = 1 second, add extra 500 for surname as DOM renders it faster.
             this.linear,
             Behaviour.oscillateTitle, // call oscillation animation handler in the 'options' scope
@@ -252,17 +257,14 @@ function Local(GlobalObject) {
           Core.animate(
             this,
             20,
-            0.1,
             30,
             Core.linear,
             Behaviour.expandMenuItem);            
           break;
-        case 'mouseleave':   
-          
+        case 'mouseleave':             
           Core.animate(
             this,
             20,
-            0.1,
             250,
             Core.powerOfN,
             Behaviour.contractMenuItem)            
@@ -292,7 +294,6 @@ function Local(GlobalObject) {
           Core.animate(
             this,
             20,
-            0.0000001,
             height,
             Core.linear,
             Behaviour.elementGlow);  
@@ -302,7 +303,6 @@ function Local(GlobalObject) {
           Core.animate(
             collapsee,
             height, 
-            0.0000001,
             height, 
             Core.linear,
             Behaviour.expandCollapsee);                                      
@@ -313,7 +313,6 @@ function Local(GlobalObject) {
           Core.animate(
             this,
             20,
-            0.0000001,
             height,
             Core.linear,
             Behaviour.elementDim); 
@@ -322,7 +321,6 @@ function Local(GlobalObject) {
           Core.animate(
             collapsee,
             height,
-            0.0000001,
             height, 
             Core.linear,
             Behaviour.collapseCollapsee);           
@@ -337,8 +335,18 @@ function Local(GlobalObject) {
       Core.animate(
         offset,
         goto,
-        0.0000001,
-        goto / 2,
+        goto / 3,
+        Core.linear,
+        Behaviour.scrollTo);      
+    }
+    
+    this.scrollFrom = function() {            
+      var start = window.scrollY;
+      var goto = Core.get.scrollHeight('scroll_home') - start;
+      Core.animate(
+        start,
+        goto,
+        start / 5,
         Core.linear,
         Behaviour.scrollTo);      
     }
@@ -349,9 +357,6 @@ function Local(GlobalObject) {
   
   return new local();
 }
-
-
-
 
 // Objects need only call the Action handler, it will do the rest.
 var Action = Local(Core);

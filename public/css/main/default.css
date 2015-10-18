@@ -182,11 +182,16 @@ pre {
     position: relative;
     width: 100%;
 }
-.local_menu{
+/* Scrolling menus */
+.local_menu, .scroll_return {
   color: #337AB7;
   cursor: pointer;    
 }
-.local_menu:hover{
+.local_menu:hover, .scroll_return:hover {
   color: #23527C;
   cursor: pointer;    
+}
+.scroll_return{
+  padding-top: 5px;
+  text-align: right;     
 }

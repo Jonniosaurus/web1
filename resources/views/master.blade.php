@@ -104,6 +104,23 @@
           </div>                                            
           <div id="pageBody">                           
             @yield('content')
+            <p class='bottomMenu'>
+              <?php $i = 0; ?>
+              @foreach(
+                DB::table('pages')
+                  ->join('types', 'pages.type_id', '=', 'types.id')
+                  ->where('type', '=', 'default')
+                  ->get()
+                as $page)
+                @if ($i > 0)
+                  |
+                  @endif
+                <a href="{{ route('page', [$page->slug]) }}" class="menuLink">                                                          
+                  {{ $page->title }}                  
+                  <?php $i = 1; ?>
+                </a> 
+              @endforeach
+            </p><br/><br/>
             <div class="footer">
               <span class="left">Images &#169; 2015 JMEdwards</span>
               <span class="right"><a href="{{ route('page', [$page->slug]) }}">Contact</a></span>

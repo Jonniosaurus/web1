@@ -10,7 +10,8 @@
                     ['id'=>$content->wrapper_id, 'class'=>'cartoon ' . $content->wrapper_class]) . '</div>';
         break;
       
-      case 'paragraph':  
+      case 'paragraph':
+      case 'paragraph raw':
         echo '<div id="' . $content->wrapper_id . '" class="paragraph ' . $content->wrapper_class . '">' . $content->content . '</div>';
         break;
       
@@ -30,6 +31,7 @@
         break;
         
       case 'collapsible': // build collapsible component
+      case 'collapsible raw':
         echo 
           '<div class="Collapsible">' .
             '<div class="collapser" id="' . $content->wrapper_id . '_collapser"><strong>Click to Expand</strong></div>' .
@@ -37,6 +39,7 @@
               $content->content .
             '</div></div>';
         break;
+            
       case 'image':
         echo '<div>' . 
                 HTML::image(route('home') . '/images/content/' . $content->content, 
@@ -44,6 +47,13 @@
                   ['id'=>$content->wrapper_id, 
                    'class'=>'image ' . $content->wrapper_class]) .
               '</div>';
+        break;
+      
+      case 'scroll return':
+        echo '<div class="scroll_return">' .
+                $content->content .
+                HTML::image(route('home') . '/images/scrollReturn.svg', 'scroll return button') .
+             '</div>';
         break;
     } 
   
