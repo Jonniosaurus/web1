@@ -215,7 +215,7 @@ function Local(GlobalObject) {
       
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
       // 4. ScrollTo/From
-      var scrollMenu = this.get.class('local_menu');
+      var scrollMenu = this.get.class('scroll_menu');
       if (scrollMenu) 
         for (i = 0; i < scrollMenu.length; i++)
           this.set.event(scrollMenu.item(i), 'click', this.scrollTo);
@@ -333,7 +333,7 @@ function Local(GlobalObject) {
       var offset = window.scrollY;
       var goto = Core.get.scrollHeight(this.id.replace('call','point')) - offset;
       Core.animate(
-        offset,
+        offset -5,
         goto,
         goto / 3,
         Core.linear,

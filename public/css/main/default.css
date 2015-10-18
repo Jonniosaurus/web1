@@ -183,15 +183,19 @@ pre {
     width: 100%;
 }
 /* Scrolling menus */
-.local_menu, .scroll_return {
+.scroll_menu, .scroll_return {
   color: #337AB7;
   cursor: pointer;    
 }
-.local_menu:hover, .scroll_return:hover {
+.scroll_menu:hover, .scroll_return:hover {
   color: #23527C;
   cursor: pointer;    
 }
 .scroll_return{
   padding-top: 5px;
   text-align: right;     
+}
+.borderedBottom{
+  border-bottom: 1px solid rgb(117,218,208);
+  margin-bottom: 0px;
 }
