@@ -22,6 +22,16 @@ var Core = {
       xmlhttp.open('GET', '?get=' + get, true);
       xmlhttp.send();
     },    
+    scrollHeight: function(elem) {
+      var curtop = 0;
+      var elem = this.id(elem);
+      if (elem.offsetParent) {
+          do {
+              curtop += elem.offsetTop;
+          } while (elem = elem.offsetParent);
+      return [curtop];
+      }
+    }
   },
   set: {
     event: function (elem, eventType, handler) {
@@ -29,7 +39,7 @@ var Core = {
         elem.addEventListener(eventType, handler, false);
       else if (elem.attachEvent)
         elem.attachEvent('on' + eventType, handler);
-    }
+    }    
   },
   /* A simple Animation Handler
    * based on http://javascript.info/tutorial/type-detection
@@ -127,25 +137,30 @@ var Behaviour = {
     // handles expanding and collapsing div holders.
     collapseeHeight : '', // a string literal holding Json data at runtime for managing collapsibles    
     expandCollapsee : function (delta, howMuch, elem) {                      
-      elem.style.height = (0 + Math.round(howMuch * (delta))) + 'px';                  
+      elem.style.height = (0 + Math.round(howMuch * delta)) + 'px';                  
     },
     collapseCollapsee : function (delta, howMuch, elem) {                      
       var height = JSON.parse(Behaviour.collapseeHeight)[elem.id];
-      elem.style.height = (height - Math.round(howMuch * (delta))) + 'px';                  
+      elem.style.height = (height - Math.round(howMuch * delta)) + 'px';                  
     },
     elementGlow : function(delta, howMuch, elem) {
       elem.style.backgroundColor = 
         'rgb(' + 
-        (117 + Math.round(45 * (delta))) + ',' + 
-        (218 + Math.round(18 * (delta))) + ',' + 
-        (208 - Math.round(16 * (delta))) + ')';
+        (117 + Math.round(45 * delta)) + ',' + 
+        (218 + Math.round(18 * delta)) + ',' + 
+        (208 - Math.round(16 * delta)) + ')';
     },
     elementDim : function(delta, howMuch, elem) {
       elem.style.backgroundColor = 
         'rgb(' + 
-        (162 - Math.round(45 * (delta))) + ',' + 
-        (236 - Math.round(18 * (delta))) + ',' + 
-        (192 + Math.round(16 * (delta))) + ')';
+        (162 - Math.round(45 * delta)) + ',' + 
+        (236 - Math.round(18 * delta)) + ',' + 
+        (192 + Math.round(16 * delta)) + ')';
+    },
+    scrollTo : function(delta, howMuch, offset) {           
+      
+        window.scrollTo(0, offset + Math.round(howMuch * delta));
+      
     }
 }
 
@@ -163,15 +178,19 @@ function Local(GlobalObject) {
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
       // Other Event Listeners.
       var i = 0, ii = 0; // optimisation suggests the declaration should come before the loops.
+      
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
       // 1. standard menus
       var menuItems = this.get.class('menuItem');
       var events = ['move', 'enter', 'leave'];
       for (i = 0; i < menuItems.length; i++) 
         for (ii in events) 
           this.set.event(menuItems.item(i), 'mouse' + events[ii], this.menuEvent);
+      
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
       // 2. nav menu for mobile 
       this.set.event(this.get.id('navMenu'), 'click', this.navMenuEvent);
+      
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
       // 3. collapsible pains
       var collapsers = this.get.class('collapser'); // as above, declared before the loop.
@@ -191,8 +210,16 @@ function Local(GlobalObject) {
       }
       // close off the Json tag (where applicable);
       Behaviour.collapseeHeight += Behaviour.collapseeHeight ? '}' : '';
+      
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-      // 4. DropDown 
+      // 4. ScrollHeight
+      var scrollMenu = this.get.class('local_menu');
+      if (scrollMenu) 
+        for (i = 0; i < scrollMenu.length; i++)
+          this.set.event(scrollMenu.item(i), 'click', this.scrollTo);
+      
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+      // 5. DropDown 
       try {
         var dropDowns = this.get.class('dropdown');
         for (i = 0; i < dropDowns.length; i++)
@@ -226,7 +253,7 @@ function Local(GlobalObject) {
             this,
             20,
             0.1,
-            50,
+            30,
             Core.linear,
             Behaviour.expandMenuItem);            
           break;
@@ -303,8 +330,20 @@ function Local(GlobalObject) {
           break;
       }
     }
+    
+    this.scrollTo = function() {            
+      var offset = window.scrollY;
+      var goto = Core.get.scrollHeight(this.id.replace('call','point')) - offset;
+      Core.animate(
+        offset,
+        goto,
+        0.0000001,
+        goto / 2,
+        Core.linear,
+        Behaviour.scrollTo);      
+    }
   }
-
+  
   // allow the Action variable below to inherit from GlobalObject.  This allows for the load event to use "this" rather than "Core".
   local.prototype = GlobalObject;
   

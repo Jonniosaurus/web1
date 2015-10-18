@@ -182,3 +182,11 @@ pre {
     position: relative;
     width: 100%;
 }
+.local_menu{
+  color: #337AB7;
+  cursor: pointer;    
+}
+.local_menu:hover{
+  color: #23527C;
+  cursor: pointer;    
+}
