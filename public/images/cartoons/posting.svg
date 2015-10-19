@@ -9,8 +9,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="445"
-   height="449.00781"
+   width="300"
+   height="302.7019"
    id="svg4343"
    version="1.1"
    inkscape:version="0.48.4 r9939"
@@ -46,16 +46,16 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.35"
-     inkscape:cx="134.6429"
-     inkscape:cy="-98.353235"
+     inkscape:cx="-485.35714"
+     inkscape:cy="-98.353236"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="803"
-     inkscape:window-height="415"
-     inkscape:window-x="298"
-     inkscape:window-y="338"
-     inkscape:window-maximized="0"
+     inkscape:window-width="1920"
+     inkscape:window-height="1176"
+     inkscape:window-x="1920"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
@@ -76,10 +76,10 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-240.3571,-327.85828)">
+     transform="translate(-240.35714,-474.1642)">
     <g
        id="g7598"
-       transform="translate(2741.7111,794.53591)">
+       transform="matrix(0.6741573,0,0,0.6741573,1926.6632,788.77833)">
       <rect
          y="-463.02078"
          x="-2418.1409"

@@ -257,7 +257,7 @@ function Local(GlobalObject) {
           Core.animate(
             this,
             20,
-            30,
+            20,
             Core.linear,
             Behaviour.expandMenuItem);            
           break;
@@ -341,9 +341,11 @@ function Local(GlobalObject) {
     }
     
     this.scrollFrom = function() {            
-      var start = window.scrollY || document.documentElement.scrollTop;
-      
-      var goto = Core.get.scrollHeight('scroll_home') - start;
+      var start = window.scrollY || document.documentElement.scrollTop;      
+      var destination = Core.get.id('scroll_home');
+      var goto = (destination 
+        ? Core.get.scrollHeight('scroll_home') 
+        : Core.get.scrollHeight('PageWrapper')) - start;
       Core.animate(
         start,
         goto,

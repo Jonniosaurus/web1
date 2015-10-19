@@ -14,8 +14,8 @@
     <link rel="stylesheet" href="/css/dist/css/bootstrap-select.css">            
     <?php 
     // Build title css sheets.
-    $myCSS = public_path() . '/css/main/';
-    $relRoute = route('home') . '/css/main/';
+    $myCSS = 'css/main/';
+    $relRoute = 'css/main/';
     $media;
     foreach(File::allFiles($myCSS) as $file) {
       $media = false;
@@ -34,6 +34,9 @@
           break;
         case 'large':
           $media = 'screen and (min-width: 900px)';
+          break;
+        case 'small':
+          $media = 'only screen and (max-width: 1500px)';
           break;
       }
 

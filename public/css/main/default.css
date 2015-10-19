@@ -127,10 +127,11 @@ body {
 }
 /* CONTENT DEFINITIONS */
 /* Cartoons */
-.cartoon, .paragraph {
+.cartoon, .paragraph {  
   margin-top:20px;  
   margin-bottom:20px;
 }
+
 .bottomSpace .bottomCartoon {
   margin-bottom:50px;   
 }
