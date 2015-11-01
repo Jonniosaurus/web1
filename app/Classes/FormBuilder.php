@@ -2,7 +2,7 @@
 
 namespace web1\Classes;
 use Form;
-use FormAttributeBag;
+
 /**
  * A form builder that accepts a list of fields to generate or - if blank - creates a blank form.  
  * @param  Iterative Array<string $name, string $type || FormAttributeBag $bag> $fields

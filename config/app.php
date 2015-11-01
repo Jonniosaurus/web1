@@ -144,6 +144,7 @@ return [
         web1\Providers\AuthServiceProvider::class,
         web1\Providers\EventServiceProvider::class,
         web1\Providers\RouteServiceProvider::class,
+        hisorange\BrowserDetect\Provider\BrowserDetectService::class
 
     ],
 
@@ -195,6 +196,7 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
 		'Form'		=> Collective\Html\FormFacade::class,
     	'HTML'		=> Collective\Html\HtmlFacade::class,        
+        'BrowserDetect' => hisorange\BrowserDetect\Facade\Parser::class,
     ],
 
 ];

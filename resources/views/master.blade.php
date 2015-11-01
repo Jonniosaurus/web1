@@ -17,35 +17,62 @@
     $myCSS = 'css/main/';
     $relRoute = 'css/main/';
     $media;
+    
     foreach(File::allFiles($myCSS) as $file) {
       $media = false;
-      switch(str_replace('.css', '', ($file = $file->getFilename()))) {
-        case 'noDotNet':
-          $media = 'screen and (max-width: 350px)';
-          break;
-        case 'small':
-          $media = 'screen and (max-width: 500px)';
-          break;
-        case 'smallMedium':
-          $media = 'screen and (min-width: 500px) and (max-width: 650px)';
-          break;
-        case 'medium':
-          $media = 'screen and (min-width: 650px) and (max-width: 900px)';
-          break;
-        case 'large':
-          $media = 'screen and (min-width: 900px)';
-          break;
-        case 'small':
-          $media = 'only screen and (max-width: 1500px)';
-          break;
+      $blockCSS = false;      
+      if (BrowserDetect::isMobile() || BrowserDetect::isTablet()) {
+        switch(str_replace('.css', '', ($file = $file->getFilename()))) {
+          case 'tablet':
+            $blockCss = !BrowserDetect::isTablet();
+            break;
+          case 'mobile':
+            $blockCss = !BrowserDetect::isMobile();
+            break;
+          case 'noDotNet':
+          case 'small':
+          case 'smallMedium':        
+          case 'medium':          
+          case 'large':          
+          case 'small':          
+            $blockCSS = true;      
+            break;
+        }  
+      } else { //default to desktop view.
+        switch(str_replace('.css', '', ($file = $file->getFilename()))) {
+          case 'noDotNet':
+            $media = 'screen and (max-width: 350px)';
+            break;
+          case 'small':
+            $media = 'screen and (max-width: 500px)';
+            break;
+          case 'smallMedium':
+            $media = 'screen and (min-width: 500px) and (max-width: 650px)';
+            break;
+          case 'medium':
+            $media = 'screen and (min-width: 650px) and (max-width: 900px)';
+            break;
+          case 'large':
+            $media = 'screen and (min-width: 900px)';
+            break;
+          case 'small':
+            $media = 'only screen and (max-width: 1500px)';
+            break;
+          case 'mobile':
+          case 'tablet':
+            $blockCSS = true;      
+            break;
+        }
       }
-
-      echo ($media)
-        ? HTML::style($relRoute . $file, ['media' => $media])
-        : HTML::style($relRoute . $file);
-    } ?>
+      
+      if (!$blockCSS)
+        echo ($media)
+          ? HTML::style($relRoute . $file, ['media' => $media])
+          : HTML::style($relRoute . $file);
+      }
+     ?>
   </head>
-  <body onload="Action.load()">           
+  <body onload="Action.load()"> 
       <div id="PageWrapper">   
         <div id="mainWrapper">
           <div id="titleWrapper">
@@ -105,7 +132,10 @@
               <span class="icon-bar"></span>                        
             </button>
           </div>                                            
-          <div id="pageBody">                           
+          <div id="pageBody">               
+            @if (!BrowserDetect::javaScriptSupport())
+            <h4>Warning! This site requires JavaScript to behave correctly!</h4>
+            @endif
             @yield('content')
             <p class='bottomMenu'>
               <?php $i = 0; ?>
@@ -123,7 +153,7 @@
                   <?php $i = 1; ?>
                 </a> 
               @endforeach
-            </p><br/><br/>
+            </p><br/><br/>                        
             <div class="footer">
               <span class="left">Images &#169; 2015 JMEdwards</span>
               <span class="right"><a href="{{ route('page', [$page->slug]) }}">Contact</a></span>

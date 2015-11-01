@@ -128,12 +128,14 @@ body {
 /* CONTENT DEFINITIONS */
 /* Cartoons */
 .cartoon, .paragraph {  
-  margin-top:20px;  
-  margin-bottom:20px;
+  margin-top:40px;    
 }
 
 .bottomSpace .bottomCartoon {
   margin-bottom:50px;   
+}
+.bottomMenu {
+    position:relative; padding-top:50px;
 }
 .park{
   position:relative;   
