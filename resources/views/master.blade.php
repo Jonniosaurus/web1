@@ -21,21 +21,22 @@
     foreach(File::allFiles($myCSS) as $file) {
       $media = false;
       $blockCSS = false;      
-      if (BrowserDetect::isMobile() || BrowserDetect::isTablet()) {
+      if (BrowserDetect::browserFamily() != 'Internet Explorer' && 
+        (BrowserDetect::isMobile() || BrowserDetect::isTablet())) {
         switch(str_replace('.css', '', ($file = $file->getFilename()))) {
           case 'tablet':
-            $blockCss = !BrowserDetect::isTablet();
+            $blockCSS = false;
             break;
           case 'mobile':
-            $blockCss = !BrowserDetect::isMobile();
+            $blockCSS = !BrowserDetect::isMobile();
             break;
-          case 'noDotNet':
-          case 'small':
-          case 'smallMedium':        
-          case 'medium':          
-          case 'large':          
-          case 'small':          
-            $blockCSS = true;      
+          case 'noDotNet':            
+          case 'small':           
+          case 'smallMedium':                        
+          case 'medium':                        
+          case 'large':                        
+          case 'small':                        
+            $blockCSS = BrowserDetect::browserFamily() != 'Internet Explorer';   
             break;
         }  
       } else { //default to desktop view.
