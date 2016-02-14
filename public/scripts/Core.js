@@ -187,18 +187,18 @@ function Local(GlobalObject) {
       var events = ['move', 'enter', 'leave'];
       for (i = 0; i < menuItems.length; i++) 
         for (ii in events) 
-          this.set.event(menuItems.item(i), 'mouse' + events[ii], this.menuEvent);
+          this.set.event(menuItems.item(i), 'mouse' + events[ii], this.menuEvent.bind(Core));
       
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
       // 2. nav menu for mobile 
-      this.set.event(this.get.id('navMenu'), 'click', this.navMenuEvent);
+      this.set.event(this.get.id('navMenu'), 'click', this.navMenuEvent.bind(Core));
       
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
       // 3. collapsible pains
       var collapsers = this.get.class('collapser'); // as above, declared before the loop.
       var collapsee;
       for (i = 0; i < collapsers.length; i++) {
-        this.set.event(collapsers.item(i), 'click', this.collapsibleEvent);        
+        this.set.event(collapsers.item(i), 'click', this.collapsibleEvent.bind(Core));        
         collapsee = this.get.id(collapsers.item(i).id.replace('_collapser', '_collapsee'));
         // assign initial dynamic offset variable to Json string
         Behaviour.collapseeHeight += 
@@ -218,11 +218,11 @@ function Local(GlobalObject) {
       var scrollMenu = this.get.class('scroll_menu');
       if (scrollMenu) 
         for (i = 0; i < scrollMenu.length; i++)
-          this.set.event(scrollMenu.item(i), 'click', this.scrollTo);
+          this.set.event(scrollMenu.item(i), 'click', this.scrollTo.bind(Core));
       var scrollReturn = this.get.class('scroll_return');
       if (scrollReturn)
         for (i = 0; i < scrollReturn.length; i++)
-          this.set.event(scrollReturn.item(i), 'click', this.scrollFrom);
+          this.set.event(scrollReturn.item(i), 'click', this.scrollFrom.bind(Core));
       
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
       // 5. DropDown 
@@ -249,33 +249,35 @@ function Local(GlobalObject) {
     }
     
     // all other events are copied to caller obj so do not have access to Core.
-    this.menuEvent = function (e) {       
+    this.menuEvent = function (e) {
+      var elem = e.currentTarget;
       switch(e.type.replace('on', '')) {
         case 'mousemove':
-          if (Math.round(this.style.fontSize.replace('%', '')) > 72) return;
+          if (Math.round(elem.style.fontSize.replace('%', '')) > 72) return;
         case 'mouseenter':          
-          Core.animate(
-            this,
+          this.animate(
+            elem,
             20,
             20,
-            Core.linear,
+            this.linear,
             Behaviour.expandMenuItem);            
           break;
         case 'mouseleave':             
-          Core.animate(
-            this,
+          this.animate(
+            elem,
             20,
             250,
-            Core.powerOfN,
+            this.powerOfN,
             Behaviour.contractMenuItem)            
           break;
       }        
     }
     
     this.navMenuEvent = function (e) {
+      var elem = e.currentTarget;
       switch(e.type.replace('on', '')) {
         case 'click':
-          var menuItems = Core.get.class('menuItem');
+          var menuItems = elem.get.class('menuItem');
           for (var i = 0; i < menuItems.length; i++)
             menuItems.item(i).style.display = 
               (menuItems.item(i).style.display)
@@ -285,72 +287,74 @@ function Local(GlobalObject) {
       }      
     }
     
-    this.collapsibleEvent = function () {
-      var collapsee = Core.get.id(this.id.replace('_collapser', '_collapsee'));
+    this.collapsibleEvent = function (e) {
+      var elem = e.currentTarget;
+      var collapsee = this.get.id(elem.id.replace('_collapser', '_collapsee'));      
       var height = JSON.parse(Behaviour.collapseeHeight)[collapsee.id];      
       switch (collapsee.style.height) {
         case '0px':
           // 1. perform transition on header component.
-          Core.animate(
-            this,
+          this.animate(
+            elem,
             20,
             height,
-            Core.linear,
+            this.linear,
             Behaviour.elementGlow);  
-            this.innerHTML = this.innerHTML.replace('Expand', 'Collapse');
-            this.style.backgroundImage = 'url("/images/pointerDown.svg")';            
+            elem.innerHTML = elem.innerHTML.replace('Expand', 'Collapse');
+            elem.style.backgroundImage = 'url("/images/pointerDown.svg")';            
           // 2. expand div
-          Core.animate(
+          this.animate(
             collapsee,
             height, 
             height, 
-            Core.linear,
+            this.linear,
             Behaviour.expandCollapsee);                                      
             collapsee.style.overflowX = 'auto';
           break;
           
         case height + 'px':          
-          Core.animate(
-            this,
+          this.animate(
+            elem,
             20,
             height,
-            Core.linear,
+            this.linear,
             Behaviour.elementDim); 
-            this.innerHTML = this.innerHTML.replace('Collapse', 'Expand');
-            this.style.backgroundImage = 'url("/images/pointerRight.svg")';
-          Core.animate(
+            elem.innerHTML = elem.innerHTML.replace('Collapse', 'Expand');
+            elem.style.backgroundImage = 'url("/images/pointerRight.svg")';
+          this.animate(
             collapsee,
             height,
             height, 
-            Core.linear,
+            this.linear,
             Behaviour.collapseCollapsee);           
             collapsee.style.overflowX = 'hidden'; // prevents unwanted overflow.
           break;
       }
     }
     
-    this.scrollTo = function() {            
+    this.scrollTo = function(e) {
+      var elem = e.currentTarget;
       var offset = window.scrollY || document.documentElement.scrollTop;
-      var goto = Core.get.scrollHeight(this.id.replace('call','point')) - offset;
-      Core.animate(
+      var goto = this.get.scrollHeight(elem.id.replace('call','point')) - offset;
+      this.animate(
         offset -5,
         goto,
         goto / 3,
-        Core.linear,
+        this.linear,
         Behaviour.scrollTo);      
     }
     
-    this.scrollFrom = function() {            
+    this.scrollFrom = function() {       
       var start = window.scrollY || document.documentElement.scrollTop;      
-      var destination = Core.get.id('scroll_home');
+      var destination = this.get.id('scroll_home');
       var goto = (destination 
-        ? Core.get.scrollHeight('scroll_home') 
-        : Core.get.scrollHeight('PageWrapper')) - start;
-      Core.animate(
+        ? this.get.scrollHeight('scroll_home') 
+        : this.get.scrollHeight('PageWrapper')) - start;
+      this.animate(
         start,
         goto,
         start / 5,
-        Core.linear,
+        this.linear,
         Behaviour.scrollTo);      
     }
   }

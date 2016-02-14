@@ -20,8 +20,8 @@
     
     foreach(File::allFiles($myCSS) as $file) {
       $media = false;
-      $blockCSS = false;      
-      if (BrowserDetect::browserFamily() != 'Internet Explorer' && 
+      $blockCSS = false;            
+      if (BrowserDetect::browserFamily() == 'Chrome' && 
         (BrowserDetect::isMobile() || BrowserDetect::isTablet())) {
         switch(str_replace('.css', '', ($file = $file->getFilename()))) {
           case 'tablet':
