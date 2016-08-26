@@ -14,35 +14,66 @@
     <link rel="stylesheet" href="/css/dist/css/bootstrap-select.css">            
     <?php 
     // Build title css sheets.
-    $myCSS = public_path() . '/css/main/';
-    $relRoute = route('home') . '/css/main/';
+    $myCSS = 'css/main/';
+    $relRoute = 'css/main/';
     $media;
+    
     foreach(File::allFiles($myCSS) as $file) {
       $media = false;
-      switch(str_replace('.css', '', ($file = $file->getFilename()))) {
-        case 'noDotNet':
-          $media = 'screen and (max-width: 350px)';
-          break;
-        case 'small':
-          $media = 'screen and (max-width: 450px)';
-          break;        
-        case 'medium':
-          $media = 'screen and (min-width: 550px) and (max-width: 900px)';
-          break;
-        case 'smallMedium':
-          $media = 'screen and (min-width: 450px) and (max-width: 550px)';
-          break;
-        case 'large':
-          $media = 'screen and (min-width: 900px)';
-          break;
+      $blockCSS = false;            
+      if (BrowserDetect::browserFamily() == 'Chrome' && 
+        (BrowserDetect::isMobile() || BrowserDetect::isTablet())) {
+        switch(str_replace('.css', '', ($file = $file->getFilename()))) {
+          case 'tablet':
+            $blockCSS = false;
+            break;
+          case 'mobile':
+            $blockCSS = !BrowserDetect::isMobile();
+            break;
+          case 'noDotNet':            
+          case 'small':           
+          case 'smallMedium':                        
+          case 'medium':                        
+          case 'large':                        
+          case 'small':                        
+            $blockCSS = BrowserDetect::browserFamily() != 'Internet Explorer';   
+            break;
+        }  
+      } else { //default to desktop view.
+        switch(str_replace('.css', '', ($file = $file->getFilename()))) {
+          case 'noDotNet':
+            $media = 'screen and (max-width: 350px)';
+            break;
+          case 'small':
+            $media = 'screen and (max-width: 500px)';
+            break;
+          case 'smallMedium':
+            $media = 'screen and (min-width: 500px) and (max-width: 650px)';
+            break;
+          case 'medium':
+            $media = 'screen and (min-width: 650px) and (max-width: 900px)';
+            break;
+          case 'large':
+            $media = 'screen and (min-width: 900px)';
+            break;
+          case 'small':
+            $media = 'only screen and (max-width: 1500px)';
+            break;
+          case 'mobile':
+          case 'tablet':
+            $blockCSS = true;      
+            break;
+        }
       }
-
-      echo ($media)
-        ? HTML::style($relRoute . $file, ['media' => $media])
-        : HTML::style($relRoute . $file);
-    } ?>
+      
+      if (!$blockCSS)
+        echo ($media)
+          ? HTML::style($relRoute . $file, ['media' => $media])
+          : HTML::style($relRoute . $file);
+      }
+     ?>
   </head>
-  <body onload="Action.load()">           
+  <body onload="Action.load()"> 
       <div id="PageWrapper">   
         <div id="mainWrapper">
           <div id="titleWrapper">
@@ -102,8 +133,28 @@
               <span class="icon-bar"></span>                        
             </button>
           </div>                                            
-          <div id="pageBody">                           
+          <div id="pageBody">               
+            @if (!BrowserDetect::javaScriptSupport())
+            <h4>Warning! This site requires JavaScript to behave correctly!</h4>
+            @endif
             @yield('content')
+            <p class='bottomMenu'>
+              <?php $i = 0; ?>
+              @foreach(
+                DB::table('pages')
+                  ->join('types', 'pages.type_id', '=', 'types.id')
+                  ->where('type', '=', 'default')
+                  ->get()
+                as $page)
+                @if ($i > 0)
+                  |
+                  @endif
+                <a href="{{ route('page', [$page->slug]) }}" class="menuLink">                                                          
+                  {{ $page->title }}                  
+                  <?php $i = 1; ?>
+                </a> 
+              @endforeach
+            </p><br/><br/>                        
             <div class="footer">
               <span class="left">Images &#169; 2015 JMEdwards</span>
               <span class="right"><a href="{{ route('page', [$page->slug]) }}">Contact</a></span>
@@ -114,7 +165,7 @@
       </div>       
     </div>
 
-    <script type="text/javascript" src="{!! route('home') . '/scripts/core.js' !!}"></script>    
+    <script type="text/javascript" src="{!! route('home') . '/scripts/Core.js' !!}"></script>    
     @if (Auth::user() && Auth::user()->is_admin)
     <script type="text/javascript" src="{!! route('home') . '/scripts/DropDown.js' !!}"></script>    
     @endif

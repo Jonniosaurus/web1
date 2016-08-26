@@ -22,6 +22,16 @@ var Core = {
       xmlhttp.open('GET', '?get=' + get, true);
       xmlhttp.send();
     },    
+    scrollHeight: function(elem) {
+      var curtop = 0;
+      var elem = this.id(elem);
+      if (elem.offsetParent) {
+          do {
+              curtop += elem.offsetTop;
+          } while (elem = elem.offsetParent);
+      return curtop;
+      }
+    }
   },
   set: {
     event: function (elem, eventType, handler) {
@@ -29,7 +39,7 @@ var Core = {
         elem.addEventListener(eventType, handler, false);
       else if (elem.attachEvent)
         elem.attachEvent('on' + eventType, handler);
-    }
+    }    
   },
   /* A simple Animation Handler
    * based on http://javascript.info/tutorial/type-detection
@@ -37,7 +47,7 @@ var Core = {
    * @param {object/bool} action - true/false = looper OR function = callback (e.g. another animation)
    * @returns {undefined}
    */
-  animate: function (elements, howFar, delay, duration, delta, step, action) {
+  animate: function (elements, howFar, duration, delta, step, action) {
     var start = new Date
     var direction = true;
     var id = setInterval(function () {
@@ -57,7 +67,7 @@ var Core = {
           if (typeof (action) == 'function')
             action();
         }
-    }, delay || 10);
+    }, 0.000000001);
   },
   // Delta pattern handlers. i.e. Movement behaviour.     
   linear: function (progress) {
@@ -94,12 +104,13 @@ var Behaviour = {
         (117 + Math.round(45 * (delta))) + ',' + 
         (218 + Math.round(18 * (delta))) + ',' + 
         (208 - Math.round(16 * (delta))) + ')';
+      elem.style.zIndex = '10';
       if (Math.round(elem.style.fontSize.replace('%', '')) > 84) {
         // set standard completion values
         elem.style.fontSize = '90%';            
         elem.style.backgroundColor = 'rgb(162, 236, 192)';
         // push the element to the front of the page. helps the page behave a little better.
-        elem.style.zIndex = '25'; 
+        elem.style.zIndex = '25';
         clearInterval(elem.id);
       }
     },
@@ -107,13 +118,13 @@ var Behaviour = {
     contractMenuItem : function (delta, howMuch, elem) {         
       // shrink text.
       elem.style.fontSize = 
-        90 - Math.round(howMuch * (delta)) + '%';
+        90 - Math.round(howMuch * delta) + '%';
       // cool colour.
       elem.style.backgroundColor = 
         'rgb(' + 
-         (162 - Math.round(45 * (delta))) + ',' + 
-        (236 - Math.round(18 * (delta))) + ',' + 
-        (192 + Math.round(16 * (delta))) + ')';
+         (162 - Math.round(45 * delta)) + ',' + 
+        (236 - Math.round(18 * delta)) + ',' + 
+        (192 + Math.round(16 * delta)) + ')';
       elem.style.zIndex = '10';
       if (Math.round(elem.style.fontSize.replace('%', '')) < 76) {      
         // default values on completion
@@ -126,26 +137,33 @@ var Behaviour = {
     // handles expanding and collapsing div holders.
     collapseeHeight : '', // a string literal holding Json data at runtime for managing collapsibles    
     expandCollapsee : function (delta, howMuch, elem) {                      
-      elem.style.height = (0 + Math.round(howMuch * (delta))) + 'px';                  
+      elem.style.height = (0 + Math.round(howMuch * delta)) + 'px';                  
     },
+    
     collapseCollapsee : function (delta, howMuch, elem) {                      
       var height = JSON.parse(Behaviour.collapseeHeight)[elem.id];
-      elem.style.height = (height - Math.round(howMuch * (delta))) + 'px';                  
+      elem.style.height = (height - Math.round(howMuch * delta)) + 'px';                  
     },
+    
     elementGlow : function(delta, howMuch, elem) {
       elem.style.backgroundColor = 
         'rgb(' + 
-        (117 + Math.round(45 * (delta))) + ',' + 
-        (218 + Math.round(18 * (delta))) + ',' + 
-        (208 - Math.round(16 * (delta))) + ')';
+        (117 + Math.round(45 * delta)) + ',' + 
+        (218 + Math.round(18 * delta)) + ',' + 
+        (208 - Math.round(16 * delta)) + ')';
     },
+    
     elementDim : function(delta, howMuch, elem) {
       elem.style.backgroundColor = 
         'rgb(' + 
-        (162 - Math.round(45 * (delta))) + ',' + 
-        (236 - Math.round(18 * (delta))) + ',' + 
-        (192 + Math.round(16 * (delta))) + ')';
-    }
+        (162 - Math.round(45 * delta)) + ',' + 
+        (236 - Math.round(18 * delta)) + ',' + 
+        (192 + Math.round(16 * delta)) + ')';
+    },
+    
+    scrollTo : function(delta, howMuch, offset) {                 
+      window.scrollTo(0, offset + Math.round(howMuch * delta));      
+    },          
 }
 
 // -------------------------------------------------
@@ -162,21 +180,25 @@ function Local(GlobalObject) {
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
       // Other Event Listeners.
       var i = 0, ii = 0; // optimisation suggests the declaration should come before the loops.
+      
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
       // 1. standard menus
       var menuItems = this.get.class('menuItem');
       var events = ['move', 'enter', 'leave'];
       for (i = 0; i < menuItems.length; i++) 
         for (ii in events) 
-          this.set.event(menuItems.item(i), 'mouse' + events[ii], this.menuEvent);
+          this.set.event(menuItems.item(i), 'mouse' + events[ii], this.menuEvent.bind(Core));
+      
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
       // 2. nav menu for mobile 
-      this.set.event(this.get.id('navMenu'), 'click', this.navMenuEvent);
+      this.set.event(this.get.id('navMenu'), 'click', this.navMenuEvent.bind(Core));
+      
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
       // 3. collapsible pains
       var collapsers = this.get.class('collapser'); // as above, declared before the loop.
       var collapsee;
       for (i = 0; i < collapsers.length; i++) {
-        this.set.event(collapsers.item(i), 'click', this.collapsibleEvent);        
+        this.set.event(collapsers.item(i), 'click', this.collapsibleEvent.bind(Core));        
         collapsee = this.get.id(collapsers.item(i).id.replace('_collapser', '_collapsee'));
         // assign initial dynamic offset variable to Json string
         Behaviour.collapseeHeight += 
@@ -190,11 +212,25 @@ function Local(GlobalObject) {
       }
       // close off the Json tag (where applicable);
       Behaviour.collapseeHeight += Behaviour.collapseeHeight ? '}' : '';
+      
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-      // 4. DropDown 
-      var dropDowns = this.get.class('dropdown');
-      for (i = 0; i < dropDowns.length; i++)
-        this.set.event(dropDowns.item(i), 'click', DropDown.handler); 
+      // 4. ScrollTo/From
+      var scrollMenu = this.get.class('scroll_menu');
+      if (scrollMenu) 
+        for (i = 0; i < scrollMenu.length; i++)
+          this.set.event(scrollMenu.item(i), 'click', this.scrollTo.bind(Core));
+      var scrollReturn = this.get.class('scroll_return');
+      if (scrollReturn)
+        for (i = 0; i < scrollReturn.length; i++)
+          this.set.event(scrollReturn.item(i), 'click', this.scrollFrom.bind(Core));
+      
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+      // 5. DropDown 
+      if (this.get.class('dropdown')) {
+        var dropDowns = this.get.class('dropdown');
+        for (i = 0; i < dropDowns.length; i++)
+          this.set.event(dropDowns.item(i), 'click', DropDown.handler); 
+      } 
     },
             
     // Bounce the title letters.  still inherits from Core so can use this.
@@ -206,7 +242,6 @@ function Local(GlobalObject) {
           this.animate(// see parameters required in Global
             letters[i][ii],
             4,
-            0.00000000000001,
             Math.floor((Math.random() * (700)) + (650)), // 1000 = 1 second, add extra 500 for surname as DOM renders it faster.
             this.linear,
             Behaviour.oscillateTitle, // call oscillation animation handler in the 'options' scope
@@ -214,34 +249,35 @@ function Local(GlobalObject) {
     }
     
     // all other events are copied to caller obj so do not have access to Core.
-    this.menuEvent = function (e) {       
+    this.menuEvent = function (e) {
+      var elem = e.currentTarget;
       switch(e.type.replace('on', '')) {
+        case 'mousemove':
+          if (Math.round(elem.style.fontSize.replace('%', '')) > 72) return;
         case 'mouseenter':          
-          Core.animate(
-            this,
+          this.animate(
+            elem,
             20,
-            0.1,
-            50,
-            Core.linear,
+            20,
+            this.linear,
             Behaviour.expandMenuItem);            
           break;
-        case 'mouseleave':   
-          
-          Core.animate(
-            this,
+        case 'mouseleave':             
+          this.animate(
+            elem,
             20,
-            0.1,
             250,
-            Core.powerOfN,
-            Behaviour.contractMenuItem)
+            this.powerOfN,
+            Behaviour.contractMenuItem)            
           break;
       }        
     }
     
     this.navMenuEvent = function (e) {
+      var elem = e.currentTarget;
       switch(e.type.replace('on', '')) {
         case 'click':
-          var menuItems = Core.get.class('menuItem');
+          var menuItems = elem.get.class('menuItem');
           for (var i = 0; i < menuItems.length; i++)
             menuItems.item(i).style.display = 
               (menuItems.item(i).style.display)
@@ -251,62 +287,83 @@ function Local(GlobalObject) {
       }      
     }
     
-    this.collapsibleEvent = function () {
-      var collapsee = Core.get.id(this.id.replace('_collapser', '_collapsee'));
+    this.collapsibleEvent = function (e) {
+      var elem = e.currentTarget;
+      var collapsee = this.get.id(elem.id.replace('_collapser', '_collapsee'));      
       var height = JSON.parse(Behaviour.collapseeHeight)[collapsee.id];      
       switch (collapsee.style.height) {
         case '0px':
           // 1. perform transition on header component.
-          Core.animate(
-            this,
+          this.animate(
+            elem,
             20,
-            0.0000001,
             height,
-            Core.linear,
+            this.linear,
             Behaviour.elementGlow);  
-            this.innerHTML = this.innerHTML.replace('Expand', 'Collapse');
-            this.style.backgroundImage = 'url("/images/pointerDown.svg")';
+            elem.innerHTML = elem.innerHTML.replace('Expand', 'Collapse');
+            elem.style.backgroundImage = 'url("/images/pointerDown.svg")';            
           // 2. expand div
-          Core.animate(
+          this.animate(
             collapsee,
             height, 
-            0.0000001,
             height, 
-            Core.linear,
+            this.linear,
             Behaviour.expandCollapsee);                                      
+            collapsee.style.overflowX = 'auto';
           break;
           
-        case height + 'px':
-          Core.animate(
+        case height + 'px':          
+          this.animate(
+            elem,
+            20,
+            height,
+            this.linear,
+            Behaviour.elementDim); 
+            elem.innerHTML = elem.innerHTML.replace('Collapse', 'Expand');
+            elem.style.backgroundImage = 'url("/images/pointerRight.svg")';
+          this.animate(
             collapsee,
             height,
-            0.0000001,
             height, 
-            Core.linear,
+            this.linear,
             Behaviour.collapseCollapsee);           
-          
-          Core.animate(
-            this,
-            20,
-            0.0000001,
-            height,
-            Core.linear,
-            Behaviour.elementDim); 
-            this.innerHTML = this.innerHTML.replace('Collapse', 'Expand');
-            this.style.backgroundImage = 'url("/images/pointerRight.svg")';
+            collapsee.style.overflowX = 'hidden'; // prevents unwanted overflow.
           break;
       }
     }
+    
+    this.scrollTo = function(e) {
+      var elem = e.currentTarget;
+      var offset = window.scrollY || document.documentElement.scrollTop;
+      var goto = this.get.scrollHeight(elem.id.replace('call','point')) - offset;
+      this.animate(
+        offset -5,
+        goto,
+        goto / 3,
+        this.linear,
+        Behaviour.scrollTo);      
+    }
+    
+    this.scrollFrom = function() {       
+      var start = window.scrollY || document.documentElement.scrollTop;      
+      var destination = this.get.id('scroll_home');
+      var goto = (destination 
+        ? this.get.scrollHeight('scroll_home') 
+        : this.get.scrollHeight('PageWrapper')) - start;
+      this.animate(
+        start,
+        goto,
+        start / 5,
+        this.linear,
+        Behaviour.scrollTo);      
+    }
   }
-
+  
   // allow the Action variable below to inherit from GlobalObject.  This allows for the load event to use "this" rather than "Core".
   local.prototype = GlobalObject;
   
   return new local();
 }
-
-
-
 
 // Objects need only call the Action handler, it will do the rest.
 var Action = Local(Core);

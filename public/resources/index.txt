@@ -1,0 +1,59 @@
+var CV = { 
+  "Details": {
+    "Address":"Available on request\n      Available on request",
+    "Email":"Available on request",
+    "Mob": "Available on request"
+  },    
+  
+  "Knowledge": [
+    {"Type": "Languages", "List": ["JavaScript", "HTML5", "CSS3", "C#", "Java", "C", "PHP", "Bash Shell"]},
+    {"Type": "Databases", "List": ["MySQL", "Oracle", "SQL Server"]},
+    {"Type": "Toolchains", "List": [".NET", "AngularJS", "Bootstrap", "JQuery", "MS CRM SDK", "Android"]},
+    {"Type": "Protocols", "List": ["AJAX", "WSDL", "SOAP", "JSON", "LDAP", "XAML"]}
+  ],
+  
+  "Experience":[
+    {"Name":"Dynamic CRM 2011", 
+      "Details":"Over the last 2 and a half years I have worked extensively with all aspects of Dynamics CRM Development. " +
+      "I have worked on client, AJAX and server side projects ranging from simple field and data manipulation to sophisticated cross-system integrations.  " +
+      "\nFor example, I have written: " +
+      "<ul> " +
+      "<li> A \"shopping cart\" implementation for a proprietary payment plugin using a mixture of C#, Javascript, AJAX and JSON.</li>" +
+      "<li> A lookup service that queries the organisation's Active Directory and returns both email credentials and staff availability.</li>" +
+      "<li> Several CRM <a href=\"https://msdn.microsoft.com/en-us/library/gg328490(v=crm.5).aspx\" target=\"_blank\" title=\"link to msdn description\">Plugins</a> and using CRM's .NET SDK that send data to departmental systems within our network via SOAP.</li>" +
+      "<li> A secure front-end service that allows Customer Service Assistants to query the Council's Housing Waiting List.</li>" +
+      "<li> Sub-sites that integrate data with Sharepoint lists (via plugins and IFrames).</li>" +
+      "<li> Custom SDK functionality such as the ability to \"suspend\" a case midway via a bespoke ribbon button (this in turn required custom SDK <a href=\"https://msdn.microsoft.com/en-us/library/gg309745%28v=crm.5%29.aspx\" title=\"link to msdn description\" target=\"_blank\">Workflows</a>)</li>" +      
+      "</ul>"},
+    {"Name":".NET Developments", 
+      "Details":"In addition to CRM-specific projects, I have also developed front-end and back-end services for Harrogate Borough Council with .NET such as: \n" +
+      "<ul>" +
+      "<li>A system incorporating a Web Service, a bespoke Database and a Windows Service to raise and keep track of document production workflows that have been sent from CRM to a proprietary middleware service in Sharepoint (called Nintex). in turn:</li>" +
+      "<li>An error handling routine for raising Service Desk calls with our IT desk should any errors be incurred when CRM attempts to run Nintex's workflows (e.g. were the Sharepoint server to go down, we'd have a report of documents that hadn't successfully made it from CRM to Nintex)." +
+      "<li>A Calendar that slots into Harrogate's official web template (available soon) that provides the public with the dates of public funerals from software managed by funeral directors.</li>" +      
+      "<li>A prototype web front end for communicating with our CRM implementation via an external website (Work in progress)." +
+      "</ul>"},
+    {"Name":"Home Developments", 
+      "Details":"I regularly work on home projects" +
+      "<ul>" +
+      "<li> This CV was written using Bootstrap and AngularJS. </li>" + 
+      "<li> I am currently writing a video game in Canvas for HTML.  I have implemented my own framework drawing from my existing experience.</li>" +
+      "<li> A shell binary I called \"Nut\", that roughly immitates Windows'\"Sticky Notes\" in the BASH shell on Linux.</li>" +
+      "<li> In the past I have written a number of MVC-based websites for university and for friends.</li>" +
+      "</ul>"}
+  ],
+  
+  "Employment":[ 
+    {"Employer":"Harrogate Borough Council, ICT Development","Title":"Development Officer","Date":"05/13 - ongoing", "Details":"Key Developer of CRM Services at HBC and CRM Client liason."}, 
+    {"Employer":"Angry Octopus LTD","Title":"Director","Date":"07/12 - 04/13", "Details":"This started out as a business but became more of a channel for my amateur enthusiasm for programming in PHP and Javascript.  I also did some visual artwork on the side."}, 
+    {"Employer":"University of Leeds, Edward Boyle & Brotherton Libraries","Title":"Customer Service Assistant (Grades 3 & 4)","Date":"09/08 - 04/13", "Details":"I performed a number of different roles including customer services, staff supervision and training, archiving in special collections and service desk management."}
+  ],
+  
+  "Education":[
+    {"School":"University of Sheffield", "Title":"PGDip Electronic & Digital Library Management", "Date":"2012", "Grade":"Merit"},
+    {"School":"University of Leeds", "Title":"Supervisory Managment Course (Professional)", "Date":"2011", "Grade":"(unassessed)"},
+    {"School":"University of Leeds", "Title":"MA Cultural Studies", "Date":"2011", "Grade":"Merit"},
+    {"School":"University of Leeds", "Title":"BA (Hons) Cultural Studies", "Date":"2006", "Grade":"2:1"},
+    {"School":"Hayes Secondary School", "Title":"3 A Levels, 1 As Level, 10 GCSEs", "Date":"2001", "Grade":" including Maths & IT GCSEs"}
+  ]
+}

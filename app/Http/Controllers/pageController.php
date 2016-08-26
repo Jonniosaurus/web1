@@ -50,7 +50,7 @@ class pageController extends Controller
       ? $home::whereslug($slug)->first()
       : $this->page->whereslug($slug)->first();    
     if ($page != null) {
-      return view("Pages.create", [
+      return view('Pages.create', [
         'page'=> $page,
         'forms'=> new FormBuilder(
           [

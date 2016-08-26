@@ -1,0 +1,95 @@
+#WebBackWrapper {
+  position: absolute;  
+  width:97%;
+}
+#Jonny{
+  position: relative;  
+  margin-left:15px;
+  float:left;
+  width: 500px;
+  margin-top:20px;    
+  display:inline;
+  height:150px;  
+}
+#JonnyLink{
+  position:relative;
+  height:1000px;
+}
+#Edwards{
+  position:absolute;
+  float:left;
+  width:500px;
+  left: 330px;
+  height:150px;
+  margin-top:-190px;
+  display:inline;   
+  
+}
+#dotNet, #dotNetWrapper{
+  position:absolute;
+  top:5%;
+  margin-top: 64%;
+  margin-left:7px;
+  width:20%;
+}
+#WebBack {
+  position:absolute;
+  height:200px;
+  width:100%;
+  margin-left: 3.5%;  
+}
+/*
+* MAIN MENU
+*/
+#menuWrapper {
+  position:relative;
+  float:left;
+  width: 102%;
+  margin-top:45px;
+  margin-left:-1%;
+  background-color: rgb(117,218,208);
+  
+}
+#menuUnderstroke {
+  display:none;
+}
+.menuItem {
+  background-color: rgb(117,218,208);
+  color: white;  
+  padding: 15px 2% 5px 2% ;  
+  font-size:20pt;
+}
+.menuItem:hover{  
+  text-decoration: none !important;
+}
+/*
+* MAIN CONTENT
+*/
+#contentWrapper{
+  position: relative;  
+  float:left;
+  width:100%;
+  top: -18px;  
+  padding: 0px 1% 0px 1%;
+}
+.pageTitle{
+  position:absolute;
+  left: -400px;
+  margin-right: -5%;
+  margin-top: 60px;
+}
+#pageTitle{
+  position:relative;
+  width: 225px;
+  height:80px;
+  float:left;
+}
+#pageDetails{
+  position:relative;
+  top:10px;  
+}
+#pageSideBar{
+  position:relative;
+  margin-top:20px; 
+}
+
