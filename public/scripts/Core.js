@@ -274,10 +274,9 @@ function Local(GlobalObject) {
     }
     
     this.navMenuEvent = function (e) {
-      var elem = e.currentTarget;
       switch(e.type.replace('on', '')) {
         case 'click':
-          var menuItems = elem.get.class('menuItem');
+          var menuItems = Core.get.class('menuItem');
           for (var i = 0; i < menuItems.length; i++)
             menuItems.item(i).style.display = 
               (menuItems.item(i).style.display)
